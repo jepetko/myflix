@@ -13,4 +13,7 @@ module ApplicationHelper
     chunks
   end
 
+  def get_img_url(video)
+    "/tmp/#{video.img}" || 'http://dummyimage.com/665x375/000000/00a2ff'
+  end
 end
