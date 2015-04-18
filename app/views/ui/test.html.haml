@@ -1,0 +1,18 @@
+%table.table{width: '100%'}
+  %thead
+    %tr
+      %th{width: '30%'}
+      %th{width: '70%'}
+  %tbody
+    %tr
+      %td hello
+      %td there
+    %tr
+      %td hallo
+      %td dort
+
+- 3.times do
+  .div= Rails.env
+
+- Video.all.each do |video|
+  .h4= video.title
