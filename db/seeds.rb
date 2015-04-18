@@ -6,14 +6,18 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Category.create(name: 'TV Comedies')
+Category.create(name: 'TV Dramas')
+Category.create(name: 'Reality TV')
+
 Video.create(title: 'South Park', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
-             avatar: 'south_park.jpg')
+             avatar: 'south_park.jpg', category: Category.find(1))
 
 Video.create(title: 'Monk', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
-             avatar: 'monk.jpg', img: 'monk_large.jpg')
+             avatar: 'monk.jpg', img: 'monk_large.jpg', category: Category.find(2))
 
 Video.create(title: 'Family guy', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
-             avatar: 'family_guy.jpg')
+             avatar: 'family_guy.jpg', category: Category.find(3))
 
 Video.create(title: 'Futurama', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
-             avatar: 'futurama.jpg')
+             avatar: 'futurama.jpg', category: Category.find(1))
