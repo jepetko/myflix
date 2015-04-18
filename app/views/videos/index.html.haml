@@ -2,10 +2,4 @@
   %div.row
     - @videos.group_by(&:category_id).each do |category_id, videos|
       %a(href='#')= Category.find(category_id).name
-      - divide_in_chunks(videos,3).each do |idx,items|
-        %div.row
-          - items.each do |item|
-            %div.col-md-4
-              %h3= item.title
-              %a.thumbnail
-                %img(src="tmp/#{item.avatar}")
+      = render 'videos/videos', videos: videos
