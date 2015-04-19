@@ -1,5 +1,5 @@
-%div.container-fluid
-  %div.row
-    - @videos.group_by(&:category_id).each do |category_id, videos|
-      %a(href='#')= Category.find(category_id).name
-      = render 'videos/videos', videos: videos
+.container-fluid
+  .row
+    - @categories.each do |category|
+      %a(href='#')= category.name
+      = render 'videos/videos', videos: category.videos
