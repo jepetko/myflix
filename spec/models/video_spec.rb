@@ -14,20 +14,11 @@ describe Video do
     video = Video.new title: 'my video', description: 'simsa la bim', avatar: 'video.png', category: category
     video.save
     expect(video.category).to eq(category)
+    video.title.should == 'my video'
   end
 
-  it 'does not save a video without a title' do
-    video = Video.new
-    expect(video).to_not be_valid
-    expect(video.errors.messages[:title]).to include("can't be blank")
-    expect(video.save).to be(false)
-  end
-
-  it 'does not save a video without a description' do
-    video = Video.new title: 'Futurama'
-    expect(video).to_not be_valid
-    expect(video.errors.messages[:description]).to include("can't be blank")
-    expect(video.save).to be(false)
-  end
+  it { should belong_to(:category)}
+  it { should validate_presence_of(:title) }
+  it { should validate_presence_of(:description) }
 
 end
