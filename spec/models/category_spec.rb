@@ -9,11 +9,11 @@ describe Category do
   end
 
   it 'has many videos' do
-    category = Category.new name: 'Dramas'
-    expect(category).to respond_to(:videos)
-    category.videos.build title: 'my video', description: 'simsa la bim', avatar: 'video.png'
-    category.save
-    expect(category.videos.first.title).to eq('my video')
+    category = Category.create(name: 'Dramas')
+    south_park = Video.create title: 'South Park', description: 'simsa la bim', avatar: 'video.png', category: category
+    monk = Video.create title: 'Monk', description: 'simsa la bim', avatar: 'video.png', category: category
+
+    expect(category.videos).to eq([monk, south_park])
   end
 
 end
