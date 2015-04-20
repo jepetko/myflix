@@ -23,17 +23,17 @@ describe Video do
 
   describe '#search_by_title' do
 
-    context 'the search term is family' do
-      context 'there are videos "Family Guy", "Family Affairs", "Monk"' do
-        it 'finds "Family Guy" and "Family Affairs"' do
-          family_guy = Video.create title: 'Family Guy', description: 'lorem ipsum'
-          family_affairs = Video.create title: 'Family Affairs', description: 'lorem ipsum'
-          monk = Video.create title: 'Monk', description: 'lorem ipsum'
-
-          expect(Video.search_by_title('family')).to eq([family_guy, family_affairs])
+    context 'the search term is an empty string' do
+      context 'for any videos in the database' do
+        it 'returns an empty array' do
+          futurama = Video.create title: 'Futurama', description: 'lorem ipsum'
+          boyhood = Video.create title: 'Boyhood', description: 'lorem ipsum'
+          expect(Video.search_by_title('')).to eq([])
         end
       end
+    end
 
+    context 'the search term is family' do
       context 'there are videos "Futurama" and "Boyhood"' do
         it 'finds nothing' do
           futurama = Video.create title: 'Futurama', description: 'lorem ipsum'
@@ -56,6 +56,24 @@ describe Video do
           monk = Video.create title: 'Monk', description: 'lorem ipsum'
           family = Video.create title: 'family', description: 'lorem ipsum'
           expect(Video.search_by_title('family')).to eq([family])
+        end
+      end
+
+      context 'there are videos "Family Guy", "Family Affairs", "Monk"' do
+        it 'finds "Family Guy" and "Family Affairs" as a partial match' do
+          family_guy = Video.create title: 'Family Guy', description: 'lorem ipsum'
+          family_affairs = Video.create title: 'Family Affairs', description: 'lorem ipsum'
+          monk = Video.create title: 'Monk', description: 'lorem ipsum'
+
+          expect(Video.search_by_title('family')).to eq([family_affairs, family_guy])
+        end
+
+        it 'returns them ordered by created_at' do
+          family_guy = Video.create title: 'Family Guy', description: 'lorem ipsum', created_at: 1.day.ago
+          family_affairs = Video.create title: 'Family Affairs', description: 'lorem ipsum'
+          monk = Video.create title: 'Monk', description: 'lorem ipsum'
+
+          expect(Video.search_by_title('family')).to eq([family_affairs, family_guy])
         end
       end
     end
