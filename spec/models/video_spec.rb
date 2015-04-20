@@ -4,6 +4,7 @@ describe Video do
 
   it 'saves itself' do
     video = Video.new title: 'my video', description: 'simsa la bim', avatar: 'video.png'
+    video.save
     expect(Video.first).to eq(video)
   end
 
