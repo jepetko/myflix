@@ -16,11 +16,18 @@ describe Video do
     expect(video.category).to eq(category)
   end
 
-  it 'must have a title' do
+  it 'does not save a video without a title' do
     video = Video.new
     expect(video).to_not be_valid
     expect(video.errors.messages[:title]).to include("can't be blank")
+    expect(video.save).to be(false)
+  end
+
+  it 'does not save a video without a description' do
+    video = Video.new title: 'Futurama'
+    expect(video).to_not be_valid
     expect(video.errors.messages[:description]).to include("can't be blank")
+    expect(video.save).to be(false)
   end
 
 end
