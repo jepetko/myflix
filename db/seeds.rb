@@ -21,3 +21,30 @@ Video.create(title: 'Family guy', description: 'Lorem ipsum dolor sit amet, cons
 
 Video.create(title: 'Futurama', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
              avatar: 'futurama.jpg', category: comedies)
+
+Video.create(title: 'South Park 2', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'south_park.jpg', category: comedies)
+
+Video.create(title: 'Monk 2', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'monk.jpg', img: 'monk_large.jpg', category: dramas)
+
+Video.create(title: 'Family guy 2', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'family_guy.jpg', category: reality)
+
+Video.create(title: 'Futurama 2', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'futurama.jpg', category: comedies)
+
+Video.create(title: 'South Park 3', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'south_park.jpg', category: comedies)
+
+Video.create(title: 'Monk 3', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'monk.jpg', img: 'monk_large.jpg', category: dramas)
+
+Video.create(title: 'Family guy 3', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'family_guy.jpg', category: reality)
+
+Video.create(title: 'Futurama 3', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'futurama.jpg', category: comedies)
+
+Video.create(title: 'One more comedy', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+             avatar: 'futurama.jpg', category: comedies)
