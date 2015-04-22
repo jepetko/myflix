@@ -1,7 +1,4 @@
 - divide_in_chunks(videos,3).each do |idx,items|
   .row
     - items.each do |item|
-      .col-md-4
-        %h3= item.title
-        %a.thumbnail
-          %img(src="/tmp/#{item.avatar}")
+      = render 'videos/video', video: item
