@@ -30,5 +30,18 @@ describe Category do
       (1..6).each { |i| expected_videos << Video.find_by(title: "Video #{i}")}
       expect(videos).to eq(expected_videos)
     end
+
+    it 'returns all videos if there are less than 6 videos' do
+      category = Category.new(name: 'Comedies')
+      futurama = Video.create title: 'Futurama', description: 'lorem ipsum', category: category, created_at: 1.minute.ago
+      hellboy = Video.create title: 'Hellboy', description: 'lorem ipsum', category: category
+
+      expect(category.recent_videos).to eq([hellboy, futurama])
+    end
+
+    it 'returns an empty array if there are no videos in the category' do
+      category = Category.new(name: 'Comedies')
+      expect(category.recent_videos).to be_empty
+    end
   end
 end
