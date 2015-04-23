@@ -4,6 +4,4 @@ class HomeController < ApplicationController
     @categories = Category.all
   end
 
-  def front
-  end
 end
