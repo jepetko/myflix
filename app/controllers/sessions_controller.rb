@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    if user && user.require_user(params[:password])
+    if user && user.authenticate(params[:password])
       login_user user
       redirect_to home_path, notice: 'You are logged in. Enjoy!'
     else
