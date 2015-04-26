@@ -48,3 +48,7 @@ Video.create(title: 'Futurama 3', description: 'Lorem ipsum dolor sit amet, cons
 
 Video.create(title: 'One more comedy', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
              avatar: 'futurama.jpg', category: comedies)
+
+
+User.create(email: 'golbang.k@gmail.com', full_name: 'Kati Golbang', password: '123', password_confirmation: '123')
+User.create(email: 'golbang.r@gmail.com', full_name: 'Ramin Golbang', password: '123', password_confirmation: '123')
