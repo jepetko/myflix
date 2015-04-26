@@ -2,9 +2,9 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    if user && user.authenticate(params[:password])
+    if user && user.require_user(params[:password])
       login_user user
-      redirect_to '/home'
+      redirect_to home_path, notice: 'You are logged in. Enjoy!'
     else
       flash[:error] = 'Your login credentials are invalid.'
       render :new
@@ -12,9 +12,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if logged_in?
-      logout_user
-      redirect_to :root
-    end
+    logout_user
+    redirect_to :root, notice: 'You are signed out.'
   end
 end

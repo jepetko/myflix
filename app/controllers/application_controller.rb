@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by(email: session[:email])
   end
 
-  def authenticate
+  def require_user
     if !logged_in?
       flash[:error] = 'You are not allowed to access this page. Please, log in.'
       redirect_to :root
