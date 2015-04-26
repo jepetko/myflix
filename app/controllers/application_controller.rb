@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?, :current_user
 
   def login_user(user)
-    session[:email] = user.email
+    session[:user_id] = user.id
   end
 
   def logout_user
-    session[:email] = nil
+    session[:user_id] = nil
   end
 
   def logged_in?
@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= User.find_by(email: session[:email])
+    @current_user ||= User.find(session[:user_id])
   end
 
   def require_user
