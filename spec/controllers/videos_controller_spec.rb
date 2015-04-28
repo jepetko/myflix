@@ -27,6 +27,8 @@ describe VideosController do
   describe 'POST #search' do
     context 'for authenticated users' do
       before(:each) do
+        user = Fabricate(:user)
+        self.controller.login_user user
         10.times { Fabricate(:video) }
         Fabricate(:video, title: 'From dusk till down')
       end
