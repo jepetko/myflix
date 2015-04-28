@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def require_user
     if !logged_in?
       flash[:error] = 'You are not allowed to access this page. Please, log in.'
-      redirect_to :root
+      redirect_to sign_in_path
     end
   end
 

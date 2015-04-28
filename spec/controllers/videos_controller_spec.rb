@@ -2,39 +2,46 @@ require 'spec_helper'
 
 describe VideosController do
 
-  before(:each) do
-    user = User.create(email: 'user@someone.io', full_name: 'James Dean', password: '123', password_confirmation: '123')
-    self.controller.login_user user
-  end
-
   describe 'GET #show' do
-    let(:video) { video = Video.create(title: 'Family Guy', description: 'cool video') }
+    context 'for authenticated users' do
+      before(:each) do
+        user = Fabricate(:user)
+        self.controller.login_user user
+      end
+      let(:video) { video = Video.create(title: 'Family Guy', description: 'cool video') }
 
-    it 'assigns video instance' do
-      get :show, id: video.id
-      assigns(:video).should eq video
+      it 'assigns video instance' do
+        get :show, id: video.id
+        assigns(:video).should eq video
+      end
     end
 
-    it 'renders template :show' do
-      get :show, id: video.id
-      response.should render_template :show
+    context 'for not authenticated users' do
+      it 'redirects to sign_in path' do
+        get :show, id: 1
+        response.should redirect_to sign_in_path
+      end
     end
   end
 
   describe 'POST #search' do
+    context 'for authenticated users' do
+      before(:each) do
+        10.times { Fabricate(:video) }
+        Fabricate(:video, title: 'From dusk till down')
+      end
 
-    before(:each) do
-      10.times { Fabricate(:video) }
+      it 'assigns videos instance' do
+        post :search, term: 'dusk'
+        assigns(:videos).should be
+      end
     end
 
-    it 'assigns videos instance' do
-      post :search, term: 'a'
-      assigns(:videos).should be
-    end
-
-    it 'renders template :search' do
-      post :search, term: 'a'
-      response.should render_template :search
+    context 'for not authenticated users' do
+      it 'redirects to sign_in path' do
+        post :search, term: 'dusk'
+        response.should redirect_to sign_in_path
+      end
     end
   end
 end
