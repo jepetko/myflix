@@ -20,4 +20,21 @@ describe VideosController do
       response.should render_template :show
     end
   end
+
+  describe 'POST #search' do
+
+    before(:each) do
+      10.times { Fabricate(:video) }
+    end
+
+    it 'assigns videos instance' do
+      post :search, term: 'a'
+      assigns(:videos).should be
+    end
+
+    it 'renders template :search' do
+      post :search, term: 'a'
+      response.should render_template :search
+    end
+  end
 end
