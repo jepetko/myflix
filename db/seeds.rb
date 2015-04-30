@@ -13,7 +13,7 @@ reality = Category.create(name: 'Reality TV')
 Video.create(title: 'South Park', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
              avatar: 'south_park.jpg', category: comedies)
 
-Video.create(title: 'Monk', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
+monk = Video.create(title: 'Monk', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
              avatar: 'monk.jpg', img: 'monk_large.jpg', category: dramas)
 
 Video.create(title: 'Family guy', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
@@ -50,5 +50,8 @@ Video.create(title: 'One more comedy', description: 'Lorem ipsum dolor sit amet,
              avatar: 'futurama.jpg', category: comedies)
 
 
-User.create(email: 'golbang.k@gmail.com', full_name: 'Kati Golbang', password: '123', password_confirmation: '123')
-User.create(email: 'golbang.r@gmail.com', full_name: 'Ramin Golbang', password: '123', password_confirmation: '123')
+kati = User.create(email: 'golbang.k@gmail.com', full_name: 'Kati Golbang', password: '123', password_confirmation: '123')
+ramin = User.create(email: 'golbang.r@gmail.com', full_name: 'Ramin Golbang', password: '123', password_confirmation: '123')
+
+Review.create(content: Faker::Lorem.paragraph(3), rating: 5, video: monk, user: kati)
+Review.create(content: Faker::Lorem.paragraph(3), rating: 2, video: monk, user: kati)

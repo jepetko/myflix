@@ -16,4 +16,12 @@ module ApplicationHelper
   def get_img_url(video)
     "/tmp/#{video.img}" || 'http://dummyimage.com/665x375/000000/00a2ff'
   end
+
+  def select_collection_rating_values
+    rating_values = []
+    Review.rating_range.each do |rating|
+      rating_values << [ pluralize(rating, 'star'), rating]
+    end
+    rating_values
+  end
 end

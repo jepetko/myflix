@@ -1,4 +1,4 @@
 Fabricator(:review) do
-  comment Faker::Lorem.sentence(3)
-  rating 3
+  content { Faker::Lorem.sentence(3) }
+  rating { (1..5).to_a.sample }
 end
