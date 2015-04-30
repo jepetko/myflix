@@ -1,30 +1,75 @@
 require 'spec_helper'
 
 describe SessionsController do
-  let(:user) { user = Fabricate(:user, password: '123', password_confirmation: '123') }
 
-  describe 'POST create' do
-    context 'user credentials correct' do
-      it 'creates a new session with user id' do
-        post :create, email: user.email, password: '123'
-        expect(session[:user_id]).to be user.id
-      end
-      it 'redirects to the home path' do
-        post :create, email: user.email, password: '123'
-        expect(response).to redirect_to home_path
-      end
-    end
-
-    context 'user credentials not correct' do
-      it 'doesnt create a session with user id' do
-        post :create, email: user.email, password: 'wrong'
-        expect(session[:user_id]).to be_nil
-      end
-      it 'shows the error message and renders the :new template' do
-        post :create, email: user.email, password: 'wrong'
-        expect(flash[:error]).to eq('Your login credentials are invalid.')
+  describe 'GET :new' do
+    context 'user is not logged-in' do
+      it 'renders a new template' do
+        get :new
         expect(response).to render_template :new
       end
     end
+    context 'user is already logged-in' do
+      it 'redirects to the home_path' do
+        user = Fabricate(:user)
+        self.controller.login_user(user)
+        get :new
+        expect(response).to redirect_to home_path
+      end
+    end
   end
+
+  describe 'POST :create' do
+    let(:user) { user = Fabricate(:user, password: '123', password_confirmation: '123') }
+
+    context 'user credentials are correct' do
+      before do
+        post :create, email: user.email, password: user.password
+      end
+      it 'puts users id into the session' do
+        expect(session[:user_id]).to eq user.id
+      end
+      it 'redirects to the home path' do
+        expect(response).to redirect_to home_path
+      end
+      it 'sets the notice' do
+        expect(flash[:notice]).to eq('You are logged in. Enjoy!')
+      end
+    end
+
+    context 'user credentials are not correct' do
+      before do
+        post :create, email: user.email, password: 'wrong'
+      end
+      it 'does not put the user id into the session' do
+        expect(session[:user_id]).to be_nil
+      end
+      it 'renders the :new template' do
+        expect(response).to render_template :new
+      end
+      it 'sets the error message' do
+        expect(flash[:error]).to eq('Your login credentials are invalid.')
+      end
+    end
+  end
+
+  describe 'DELETE :destroy' do
+    before do
+      session[:user_id] = Fabricate(:user).id
+      delete :destroy
+    end
+
+    it 'removes user_id from the session' do
+      expect(session[:user_id]).to be_nil
+    end
+
+    it 'redirects to root_path' do
+      expect(response).to redirect_to root_path
+    end
+
+    it 'sets the notice' do
+      expect(flash[:notice]).to eq('You are signed out.')
+    end
+  end
+
 end
