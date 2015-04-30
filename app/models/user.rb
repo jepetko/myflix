@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   validate :password_equality
 
   def password_equality
-    if password != password_confirmation
+    if !password.blank? && password != password_confirmation
       errors.add(:password_confirmation, "doesn't match the password")
     end
   end
