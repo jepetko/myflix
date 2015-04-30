@@ -18,6 +18,7 @@ describe Video do
   end
 
   it { should belong_to(:category)}
+  it { should have_many(:reviews)}
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }
 
@@ -76,6 +77,20 @@ describe Video do
           expect(Video.search_by_title('family')).to eq([family_affairs, family_guy])
         end
       end
+    end
+  end
+  describe '#calculate_rating_average' do
+    it 'returns the average of all ratings' do
+      video = Fabricate(:video)
+      (0..5).each do |rating|
+        video.reviews.create(Fabricate.attributes_for(:review, rating: rating))
+      end
+      expect(video.calculate_rating_average).to eq(2.5)
+    end
+
+    it 'returns 0 if there are no ratings' do
+      video = Fabricate(:video)
+      expect(video.calculate_rating_average).to eq(0)
     end
   end
 end
