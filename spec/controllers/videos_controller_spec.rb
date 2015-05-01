@@ -10,12 +10,12 @@ describe VideosController do
       end
       let(:video) { video = Fabricate(:video) }
 
-      it 'assigns video instance variable' do
+      it 'assigns @video variable' do
         get :show, id: video.id
         assigns(:video).should eq video
       end
 
-      it 'assigns reviews instance variable' do
+      it 'assigns @reviews variable' do
         review_1 = Fabricate(:review, video: video)
         review_2 = Fabricate(:review, video: video)
         get :show, id: video.id
@@ -23,6 +23,11 @@ describe VideosController do
         assigns(:reviews).should =~ [review_1, review_2]
         # another way to say it
         # expect(assigns(:reviews)).to match_array [review_1, review_2]
+      end
+
+      it 'assigns a @review variable' do
+        get :show, id: video.id
+        expect(assigns(:review)).to be_instance_of(Review)
       end
     end
 

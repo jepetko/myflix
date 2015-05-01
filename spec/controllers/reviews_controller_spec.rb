@@ -14,7 +14,7 @@ describe ReviewsController do
 
       context 'review data is valid' do
         before do
-          post :create, review: Fabricate.attributes_for(:review, video: video, user: user)
+          post :create, video_id: video, review: Fabricate.attributes_for(:review)
         end
         it 'creates a new review' do
           expect(Review.count).to eq 1
@@ -29,7 +29,7 @@ describe ReviewsController do
 
       context 'review data is not valid' do
         before do
-          post :create, review: Fabricate.attributes_for(:review, content: '', video: video, user: user)
+          post :create, video_id: video, review: Fabricate.attributes_for(:review, content: '')
         end
         it 'does not create a new review' do
           expect(Review.count).to eq 0
@@ -37,15 +37,15 @@ describe ReviewsController do
         it 'sets the error message' do
           expect(flash[:error]).to eq 'Review not saved.'
         end
-        it 'renders the video page' do
-          expect(response).to render_template 'videos/show'
+        it 'redirects to the video page' do
+          expect(response).to redirect_to video_path(video)
         end
       end
     end
 
     context 'user is unauthorized' do
       before do
-        post :create, review: Fabricate.attributes_for(:review, video: video, user: user)
+        post :create, video_id: video, review: Fabricate.attributes_for(:review)
       end
       it 'does not create a new review' do
         expect(Review.count).to eq 0

@@ -92,5 +92,13 @@ describe Video do
       video = Fabricate(:video)
       expect(video.calculate_rating_average).to eq(0)
     end
+
+    it 'returns a rounded value' do
+      video = Fabricate(:video)
+      [1,2,5].each do |rating|
+        video.reviews.create(Fabricate.attributes_for(:review, rating: rating))
+      end
+      expect(video.calculate_rating_average).to eq(2.67)
+    end
   end
 end

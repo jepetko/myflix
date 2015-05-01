@@ -4,19 +4,20 @@ class ReviewsController < ApplicationController
 
   def create
     review = Review.new review_params
+    review.video_id = params[:video_id]
+    review.user = current_user
     if review.save
       flash[:notice] = 'Review posted successfully.'
-      redirect_to video_path review.video
     else
       flash[:error] = 'Review not saved.'
-      render 'videos/show', video: review.video
     end
+    redirect_to video_path review.video
   end
 
   private
 
   def review_params
-    params.require(:review).permit :content, :rating, :video_id, :user_id
+    params.require(:review).permit :content, :rating
   end
 
 end

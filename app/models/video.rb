@@ -12,6 +12,6 @@ class Video < ActiveRecord::Base
   def calculate_rating_average
     ratings = reviews.map(&:rating)
     return 0 if ratings.blank?
-    ratings.inject(:+).to_f / ratings.count.to_f
+    (ratings.inject(:+).to_f / ratings.count.to_f).round 2
   end
 end

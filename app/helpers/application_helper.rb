@@ -19,7 +19,7 @@ module ApplicationHelper
 
   def select_collection_rating_values
     rating_values = []
-    Review.rating_range.each do |rating|
+    Review.rating_range.to_a.reverse.each do |rating|
       rating_values << [ pluralize(rating, 'star'), rating]
     end
     rating_values
