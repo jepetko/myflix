@@ -3,15 +3,17 @@ class ReviewsController < ApplicationController
   before_action :require_user
 
   def create
-    review = Review.new review_params
-    review.video_id = params[:video_id]
-    review.user = current_user
+    @video = Video.find(params[:video_id])
+    review = Review.new review_params.merge!(video_id: params[:video_id], user: current_user)
     if review.save
       flash[:notice] = 'Review posted successfully.'
+      redirect_to @video
     else
       flash[:error] = 'Review not saved.'
+      @reviews = @video.reviews
+      @review = Review.new
+      render template: 'videos/show'
     end
-    redirect_to video_path review.video
   end
 
   private

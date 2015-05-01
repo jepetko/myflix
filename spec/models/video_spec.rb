@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe Video do
 
+  it { should belong_to(:category)}
+  it { should have_many(:reviews).order('created_at DESC')}
+  it { should validate_presence_of(:title) }
+  it { should validate_presence_of(:description) }
+
   it 'saves itself' do
     video = Video.new title: 'my video', description: 'simsa la bim', avatar: 'video.png'
     video.save
@@ -17,10 +22,6 @@ describe Video do
     video.title.should == 'my video'
   end
 
-  it { should belong_to(:category)}
-  it { should have_many(:reviews)}
-  it { should validate_presence_of(:title) }
-  it { should validate_presence_of(:description) }
 
   describe '#search_by_title' do
 
@@ -79,6 +80,7 @@ describe Video do
       end
     end
   end
+
   describe '#calculate_rating_average' do
     it 'returns the average of all ratings' do
       video = Fabricate(:video)
