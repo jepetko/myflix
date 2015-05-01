@@ -17,5 +17,6 @@ Myflix::Application.routes.draw do
       post :search, to: 'videos#search'
     end
   end
+  resources :reviews, only: [:create]
 end
 
