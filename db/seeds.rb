@@ -21,10 +21,10 @@ monk = Video.create(title: 'Monk',
                     img: 'monk_large.jpg',
                     category: dramas)
 
-Video.create(title: 'Family guy',
-             description: Faker::Lorem.paragraph,
-             avatar: 'family_guy.jpg',
-             category: reality)
+family_guy = Video.create(title: 'Family guy',
+                          description: Faker::Lorem.paragraph,
+                          avatar: 'family_guy.jpg',
+                          category: reality)
 
 Video.create(title: 'Futurama',
              description: Faker::Lorem.paragraph,
@@ -96,3 +96,6 @@ Review.create(content: Faker::Lorem.paragraph(3),
               rating: 2,
               video: monk,
               user: kati)
+
+QueuedVideo.create(user: kati, video: monk, order_value: 1)
+QueuedVideo.create(user: kati, video: family_guy, order_value: 2)
