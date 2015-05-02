@@ -48,7 +48,7 @@ describe SessionsController do
         expect(response).to render_template :new
       end
       it 'sets the error message' do
-        expect(flash[:error]).to eq('Your login credentials are invalid.')
+        expect(flash[:error]).to be
       end
     end
   end
@@ -68,7 +68,7 @@ describe SessionsController do
     end
 
     it 'sets the notice' do
-      expect(flash[:notice]).to eq('You are signed out.')
+      expect(flash[:notice]).to be
     end
   end
 

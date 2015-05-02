@@ -26,7 +26,7 @@ describe ReviewsController do
           expect(Review.last.user).to eq user
         end
         it 'sets the notice' do
-          expect(flash[:notice]).to eq 'Review posted successfully.'
+          expect(flash[:notice]).to be
         end
         it 'redirects to the video page' do
           expect(response).to redirect_to video_path(video)
@@ -41,7 +41,7 @@ describe ReviewsController do
           expect(Review.count).to eq 0
         end
         it 'sets the error message' do
-          expect(flash[:error]).to eq 'Review not saved.'
+          expect(flash[:error]).to be
         end
         it 'renders the video show template' do
           expect(response).to render_template 'videos/show'
