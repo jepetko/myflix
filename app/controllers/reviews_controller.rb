@@ -12,7 +12,7 @@ class ReviewsController < ApplicationController
       flash[:error] = 'Review not saved.'
       @reviews = @video.reviews.reload
       @review = Review.new
-      render template: 'videos/show'
+      render 'videos/show'
     end
   end
 
