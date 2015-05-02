@@ -84,10 +84,10 @@ describe Video do
   describe '#calculate_rating_average' do
     it 'returns the average of all ratings' do
       video = Fabricate(:video)
-      (0..5).each do |rating|
+      (1..5).each do |rating|
         video.reviews.create(Fabricate.attributes_for(:review, rating: rating))
       end
-      expect(video.calculate_rating_average).to eq(2.5)
+      expect(video.calculate_rating_average).to eq(3.0)
     end
 
     it 'returns 0 if there are no ratings' do
