@@ -34,7 +34,6 @@ describe ReviewsController do
       end
 
       context 'review data is not valid' do
-        let!(:review_1) { review_1 = Fabricate(:review, video: video) }
         before do
           post :create, video_id: video, review: { rating: 5 }
         end
@@ -51,6 +50,8 @@ describe ReviewsController do
           expect(assigns(:video)).to eq video
         end
         it 'sets the @reviews variable' do
+          review_1 = Fabricate(:review, video: video)
+          post :create, video_id: video, review: { rating: 5 }
           expect(assigns(:reviews)).to match_array [review_1]
         end
         it 'sets the @review variable' do

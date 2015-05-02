@@ -42,7 +42,7 @@ describe UsersController do
     context 'email not already taken and password and password_confirmation don\'t match' do
       before(:each) { post :create, user: user_hash.merge(password_confirmation: '456') }
       it 'shows a hint regarding the password' do
-        expect(assigns(:user).errors.full_messages).to include "Password confirmation doesn't match the password"
+        expect(assigns(:user).errors.full_messages).to include "Password confirmation doesn't match Password"
       end
     end
 
