@@ -19,7 +19,7 @@ describe Video do
     video = Video.new title: 'my video', description: 'simsa la bim', avatar: 'video.png', category: category
     video.save
     expect(video.category).to eq(category)
-    video.title.should == 'my video'
+    expect(video.title).to eq 'my video'
   end
 
 

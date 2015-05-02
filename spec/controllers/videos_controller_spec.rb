@@ -12,7 +12,7 @@ describe VideosController do
 
       it 'assigns @video variable' do
         get :show, id: video.id
-        assigns(:video).should eq video
+        expect(assigns(:video)).to eq video
       end
 
       it 'assigns @reviews variable' do
@@ -20,9 +20,9 @@ describe VideosController do
         review_2 = Fabricate(:review, video: video)
         get :show, id: video.id
 
-        assigns(:reviews).should =~ [review_1, review_2]
+        # assigns(:reviews).should =~ [review_1, review_2]
         # another way to say it
-        # expect(assigns(:reviews)).to match_array [review_1, review_2]
+        expect(assigns(:reviews)).to match_array [review_1, review_2]
       end
 
       it 'assigns a @review variable' do
@@ -34,7 +34,7 @@ describe VideosController do
     context 'for not authenticated users' do
       it 'redirects to sign_in path' do
         get :show, id: 1
-        response.should redirect_to sign_in_path
+        expect(response).to redirect_to sign_in_path
       end
     end
   end
@@ -50,14 +50,14 @@ describe VideosController do
 
       it 'assigns videos instance' do
         post :search, term: 'dusk'
-        assigns(:videos).should be
+        expect(assigns(:videos)).to be
       end
     end
 
     context 'for not authenticated users' do
       it 'redirects to sign_in path' do
         post :search, term: 'dusk'
-        response.should redirect_to sign_in_path
+        expect(response).to redirect_to sign_in_path
       end
     end
   end
