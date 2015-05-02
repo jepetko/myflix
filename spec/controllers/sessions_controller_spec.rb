@@ -3,12 +3,6 @@ require 'spec_helper'
 describe SessionsController do
 
   describe 'GET :new' do
-    context 'user is not logged-in' do
-      it 'renders a new template' do
-        get :new
-        expect(response).to render_template :new
-      end
-    end
     context 'user is already logged-in' do
       it 'redirects to the home_path' do
         user = Fabricate(:user)
