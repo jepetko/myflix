@@ -9,7 +9,7 @@ describe ReviewsController do
     context 'user is authorized' do
       let(:user) { user = Fabricate(:user) }
       before do
-        self.controller.login_user user
+        login_user user
       end
 
       context 'review data is valid' do

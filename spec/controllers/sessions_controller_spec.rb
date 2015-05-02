@@ -12,7 +12,7 @@ describe SessionsController do
     context 'user is already logged-in' do
       it 'redirects to the home_path' do
         user = Fabricate(:user)
-        self.controller.login_user(user)
+        login_user user
         get :new
         expect(response).to redirect_to home_path
       end

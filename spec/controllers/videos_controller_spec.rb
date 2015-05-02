@@ -6,7 +6,7 @@ describe VideosController do
     context 'for authenticated users' do
       before(:each) do
         user = Fabricate(:user)
-        self.controller.login_user user
+        login_user user
       end
       let(:video) { video = Fabricate(:video) }
 
@@ -43,7 +43,7 @@ describe VideosController do
     context 'for authenticated users' do
       before(:each) do
         user = Fabricate(:user)
-        self.controller.login_user user
+        login_user user
         10.times { Fabricate(:video) }
         Fabricate(:video, title: 'From dusk till down')
       end
