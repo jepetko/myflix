@@ -11,13 +11,19 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    count = current_user.queue_items.size
-    queue_item = current_user.queue_items.build queue_item_params.merge(order_value: count)
-
-    if queue_item.save
-      flash[:notice] = "Video #{queue_item.video_title} was added to the queue."
-      redirect_to my_queue_path
+    if Video.exists? queue_item_params[:video_id]
+      count = current_user.queue_items.size
+      queue_item = current_user.queue_items.build queue_item_params.merge(order_value: count+1)
+      if queue_item.save
+        flash[:notice] = "Video #{queue_item.video_title} was added to the queue."
+        redirect_to my_queue_path
+      else
+        flash[:error] = 'Video not added.'
+        redirect_to my_queue_path
+      end
     else
+      flash[:error] = 'Video not added.'
+      redirect_to my_queue_path
     end
   end
 

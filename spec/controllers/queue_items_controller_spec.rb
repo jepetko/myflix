@@ -36,23 +36,52 @@ describe QueueItemsController do
 
     context 'for authorized user' do
 
+      let(:user) { user = Fabricate(:user)}
       before do
-        user = Fabricate(:user)
         login_user user
-        post :create, queue_item: Fabricate.attributes_for(:queue_item)
       end
 
-      it 'adds a new item to the queue' do
-        expect(QueueItem.count).to be 1
+      context 'for valid data' do
+
+        before do
+          Fabricate(:queue_item, user: user)
+          Fabricate(:queue_item, user: user)
+          post :create, queue_item: Fabricate.attributes_for(:queue_item)
+        end
+
+        it 'adds a new item to the queue' do
+          expect(QueueItem.count).to be 3
+        end
+        it 'sets the order value to the end of the queue' do
+          expect(QueueItem.last.order_value).to eq 3
+        end
+
+        it 'belongs to the queue of the current user' do
+          expect(QueueItem.last.user).to eq current_user
+        end
+        it 'redirects to the my_queue page' do
+          expect(response).to redirect_to my_queue_path
+        end
+        it 'sets the notice' do
+          expect(flash[:notice]).to be
+        end
       end
-      it 'belongs to the queue of the current user' do
-        expect(QueueItem.last.user).to eq current_user
-      end
-      it 'redirects to the my_queue page' do
-        expect(response).to redirect_to my_queue_path
-      end
-      it 'sets the notice' do
-        expect(flash[:notice]).to be
+
+      context 'for invalid data' do
+
+        before do
+          post :create, queue_item: Fabricate.attributes_for(:queue_item).merge(video_id: -1)
+        end
+
+        it 'does not add the video to the queue' do
+          expect(QueueItem.count).to be 0
+        end
+        it 'redirects to the my_queue video' do
+          expect(response).to redirect_to my_queue_path
+        end
+        it 'sets the error message' do
+          expect(flash[:error]).to be
+        end
       end
     end
 

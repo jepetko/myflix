@@ -29,6 +29,11 @@ describe VideosController do
         get :show, id: video.id
         expect(assigns(:review)).to be_instance_of(Review)
       end
+
+      it 'assigns a @queue_item variable' do
+        get :show, id: video.id
+        expect(assigns(:queue_item)).to be_instance_of(QueueItem)
+      end
     end
 
     context 'for not authenticated users' do
