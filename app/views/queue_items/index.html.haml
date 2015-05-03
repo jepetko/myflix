@@ -24,7 +24,7 @@
                     %td
                       = button_to "Play", nil, class: "btn btn-default"
                     %td
-                      = f.select :rating, select_collection_rating_values, selected: queued_video.video.rating_for_user(current_user), hide_label: true
+                      = f.select :rating, select_collection_rating_values, selected: queued_video.video_rating, hide_label: true
                     %td
                       = link_to queued_video.video.category.name, category_path(queued_video.video.category)
                     %td
