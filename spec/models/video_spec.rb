@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Video do
 
+  it { should respond_to(:rating_for_user) }
   it { should belong_to(:category)}
   it { should have_many(:reviews).order('created_at DESC')}
   it { should validate_presence_of(:title) }
@@ -101,6 +102,27 @@ describe Video do
         video.reviews.create(Fabricate.attributes_for(:review, rating: rating))
       end
       expect(video.calculate_rating_average).to eq(2.67)
+    end
+  end
+
+  describe '#rating_for_user' do
+
+    let(:user) { user = Fabricate(:user) }
+    let(:video) { video = Fabricate(:video) }
+
+    it 'returns the rating value of the current user' do
+      review = Fabricate(:review, video: video, user: user, rating: 3)
+      expect(video.rating_for_user(user)).to eq 3
+    end
+
+    it 'returns the last rated value if there are many ratings made by the same user' do
+      video.reviews.create(Fabricate.attributes_for(:review, user: user, rating: 3, created_at: 1.hour.ago))
+      video.reviews.create(Fabricate.attributes_for(:review, user: user, rating: 4))
+      expect(video.rating_for_user(user)).to eq 4
+    end
+
+    it 'returns nil if there is no rating yet' do
+      expect(video.rating_for_user(user)).to be_nil
     end
   end
 end

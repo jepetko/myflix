@@ -24,12 +24,7 @@
                     %td
                       = button_to "Play", nil, class: "btn btn-default"
                     %td
-                      %select.form-group(name="")
-                        %option(value="5") 5 Stars
-                        %option(value="4") 4 Stars
-                        %option(value="3") 3 Stars
-                        %option(value="2") 2 Stars
-                        %option(value="1") 1 Star
+                      = f.select :rating, select_collection_rating_values, selected: queued_video.video.rating_for_user(current_user), hide_label: true
                     %td
                       = link_to queued_video.video.category.name, category_path(queued_video.video.category)
                     %td
