@@ -13,10 +13,4 @@ class Video < ActiveRecord::Base
     return 0 if reviews.size == 0
     reviews.average(:rating).round(2).to_f
   end
-
-  def rating_for_user(user)
-    review = reviews.where(user: user).first
-    return nil if review.nil?
-    review.rating
-  end
 end
