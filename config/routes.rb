@@ -19,7 +19,7 @@ Myflix::Application.routes.draw do
     resources :reviews, only: [:create]
   end
 
-  get 'my_queue', to: 'queued_videos#my_queue'
-  post 'my_queue', to: 'queued_videos#update_my_queue'
+  get 'my_queue', to: 'queue_items#index'
+  post 'my_queue', to: 'queue_items#update'
 end
 

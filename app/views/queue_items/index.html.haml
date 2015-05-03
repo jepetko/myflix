@@ -15,7 +15,7 @@
                   %th(width="15%") Genre
                   %th(width="15%") Remove
               %tbody
-                - @queued_videos.each do |queued_video|
+                - @queue_items.each do |queued_video|
                   %tr
                     %td
                       = f.text_field :order_value, value: queued_video.order_value, hide_label: true

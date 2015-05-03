@@ -97,5 +97,5 @@ Review.create(content: Faker::Lorem.paragraph(3),
               video: monk,
               user: kati)
 
-QueuedVideo.create(user: kati, video: monk, order_value: 1)
-QueuedVideo.create(user: kati, video: family_guy, order_value: 2)
+QueueItem.create(user: kati, video: monk, order_value: 1)
+QueueItem.create(user: kati, video: family_guy, order_value: 2)

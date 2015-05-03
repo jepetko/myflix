@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe QueuedVideo do
+describe QueueItem do
 
   it { should respond_to(:video) }
   it { should respond_to(:order_value) }

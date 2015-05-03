@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20150502103522) do
     t.datetime "updated_at"
   end
 
-  create_table "queued_videos", force: true do |t|
+  create_table "queue_items", force: true do |t|
     t.integer  "video_id"
     t.integer  "user_id"
     t.integer  "order_value"
