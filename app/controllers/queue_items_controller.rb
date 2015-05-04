@@ -26,11 +26,10 @@ class QueueItemsController < ApplicationController
 
   def destroy
     queue_item = current_user.queue_items.find_by(id: params[:id])
-    if queue_item && queue_item.delete
+    if queue_item && queue_item.destroy
       current_user.queue_items.each_with_index { |item,idx|
         item.update(order_value: idx+1)
       }
-      current_user.queue_items.reload
       flash[:notice] = "Video #{queue_item.video_title} removed from the queue."
     else
       flash[:error] = 'Video not removed.'

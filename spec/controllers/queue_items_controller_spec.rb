@@ -105,7 +105,7 @@ describe QueueItemsController do
         expect(user.queue_items.count).to eq 4
       end
 
-      it 'removes the video from the queue for the current user' do
+      it 'removes the video from the queue of the current user' do
         second_user = Fabricate(:user)
         queue_item = Fabricate(:queue_item, user: second_user)
         delete :destroy, id: queue_item.id
