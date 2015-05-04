@@ -1,4 +1,4 @@
 .col-sm-2
   %h3= video.title
-  %a.thumbnail
+  = link_to video_path(video), class: 'thumbnail' do
     %img(src="/tmp/#{video.avatar}")

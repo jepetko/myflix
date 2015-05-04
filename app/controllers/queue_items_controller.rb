@@ -24,6 +24,20 @@ class QueueItemsController < ApplicationController
     redirect_to my_queue_path
   end
 
+  def destroy
+    queue_item = current_user.queue_items.find_by(id: params[:id])
+    if queue_item && queue_item.delete
+      current_user.queue_items.each_with_index { |item,idx|
+        item.update(order_value: idx+1)
+      }
+      current_user.queue_items.reload
+      flash[:notice] = "Video #{queue_item.video_title} removed from the queue."
+    else
+      flash[:error] = 'Video not removed.'
+    end
+    redirect_to my_queue_path
+  end
+
   private
 
   def current_user_queued_video?(video)

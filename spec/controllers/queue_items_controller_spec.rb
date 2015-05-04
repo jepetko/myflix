@@ -86,4 +86,77 @@ describe QueueItemsController do
     end
   end
 
+  describe 'DELETE :destroy' do
+
+
+    context 'for authorized user' do
+
+      let(:user) { user = Fabricate(:user) }
+      before do
+        login_user user
+        5.times do
+          Fabricate(:queue_item, user: user)
+        end
+      end
+
+      it 'removes the video from the queue' do
+        delete :destroy, id: user.queue_items.last.id
+
+        expect(user.queue_items.count).to eq 4
+      end
+
+      it 'removes the video from the queue for the current user' do
+        second_user = Fabricate(:user)
+        queue_item = Fabricate(:queue_item, user: second_user)
+        delete :destroy, id: queue_item.id
+
+        expect(second_user.queue_items.count).to eq 1
+      end
+
+      it 'reorganizes the order of the remaining items' do
+        delete :destroy, id: user.queue_items.sample.id
+
+        user.queue_items.reload
+        user.queue_items.each_with_index do |queue_item,idx|
+          expect(queue_item.order_value).to eq idx+1
+        end
+      end
+
+      it 'redirects to the my_queue page' do
+        delete :destroy, id: user.queue_items.last.id
+        expect(response).to redirect_to my_queue_path
+      end
+
+      it 'sets the notice' do
+        delete :destroy, id: user.queue_items.last.id
+        expect(flash[:notice]).to be
+      end
+    end
+
+    context 'for unauthorized user' do
+
+      before do
+        user = Fabricate(:user)
+        5.times do
+          Fabricate(:queue_item, user: user)
+        end
+      end
+
+      it 'does not change the queue items' do
+        delete :destroy, id: QueueItem.last.id
+        expect(QueueItem.count).to eq 5
+      end
+
+      it 'redirects to the sign_in page' do
+        delete :destroy, id: QueueItem.last.id
+        expect(response).to redirect_to sign_in_path
+      end
+
+      it 'sets the error message' do
+        delete :destroy, id: QueueItem.last.id
+        expect(flash[:error]).to be
+      end
+    end
+  end
+
 end
