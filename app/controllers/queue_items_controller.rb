@@ -12,7 +12,7 @@ class QueueItemsController < ApplicationController
 
   def create
     video = Video.find(params[:video_id])
-    if ! current_user_queued_video? video
+    if !current_user_queued_video? video
       if video_queued?(video)
         flash[:notice] = "Video #{video.title} was added to the queue."
       else
@@ -27,9 +27,9 @@ class QueueItemsController < ApplicationController
   def destroy
     queue_item = current_user.queue_items.find_by(id: params[:id])
     if queue_item && queue_item.destroy
-      current_user.queue_items.each_with_index { |item,idx|
+      current_user.queue_items.each_with_index do |item,idx|
         item.update(order_value: idx+1)
-      }
+      end
       flash[:notice] = "Video #{queue_item.video_title} removed from the queue."
     else
       flash[:error] = 'Video not removed.'

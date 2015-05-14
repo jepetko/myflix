@@ -94,7 +94,7 @@ describe QueueItemsController do
       let(:user) { user = Fabricate(:user) }
       before do
         login_user user
-        5.times do
+        2.times do
           Fabricate(:queue_item, user: user)
         end
       end
@@ -102,7 +102,7 @@ describe QueueItemsController do
       it 'removes the video from the queue' do
         delete :destroy, id: user.queue_items.last.id
 
-        expect(user.queue_items.count).to eq 4
+        expect(user.queue_items.count).to eq 1
       end
 
       it 'removes the video from the queue of the current user' do
@@ -137,14 +137,14 @@ describe QueueItemsController do
 
       before do
         user = Fabricate(:user)
-        5.times do
+        2.times do
           Fabricate(:queue_item, user: user)
         end
       end
 
       it 'does not change the queue items' do
         delete :destroy, id: QueueItem.last.id
-        expect(QueueItem.count).to eq 5
+        expect(QueueItem.count).to eq 2
       end
 
       it 'redirects to the sign_in page' do
