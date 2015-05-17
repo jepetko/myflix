@@ -220,6 +220,22 @@ describe QueueItemsController do
           expect(flash[:error]).to be
         end
       end
+
+      context 'for queue of another user' do
+
+        let(:another_user) { another_user = Fabricate(:user) }
+        let(:another_user_queue_item_1) { another_user_queue_item_1 = Fabricate(:queue_item, user: another_user) }
+        let(:another_user_queue_item_2) { another_user_queue_item_2 = Fabricate(:queue_item, user: another_user) }
+        before do
+
+          post :update_queue, queue_items: [  {id: another_user_queue_item_1.id, order_value: 2},
+                                              {id: another_user_queue_item_2.id, order_value: 1} ]
+        end
+
+        it 'does not update anything' do
+          expect(another_user.queue_items.reload).to eq([another_user_queue_item_1, another_user_queue_item_2])
+        end
+      end
     end
 
     context 'for unauthorized user' do

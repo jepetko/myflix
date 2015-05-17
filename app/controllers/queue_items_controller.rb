@@ -9,16 +9,14 @@ class QueueItemsController < ApplicationController
   def update_queue
     QueueItem.transaction do
       begin
-        current_queue_items = current_user.queue_items.all
-        ids = current_queue_items.map(&:id)
+        ids = current_user.queue_items.all.map(&:id)
         updateable_queue_items = get_updateable_queue_items params[:queue_items], ids
-        order_value = updateable_queue_items.first['order_value'].to_i
+        start_order_value = 1
 
         updateable_queue_items.each do |updateable_queue_item|
-          current_queue_item = current_queue_items.find(updateable_queue_item[:id].to_i)
-          current_queue_item.order_value = order_value
-          order_value += 1
-          current_queue_item.save!
+          current_queue_item = current_user.queue_items.find(updateable_queue_item[:id].to_i)
+          current_queue_item.update_attributes! order_value: start_order_value
+          start_order_value += 1
         end
       rescue Exception => e
         flash[:error] = 'Queue items order not updated'
