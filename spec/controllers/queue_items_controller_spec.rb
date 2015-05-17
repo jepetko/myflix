@@ -159,4 +159,69 @@ describe QueueItemsController do
     end
   end
 
+  describe 'PUT :update' do
+
+    let(:user) { user = Fabricate(:user) }
+    let(:queue_items) { queue_items = QueueItem.order(:id) }
+    before do
+      login_user user
+      3.times do |i|
+        Fabricate(:queue_item, user: user, order_value: i+1)
+      end
+    end
+
+    context 'for authorized user' do
+
+      context 'for valid order values' do
+        it 'updates the order of the queue items' do
+          post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+                                        {id: queue_items[1].id, order_value: 3},
+                                        {id: queue_items.last, order_value: 2} ]
+
+          queue_items.reload
+          expect(queue_items.first.order_value).to eq(1)
+          expect(queue_items[1].order_value).to eq(3)
+          expect(queue_items.last.order_value).to eq(2)
+        end
+
+        it 'updates the order of the queue items even if the order values are not continuous' do
+          post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+                                        {id: queue_items[1].id, order_value: 5},
+                                        {id: queue_items.last, order_value: 2} ]
+
+          queue_items.reload
+          expect(queue_items.first.order_value).to eq(1)
+          expect(queue_items[1].order_value).to eq(3)
+          expect(queue_items.last.order_value).to eq(2)
+        end
+      end
+
+      context 'for invalid values' do
+
+        before do
+          post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+                                        {id: queue_items[1].id, order_value: 'aaa'},
+                                        {id: queue_items.last, order_value: 2} ]
+        end
+
+        it 'does not update anything if any order value is not a positive integer' do
+          queue_items.reload
+          expect(queue_items.first.order_value).to eq(1)
+          expect(queue_items[1].order_value).to eq(2)
+          expect(queue_items.last.order_value).to eq(3)
+        end
+
+        it 'sets the error message if an error occurs' do
+          expect(flash[:error]).to be
+        end
+      end
+    end
+
+    context 'for unauthorized user' do
+      it 'does not update anything'
+      it 'redirects to the sign_in page'
+      it 'sets the error message'
+    end
+  end
+
 end

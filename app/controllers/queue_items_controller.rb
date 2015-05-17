@@ -7,7 +7,30 @@ class QueueItemsController < ApplicationController
   end
 
   def update
+    queue_items = params[:queue_items]
+    QueueItem.transaction do
+      begin
+        current_queue_items = current_user.queue_items.all
+        ids = current_queue_items.map(&:id)
+        updateable_queue_items = queue_items.select { |item| ids.include?(item[:id].to_i) }.sort do |a,b|
+          first_order_value = a[:order_value].to_i
+          sec_order_value = b[:order_value].to_i
+          raise ArgumentError.new('order value must not be alphanumerical or zero') if first_order_value == 0 || sec_order_value == 0
+          a[:order_value].to_i-b[:order_value].to_i
+        end
+        order_value = updateable_queue_items.first[:order_value].to_i
 
+        updateable_queue_items.each do |updateable_queue_item|
+          current_queue_item = current_queue_items.find(updateable_queue_item[:id].to_i)
+          current_queue_item.order_value = order_value
+          order_value += 1
+          current_queue_item.save
+        end
+      rescue Exception => e
+        puts e
+      end
+    end
+    redirect_to my_queue_path
   end
 
   def create
