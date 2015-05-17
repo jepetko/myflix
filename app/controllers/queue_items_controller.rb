@@ -7,17 +7,11 @@ class QueueItemsController < ApplicationController
   end
 
   def update_queue
-    queue_items = params[:queue_items]
     QueueItem.transaction do
       begin
         current_queue_items = current_user.queue_items.all
         ids = current_queue_items.map(&:id)
-        updateable_queue_items = queue_items.select { |item| ids.include?(item['id'].to_i) }.sort do |a,b|
-          first_order_value = a['order_value'].to_i
-          sec_order_value = b['order_value'].to_i
-          raise ArgumentError.new('order value must not be alphanumerical or zero') if first_order_value == 0 || sec_order_value == 0
-          a['order_value'].to_i-b['order_value'].to_i
-        end
+        updateable_queue_items = get_updateable_queue_items params[:queue_items], ids
         order_value = updateable_queue_items.first['order_value'].to_i
 
         updateable_queue_items.each do |updateable_queue_item|
@@ -73,6 +67,15 @@ class QueueItemsController < ApplicationController
   def video_queued?(video)
     queue_item = current_user.queue_items.build video_id: video.id, order_value: new_position
     queue_item.save
+  end
+
+  def get_updateable_queue_items(queue_items, ids)
+    queue_items.select { |item| ids.include?(item['id'].to_i) }.sort do |a,b|
+      first_order_value = a['order_value'].to_i
+      sec_order_value = b['order_value'].to_i
+      raise ArgumentError.new('order value must not be alphanumerical or zero') if first_order_value == 0 || sec_order_value == 0
+      a['order_value'].to_i-b['order_value'].to_i
+    end
   end
 
 end
