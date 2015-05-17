@@ -7,7 +7,7 @@ class QueueItemsController < ApplicationController
   end
 
   def update
-    queue_items = params[:queue_items]
+    queue_items = queue_items_params_from_json
     QueueItem.transaction do
       begin
         current_queue_items = current_user.queue_items.all
@@ -61,6 +61,10 @@ class QueueItemsController < ApplicationController
   end
 
   private
+
+  def queue_items_params_from_json
+    JSON.parse(params.require(:queue_items)).each { |element| element.symbolize_keys! }
+  end
 
   def current_user_queued_video?(video)
     current_user.queue_items.map(&:video_id).include? video.id

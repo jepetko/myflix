@@ -175,9 +175,9 @@ describe QueueItemsController do
       end
       context 'for valid order values' do
         it 'updates the order of the queue items' do
-          post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+          post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
                                         {id: queue_items[1].id, order_value: 3},
-                                        {id: queue_items.last, order_value: 2} ]
+                                        {id: queue_items.last.id, order_value: 2} ].to_json
 
           queue_items.reload
           expect(queue_items.first.order_value).to eq(1)
@@ -186,9 +186,9 @@ describe QueueItemsController do
         end
 
         it 'updates the order of the queue items even if the order values are not continuous' do
-          post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+          post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
                                         {id: queue_items[1].id, order_value: 5},
-                                        {id: queue_items.last, order_value: 2} ]
+                                        {id: queue_items.last.id, order_value: 2} ].to_json
 
           queue_items.reload
           expect(queue_items.first.order_value).to eq(1)
@@ -200,9 +200,9 @@ describe QueueItemsController do
       context 'for invalid values' do
 
         before do
-          post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+          post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
                                         {id: queue_items[1].id, order_value: 'aaa'},
-                                        {id: queue_items.last, order_value: 2} ]
+                                        {id: queue_items.last.id, order_value: 2} ].to_json
         end
 
         it 'does not update anything if any order value is not a positive integer' do
@@ -221,9 +221,9 @@ describe QueueItemsController do
     context 'for unauthorized user' do
 
       before do
-        post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+        post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
                                       {id: queue_items[1].id, order_value: 3},
-                                      {id: queue_items.last, order_value: 2} ]
+                                      {id: queue_items.last.id, order_value: 2} ].to_json
       end
 
       it 'does not update anything' do
