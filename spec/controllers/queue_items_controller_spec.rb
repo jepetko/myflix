@@ -162,7 +162,10 @@ describe QueueItemsController do
   describe 'PUT :update' do
 
     let(:user) { user = Fabricate(:user) }
-    let(:queue_items) { queue_items = QueueItem.order(:id) }
+    let(:queue_items) { queue_items = user.queue_items }
+    let(:first) { first = queue_items.first }
+    let(:sec) { sec = queue_items[1] }
+    let(:third) { third = queue_items.last }
     before do
       3.times do |i|
         Fabricate(:queue_item, user: user, order_value: i+1)
@@ -175,41 +178,42 @@ describe QueueItemsController do
       end
       context 'for valid order values' do
         it 'updates the order of the queue items' do
-          post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
-                                        {id: queue_items[1].id, order_value: 3},
-                                        {id: queue_items.last.id, order_value: 2} ].to_json
+          post :update_queue, queue_items: [  {id: first.id, order_value: 1},
+                                        {id: sec.id, order_value: 3},
+                                        {id: third.id, order_value: 2} ]
 
-          queue_items.reload
-          expect(queue_items.first.order_value).to eq(1)
-          expect(queue_items[1].order_value).to eq(3)
-          expect(queue_items.last.order_value).to eq(2)
+          expect(user.queue_items.reload).to eq([first, third, sec])
         end
 
-        it 'updates the order of the queue items even if the order values are not continuous' do
-          post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
-                                        {id: queue_items[1].id, order_value: 5},
-                                        {id: queue_items.last.id, order_value: 2} ].to_json
+        it 'normalizes the order of the queue items' do
+          post :update_queue, queue_items: [  {id: first.id, order_value: 1},
+                                        {id: sec.id, order_value: 5},
+                                        {id: third.id, order_value: 2} ]
 
-          queue_items.reload
-          expect(queue_items.first.order_value).to eq(1)
-          expect(queue_items[1].order_value).to eq(3)
-          expect(queue_items.last.order_value).to eq(2)
+          expect(user.queue_items.reload.map(&:order_value)).to eq([1,2,3])
+        end
+
+        it 'ignores non existing queue items' do
+          non_existing_id = QueueItem.where(user: user).order('id').last.id + 1
+          post :update_queue, queue_items: [  {id: first.id, order_value: 1},
+                                              {id: sec.id, order_value: 3},
+                                              {id: third.id, order_value: 2},
+                                              {id: non_existing_id, order_value: 1}]
+
+          expect(user.queue_items.reload).to eq([first, third, sec])
         end
       end
 
       context 'for invalid values' do
 
         before do
-          post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
-                                        {id: queue_items[1].id, order_value: 'aaa'},
-                                        {id: queue_items.last.id, order_value: 2} ].to_json
+          post :update_queue, queue_items: [  {id: first.id, order_value: 1},
+                                        {id: sec.id, order_value: 'aaa'},
+                                        {id: third.id, order_value: 2} ]
         end
 
         it 'does not update anything if any order value is not a positive integer' do
-          queue_items.reload
-          expect(queue_items.first.order_value).to eq(1)
-          expect(queue_items[1].order_value).to eq(2)
-          expect(queue_items.last.order_value).to eq(3)
+          expect(user.queue_items.reload.map(&:order_value)).to eq([1,2,3])
         end
 
         it 'sets the error message if an error occurs' do
@@ -221,16 +225,13 @@ describe QueueItemsController do
     context 'for unauthorized user' do
 
       before do
-        post :update, queue_items: [  {id: queue_items.first.id, order_value: 1},
-                                      {id: queue_items[1].id, order_value: 3},
-                                      {id: queue_items.last.id, order_value: 2} ].to_json
+        post :update_queue, queue_items: [  {id: first.id, order_value: 1},
+                                      {id: sec.id, order_value: 3},
+                                      {id: third.id, order_value: 2} ]
       end
 
       it 'does not update anything' do
-        queue_items.reload
-        expect(queue_items.first.order_value).to eq(1)
-        expect(queue_items[1].order_value).to eq(2)
-        expect(queue_items.last.order_value).to eq(3)
+        expect(user.queue_items.reload.map(&:order_value)).to eq([1,2,3])
       end
 
       it 'redirects to the sign_in page' do
