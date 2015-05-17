@@ -11,6 +11,7 @@ describe QueueItem do
 
   it { should validate_presence_of :video }
   it { should validate_presence_of :user }
+  it { should validate_numericality_of :order_value }
 
   describe '#video_title' do
 

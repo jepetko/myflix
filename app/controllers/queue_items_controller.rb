@@ -24,7 +24,7 @@ class QueueItemsController < ApplicationController
           current_queue_item = current_queue_items.find(updateable_queue_item[:id].to_i)
           current_queue_item.order_value = order_value
           order_value += 1
-          current_queue_item.save
+          current_queue_item.save!
         end
       rescue Exception => e
         flash[:error] = 'Queue items order not updated'
