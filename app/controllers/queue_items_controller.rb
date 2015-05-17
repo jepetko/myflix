@@ -27,7 +27,7 @@ class QueueItemsController < ApplicationController
           current_queue_item.save
         end
       rescue Exception => e
-        puts e
+        flash[:error] = 'Queue items order not updated'
       end
     end
     redirect_to my_queue_path

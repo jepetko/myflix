@@ -164,14 +164,15 @@ describe QueueItemsController do
     let(:user) { user = Fabricate(:user) }
     let(:queue_items) { queue_items = QueueItem.order(:id) }
     before do
-      login_user user
       3.times do |i|
         Fabricate(:queue_item, user: user, order_value: i+1)
       end
     end
 
     context 'for authorized user' do
-
+      before do
+        login_user user
+      end
       context 'for valid order values' do
         it 'updates the order of the queue items' do
           post :update, queue_items: [  {id: queue_items.first, order_value: 1},
@@ -218,9 +219,27 @@ describe QueueItemsController do
     end
 
     context 'for unauthorized user' do
-      it 'does not update anything'
-      it 'redirects to the sign_in page'
-      it 'sets the error message'
+
+      before do
+        post :update, queue_items: [  {id: queue_items.first, order_value: 1},
+                                      {id: queue_items[1].id, order_value: 3},
+                                      {id: queue_items.last, order_value: 2} ]
+      end
+
+      it 'does not update anything' do
+        queue_items.reload
+        expect(queue_items.first.order_value).to eq(1)
+        expect(queue_items[1].order_value).to eq(2)
+        expect(queue_items.last.order_value).to eq(3)
+      end
+
+      it 'redirects to the sign_in page' do
+        expect(response).to redirect_to sign_in_path
+      end
+
+      it 'sets the error message' do
+        expect(flash[:error]).to be
+      end
     end
   end
 
