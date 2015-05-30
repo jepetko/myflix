@@ -200,11 +200,11 @@ describe QueueItemsController do
                                               {id: third.id, order_value: 2},
                                               {id: non_existing_id, order_value: 1}]
 
-          expect(user.queue_items.reload).to eq([first, third, sec])
+          expect(user.queue_items.reload).to eq([first.reload, third.reload, sec.reload])
         end
       end
 
-      context 'for invalid values' do
+      context 'for invalid order values' do
 
         before do
           post :update_queue, queue_items: [  {id: first.id, order_value: 1},
@@ -217,6 +217,29 @@ describe QueueItemsController do
         end
 
         it 'sets the error message if an error occurs' do
+          expect(flash[:error]).to be
+        end
+      end
+
+      context 'for valid rating values' do
+        it 'updates the rating if the rating exists for the current user' do
+          Review.create(user: user, video: first.video, rating: 3, content: 'Awesome')
+          post :update_queue, queue_items: [  {id: first.id, rating: 5, order_value: 1} ]
+          expect(first.video.reviews.where(user: user).first.rating).to eq 5
+        end
+        it 'creates a new rating if the current user did not rate so far' do
+          post :update_queue, queue_items: [  {id: first.id, rating: 1, order_value: 1} ]
+          expect(first.video.reviews.where(user: user).first.rating).to eq 1
+        end
+      end
+
+      context 'for invalid rating values' do
+        it 'does not update anything' do
+          post :update_queue, queue_items: [ {id: first.id, rating: -1, order_value: 1}]
+          expect(first.video.reviews.where(user: user).first).to be_nil
+        end
+        it 'sets the error message if an error occurs' do
+          post :update_queue, queue_items: [ {id: first.id, rating: -1, order_value: 1}]
           expect(flash[:error]).to be
         end
       end

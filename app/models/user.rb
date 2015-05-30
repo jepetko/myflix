@@ -3,32 +3,43 @@ class User < ActiveRecord::Base
   # validates password and password_confirmation; no validates_presence_of necessary!!!
   has_secure_password validations: true
   has_many :queue_items, -> { order('order_value') }
+  has_many :reviews
 
   validates_presence_of :email, :full_name
   validates_uniqueness_of :email
 
   def update_queue_items(queue_items_hash)
     ActiveRecord::Base.transaction do
-      ids = queue_items.all.map(&:id)
-      updateable_queue_items = sort_updateable_queue_items queue_items_hash, ids
-      start_order_value = 1
+      queue_items_hash.each do |queue_item_element|
+        queue_item = queue_items.find_by(id: queue_item_element['id'])
+        next if queue_item.nil?
 
-      updateable_queue_items.each do |updateable_queue_item|
-        current_queue_item = queue_items.find(updateable_queue_item[:id].to_i)
-        current_queue_item.update_attributes! order_value: start_order_value
-        start_order_value += 1
+        order_value = queue_item_element['order_value'].to_i
+        if order_value == 0
+          raise ArgumentError.new 'invalid order_value'
+        end
+        queue_item.update_attributes! order_value: order_value if !queue_item.nil?
+
+        if !queue_item_element['rating'].nil?
+          rating = queue_item_element['rating'].to_i
+          video_reviews = reviews.where(video: queue_item.video)
+          if video_reviews.first
+            video_reviews.first.update_attributes! rating: rating
+          else
+            reviews.build rating: rating, video: queue_item.video, content: 'Dummy'
+            save!
+          end
+        end
       end
+      normalize_queue_items
     end
   end
 
   private
 
-  def sort_updateable_queue_items(queue_items, ids)
-    queue_items.select { |item| ids.include?(item['id'].to_i) }.sort do |a,b|
-      first_order_value = a['order_value'].to_i
-      sec_order_value = b['order_value'].to_i
-      raise ArgumentError.new('order value must not be alphanumerical or zero') if first_order_value == 0 || sec_order_value == 0
-      a['order_value'].to_i-b['order_value'].to_i
+  def normalize_queue_items
+    queue_items.each_with_index do |queue_item, index|
+      queue_item.update_attributes! order_value: index+1
     end
   end
 

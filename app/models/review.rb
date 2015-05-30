@@ -3,6 +3,7 @@ class Review < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :rating
   validates_presence_of :content
+  validates_presence_of :video
 
   def self.rating_range
     (1..5)

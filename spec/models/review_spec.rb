@@ -8,11 +8,14 @@ describe Review do
   it { should respond_to :rating }
   it { should validate_presence_of :content }
   it { should validate_presence_of :rating }
+  it { should validate_presence_of :video }
 
-  context 'for rating values between 0 and 5' do
+  let(:video) { video = Fabricate(:video) }
+
+  context 'for rating values between 1 and 5' do
     it 'is valid' do
       (1..5).each do |rating|
-        review = Fabricate.build(:review, rating: rating)
+        review = Fabricate.build(:review, rating: rating, video: video)
         expect(review).to be_valid
       end
     end
