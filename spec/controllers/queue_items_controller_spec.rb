@@ -33,12 +33,12 @@ describe QueueItemsController do
 
   describe 'POST :create' do
 
-    let(:monk) { video = Fabricate(:video, title: 'Monk')}
-    let(:south_park) { video = Fabricate(:video, title: 'South Park')}
+    let(:monk) { Fabricate(:video, title: 'Monk')}
+    let(:south_park) { Fabricate(:video, title: 'South Park')}
 
     context 'for authorized user' do
 
-      let(:user) { user = Fabricate(:user)}
+      let(:user) { Fabricate(:user)}
       before do
         login_user user
       end
@@ -91,7 +91,7 @@ describe QueueItemsController do
 
     context 'for authorized user' do
 
-      let(:user) { user = Fabricate(:user) }
+      let(:user) { Fabricate(:user) }
       before do
         login_user user
         2.times do
@@ -161,15 +161,13 @@ describe QueueItemsController do
 
   describe 'PUT :update' do
 
-    let(:user) { user = Fabricate(:user) }
-    let(:queue_items) { queue_items = user.queue_items }
-    let(:first) { first = queue_items.first }
-    let(:sec) { sec = queue_items[1] }
-    let(:third) { third = queue_items.last }
+    let(:user) { Fabricate(:user) }
+    let(:queue_items) { user.queue_items }
+    let(:first) { queue_items.first }
+    let(:sec) { queue_items.second }
+    let(:third) { queue_items.last }
     before do
-      3.times do |i|
-        Fabricate(:queue_item, user: user, order_value: i+1)
-      end
+      3.times { |i| Fabricate(:queue_item, user: user, order_value: i + 1) }
     end
 
     context 'for authorized user' do
@@ -179,16 +177,16 @@ describe QueueItemsController do
       context 'for valid order values' do
         it 'updates the order of the queue items' do
           post :update_queue, queue_items: [  {id: first.id, order_value: 1},
-                                        {id: sec.id, order_value: 3},
-                                        {id: third.id, order_value: 2} ]
+                                              {id: sec.id, order_value: 3},
+                                              {id: third.id, order_value: 2} ]
 
           expect(user.queue_items.reload).to eq([first, third, sec])
         end
 
         it 'normalizes the order of the queue items' do
           post :update_queue, queue_items: [  {id: first.id, order_value: 1},
-                                        {id: sec.id, order_value: 5},
-                                        {id: third.id, order_value: 2} ]
+                                              {id: sec.id, order_value: 5},
+                                              {id: third.id, order_value: 2} ]
 
           expect(user.queue_items.reload.map(&:order_value)).to eq([1,2,3])
         end
@@ -208,8 +206,8 @@ describe QueueItemsController do
 
         before do
           post :update_queue, queue_items: [  {id: first.id, order_value: 1},
-                                        {id: sec.id, order_value: 'aaa'},
-                                        {id: third.id, order_value: 2} ]
+                                              {id: sec.id, order_value: 'aaa'},
+                                              {id: third.id, order_value: 2} ]
         end
 
         it 'does not update anything if any order value is not a positive integer' do
@@ -233,22 +231,11 @@ describe QueueItemsController do
         end
       end
 
-      context 'for invalid rating values' do
-        it 'does not update anything' do
-          post :update_queue, queue_items: [ {id: first.id, rating: -1, order_value: 1}]
-          expect(first.video.reviews.where(user: user).first).to be_nil
-        end
-        it 'sets the error message if an error occurs' do
-          post :update_queue, queue_items: [ {id: first.id, rating: -1, order_value: 1}]
-          expect(flash[:error]).to be
-        end
-      end
-
       context 'for queue of another user' do
 
-        let(:another_user) { another_user = Fabricate(:user) }
-        let(:another_user_queue_item_1) { another_user_queue_item_1 = Fabricate(:queue_item, user: another_user) }
-        let(:another_user_queue_item_2) { another_user_queue_item_2 = Fabricate(:queue_item, user: another_user) }
+        let(:another_user) { Fabricate(:user) }
+        let(:another_user_queue_item_1) { Fabricate(:queue_item, user: another_user) }
+        let(:another_user_queue_item_2) { Fabricate(:queue_item, user: another_user) }
         before do
 
           post :update_queue, queue_items: [  {id: another_user_queue_item_1.id, order_value: 2},
@@ -265,8 +252,8 @@ describe QueueItemsController do
 
       before do
         post :update_queue, queue_items: [  {id: first.id, order_value: 1},
-                                      {id: sec.id, order_value: 3},
-                                      {id: third.id, order_value: 2} ]
+                                            {id: sec.id, order_value: 3},
+                                            {id: third.id, order_value: 2} ]
       end
 
       it 'does not update anything' do

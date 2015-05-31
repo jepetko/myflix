@@ -14,7 +14,7 @@ describe SessionsController do
   end
 
   describe 'POST :create' do
-    let(:user) { user = Fabricate(:user, password: '123', password_confirmation: '123') }
+    let(:user) { Fabricate(:user, password: '123', password_confirmation: '123') }
 
     context 'user credentials are correct' do
       before do

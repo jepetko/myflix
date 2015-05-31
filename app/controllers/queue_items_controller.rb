@@ -7,8 +7,15 @@ class QueueItemsController < ApplicationController
   end
 
   def update_queue
+    queue_items_hash =  params[:queue_items]
     begin
-      current_user.update_queue_items params[:queue_items]
+      ActiveRecord::Base.transaction do
+        queue_items_hash.each do |item|
+          queue_item = current_user.queue_items.find_by(id: item['id'])
+          queue_item.update! order_value: item[:order_value], rating: item[:rating] if queue_item
+        end
+        current_user.normalize_queue_items
+      end
     rescue Exception => e
       flash[:error] = 'Queue items order not updated'
     end

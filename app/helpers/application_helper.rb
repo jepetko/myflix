@@ -22,8 +22,4 @@ module ApplicationHelper
       [ pluralize(rating, 'star'), rating]
     end
   end
-
-  def build_queue_items_json(queue_items)
-    queue_items.to_json(only: [:id, :order_value])
-  end
 end

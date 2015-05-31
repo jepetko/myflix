@@ -15,7 +15,7 @@ describe QueueItem do
 
   describe '#video_title' do
 
-    let(:user) { user = Fabricate(:user)}
+    let(:user) { Fabricate(:user)}
 
     it 'returns the title of the associated video' do
       video = Fabricate(:video, title: 'Monk')
@@ -25,15 +25,15 @@ describe QueueItem do
 
   end
 
-  describe '#video_rating' do
+  describe '#rating' do
 
-    let(:video) { video = Fabricate(:video, title: 'Monk') }
-    let(:user) { user = Fabricate(:user)}
+    let(:video) { Fabricate(:video, title: 'Monk') }
+    let(:user) { Fabricate(:user)}
 
     it 'returns the rating of the associated video' do
       Fabricate(:review, video: video, user: user, rating: 2)
       queue_item = Fabricate(:queue_item, video: video, user: user)
-      expect(queue_item.video_rating).to eq 2
+      expect(queue_item.rating).to eq 2
     end
 
     it 'returns the last rated value if there are many ratings made by the same user' do
@@ -41,12 +41,36 @@ describe QueueItem do
       Fabricate(:review, video: video, user: user, rating: 4)
 
       queue_item = Fabricate(:queue_item, video: video, user: user)
-      expect(queue_item.video_rating).to eq 4
+      expect(queue_item.rating).to eq 4
     end
 
     it 'returns nil if there is no rating yet' do
       queue_item = Fabricate(:queue_item, video: video, user: user)
-      expect(queue_item.video_rating).to be_nil
+      expect(queue_item.rating).to be_nil
+    end
+  end
+
+  describe '#rating=' do
+
+    let(:video) { Fabricate(:video, title: 'Monk') }
+    let(:user) { Fabricate(:user)}
+
+    it 'changes the rating of the review if rating is present' do
+      review = Fabricate(:review, user: user, video: video, rating: 1)
+      queue_item = Fabricate(:queue_item, user: user, video: video)
+      queue_item.rating = 4
+      expect(Review.first.rating).to eq 4
+    end
+    it 'creates a new review with the rating if rating is not present' do
+      queue_item = Fabricate(:queue_item, user: user, video: video)
+      queue_item.rating = 4
+      expect(Review.first.rating).to eq 4
+    end
+    it 'removes the review if the review is present' do
+      review = Fabricate(:review, user: user, video: video, rating: 1)
+      queue_item = Fabricate(:queue_item, user: user, video: video)
+      queue_item.rating = nil
+      expect(Review.first).to be_nil
     end
   end
 

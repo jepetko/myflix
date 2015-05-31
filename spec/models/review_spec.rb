@@ -10,7 +10,7 @@ describe Review do
   it { should validate_presence_of :rating }
   it { should validate_presence_of :video }
 
-  let(:video) { video = Fabricate(:video) }
+  let(:video) { Fabricate(:video) }
 
   context 'for rating values between 1 and 5' do
     it 'is valid' do

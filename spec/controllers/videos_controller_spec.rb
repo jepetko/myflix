@@ -8,7 +8,7 @@ describe VideosController do
         user = Fabricate(:user)
         login_user user
       end
-      let(:video) { video = Fabricate(:video) }
+      let(:video) { Fabricate(:video) }
 
       it 'assigns @video variable' do
         get :show, id: video.id

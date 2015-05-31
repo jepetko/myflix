@@ -25,10 +25,10 @@
                     %td
                       = link_to "Play", nil, class: "btn btn-default"
                     %td
-                      = f.select 'queue_items[][rating]', select_collection_rating_values, selected: queued_video.video_rating, hide_label: true
+                      = f.select 'queue_items[][rating]', select_collection_rating_values, selected: queued_video.rating, include_blank: true, hide_label: true
                     %td
                       = link_to queued_video.video.category.name, category_path(queued_video.video.category) unless queued_video.video.category.nil?
                     %td
                       = link_to queued_video, method: :delete do
                         %i.glyphicon.glyphicon-remove
-            = f.button 'Update Instant Queue', class: 'btn btn-default'
+            = f.submit 'Update Instant Queue', class: 'btn btn-default'

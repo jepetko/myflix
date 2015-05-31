@@ -4,10 +4,10 @@ describe ReviewsController do
 
   describe 'POST :create' do
 
-    let(:video) { video = Fabricate(:video) }
+    let(:video) { Fabricate(:video) }
 
     context 'user is authorized' do
-      let(:user) { user = Fabricate(:user) }
+      let(:user) { Fabricate(:user) }
       before do
         login_user user
       end
