@@ -8,6 +8,7 @@ class Review < ActiveRecord::Base
   def self.rating_range
     (1..5)
   end
+  validates_inclusion_of :rating, in: self.rating_range, allow_blank: true, message: 'must be between 1 and 5'
 
-  validates :rating, inclusion: { in: self.rating_range, message: 'must be between 1 and 5' }
+  #validates :rating, inclusion: { in: self.rating_range, message: 'must be between 1 and 5' }
 end
