@@ -1,5 +1,5 @@
 Fabricator(:queue_item) do
   video
   user
-  order_value Fabricate.sequence(:number, 1)
+  order_value { sequence(:number) { |i| i+1} }
 end

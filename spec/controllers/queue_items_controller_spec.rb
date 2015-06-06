@@ -167,7 +167,7 @@ describe QueueItemsController do
     let(:sec) { queue_items.second }
     let(:third) { queue_items.last }
     before do
-      3.times { |i| Fabricate(:queue_item, user: user, order_value: i + 1) }
+      Fabricate.times(3, :queue_item, user: user)
     end
 
     context 'for authorized user' do
@@ -211,7 +211,7 @@ describe QueueItemsController do
         end
 
         it 'does not update anything if any order value is not a positive integer' do
-          expect(user.queue_items.reload.map(&:order_value)).to eq([1,2,3])
+          expect(user.queue_items).to eq([first, sec, third])
         end
 
         it 'sets the error message if an error occurs' do
@@ -257,7 +257,7 @@ describe QueueItemsController do
       end
 
       it 'does not update anything' do
-        expect(user.queue_items.reload.map(&:order_value)).to eq([1,2,3])
+        expect(user.queue_items).to eq([first, sec, third])
       end
 
       it 'redirects to the sign_in page' do
