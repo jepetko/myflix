@@ -49,7 +49,7 @@ describe VideosController do
       before(:each) do
         user = Fabricate(:user)
         login_user user
-        10.times { Fabricate(:video) }
+        Fabricate.times(10, :video)
         Fabricate(:video, title: 'From dusk till down')
       end
 

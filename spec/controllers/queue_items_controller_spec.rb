@@ -39,9 +39,8 @@ describe QueueItemsController do
     context 'for authorized user' do
 
       let(:user) { Fabricate(:user)}
-      before do
-        login_user user
-      end
+      before { login_user user }
+
       before do
         Fabricate(:queue_item, video: monk, user: user)
         post :create, video_id: south_park.id
@@ -94,9 +93,7 @@ describe QueueItemsController do
       let(:user) { Fabricate(:user) }
       before do
         login_user user
-        2.times do
-          Fabricate(:queue_item, user: user)
-        end
+        Fabricate.times(2, :queue_item, user: user)
       end
 
       it 'removes the video from the queue' do
@@ -137,9 +134,7 @@ describe QueueItemsController do
 
       before do
         user = Fabricate(:user)
-        2.times do
-          Fabricate(:queue_item, user: user)
-        end
+        Fabricate.times(2, :queue_item, user: user)
       end
 
       it 'does not change the queue items' do
@@ -171,9 +166,8 @@ describe QueueItemsController do
     end
 
     context 'for authorized user' do
-      before do
-        login_user user
-      end
+      before { login_user user }
+
       context 'for valid order values' do
         it 'updates the order of the queue items' do
           post :update_queue, queue_items: [  {id: first.id, order_value: 1},
