@@ -20,13 +20,8 @@ describe QueueItemsController do
     end
 
     context 'for unauthorized user' do
-      it 'redirects to the sign_in page' do
-        get :index
-        expect(response).to redirect_to sign_in_path
-      end
-      it 'sets the error message' do
-        get :index
-        expect(flash[:error]).to be
+      it_behaves_like 'requires sign in' do
+        let(:action) { get :index }
       end
     end
   end
@@ -70,17 +65,8 @@ describe QueueItemsController do
     end
 
     context 'for unauthorized user' do
-
-      before do
-        post :create, video_id: south_park.id
-      end
-
-      it 'redirects to the sign_in page' do
-        expect(response).to redirect_to sign_in_path
-      end
-
-      it 'sets the error message' do
-        expect(flash[:error]).to be
+      it_behaves_like 'requires sign in' do
+        let(:action) { post :create, video_id: south_park.id }
       end
     end
   end
@@ -132,25 +118,17 @@ describe QueueItemsController do
 
     context 'for unauthorized user' do
 
+      let(:action) { delete :destroy, id: QueueItem.last.id }
       before do
         user = Fabricate(:user)
         Fabricate.times(2, :queue_item, user: user)
       end
 
       it 'does not change the queue items' do
-        delete :destroy, id: QueueItem.last.id
         expect(QueueItem.count).to eq 2
       end
 
-      it 'redirects to the sign_in page' do
-        delete :destroy, id: QueueItem.last.id
-        expect(response).to redirect_to sign_in_path
-      end
-
-      it 'sets the error message' do
-        delete :destroy, id: QueueItem.last.id
-        expect(flash[:error]).to be
-      end
+      it_behaves_like 'requires sign in'
     end
   end
 
@@ -244,7 +222,7 @@ describe QueueItemsController do
 
     context 'for unauthorized user' do
 
-      before do
+      let(:action) do
         post :update_queue, queue_items: [  {id: first.id, order_value: 1},
                                             {id: sec.id, order_value: 3},
                                             {id: third.id, order_value: 2} ]
@@ -254,13 +232,7 @@ describe QueueItemsController do
         expect(user.queue_items).to eq([first, sec, third])
       end
 
-      it 'redirects to the sign_in page' do
-        expect(response).to redirect_to sign_in_path
-      end
-
-      it 'sets the error message' do
-        expect(flash[:error]).to be
-      end
+      it_behaves_like 'requires sign in'
     end
   end
 
