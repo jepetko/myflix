@@ -9,7 +9,7 @@ describe Review do
   it { should validate_presence_of :content }
   it { should validate_presence_of :rating }
   it { should validate_presence_of :video }
-  #it { should validate_inclusion_of(:rating).in_array((1..5).to_a) }
+  it { should validate_inclusion_of(:rating).in_array((1..5).to_a) }
 
   let(:video) { Fabricate(:video) }
 
