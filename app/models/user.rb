@@ -15,6 +15,6 @@ class User < ActiveRecord::Base
   end
 
   def video_in_queue?(video)
-    queue_items.where(video: video).length > 0
+    queue_items.map(&:video).include?(video)
   end
 end
