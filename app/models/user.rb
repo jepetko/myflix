@@ -14,4 +14,7 @@ class User < ActiveRecord::Base
     end
   end
 
+  def video_in_queue?(video)
+    queue_items.where(video: video).length > 0
+  end
 end
