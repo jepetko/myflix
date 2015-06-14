@@ -3,15 +3,12 @@ require 'spec_helper'
 feature 'Video queue' do
 
   given(:user) { Fabricate(:user) }
-  given!(:category) { Fabricate(:category, name: 'Blockbusters')}
+  given!(:category) { Fabricate(:category, name: 'Blockbusters') }
   given!(:alien) { Fabricate(:video, title: 'Alien', category: category) }
   given!(:taxi_driver) { Fabricate(:video, title: 'Taxi driver', category: category) }
 
   background 'logged-in user' do
-    visit sign_in_path
-    fill_in :email, with: user.email
-    fill_in :password, with: user.password
-    click_button 'Sign in'
+    sign_in
   end
 
   feature 'adding video to the queue' do
