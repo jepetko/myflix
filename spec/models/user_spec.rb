@@ -18,11 +18,9 @@ describe User do
       expect(user.video_in_queue?(video)).to be(true)
     end
 
-    it 'returns fals if the video is not in users video queue' do
+    it 'returns false if the video is not in users video queue' do
       another_video = Fabricate(:video)
       expect(user.video_in_queue?(another_video)).to be(false)
     end
   end
-
-
 end

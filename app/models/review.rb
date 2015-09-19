@@ -10,5 +10,7 @@ class Review < ActiveRecord::Base
   end
   validates_inclusion_of :rating, in: self.rating_range, allow_blank: true, message: 'must be between 1 and 5'
 
+  delegate :title, to: :video, prefix: :video
+
   #validates :rating, inclusion: { in: self.rating_range, message: 'must be between 1 and 5' }
 end

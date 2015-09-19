@@ -4,7 +4,7 @@ Myflix::Application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
   get 'home', controller: 'home'
 
-  resource :users, only: [:create]
+  resources :users, only: [:create, :show]
   get 'register', to: 'users#new'
 
   get 'sign_in', to: 'sessions#new'
