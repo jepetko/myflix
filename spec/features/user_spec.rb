@@ -34,6 +34,7 @@ feature 'User page' do
     review_item_video_link_1_rating = find(:xpath, "#{col_selector}/p[2]")
     expect(review_item_video_link_1_rating.text()).to eq('Rating: 5 / 5')
 
-    expect(find_button('Follow')).to be
+    # because the user is the current logged-in user who cannot follow himself
+    expect(page).not_to have_content('Follow')
   end
 end

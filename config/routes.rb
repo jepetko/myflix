@@ -7,6 +7,11 @@ Myflix::Application.routes.draw do
   resources :users, only: [:create, :show]
   get 'register', to: 'users#new'
 
+#  post 'follow', to: 'relationships#create'
+  match '/follow' => 'relationships#create', as: :follow, via: [:post]
+  match '/unfollow' => 'relationships#destroy', as: :unfollow, via: [:delete]
+  get 'people', to: 'relationships#index'
+
   get 'sign_in', to: 'sessions#new'
   post 'sign_in', to: 'sessions#create'
   delete 'sign_out', to: 'sessions#destroy'
