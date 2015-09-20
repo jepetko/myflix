@@ -64,6 +64,7 @@ describe UsersController do
     let(:user) { Fabricate(:user) }
 
     before(:each) do
+      login_user user
       get :show, id: user.id
     end
     it 'renders the show template' do
