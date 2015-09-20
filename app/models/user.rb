@@ -5,6 +5,12 @@ class User < ActiveRecord::Base
   has_many :queue_items, -> { order('order_value') }
   has_many :reviews, -> { order('created_at DESC') }
 
+  has_many :active_relationships, class_name: 'Relationship', foreign_key: 'user_id'
+  has_many :followed_users, through: :active_relationships, source: :followed_user
+
+  has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_user_id'
+  has_many :followers, through: :passive_relationships, source: :follower
+
   validates_presence_of :email, :full_name
   validates_uniqueness_of :email
 
@@ -16,5 +22,9 @@ class User < ActiveRecord::Base
 
   def video_in_queue?(video)
     queue_items.map(&:video).include?(video)
+  end
+
+  def follow(user)
+    Relationship.create(user_id: id, followed_user_id: user.id)
   end
 end
