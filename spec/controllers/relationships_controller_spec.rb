@@ -10,7 +10,7 @@ describe RelationshipsController do
     login_user user
   end
 
-  describe 'POST :follow' do
+  describe 'POST :create' do
     before(:each) do
       post :create, id: another_user_1.id
     end
@@ -28,7 +28,7 @@ describe RelationshipsController do
     end
   end
 
-  describe 'GET :people' do
+  describe 'GET :index' do
     before(:each) do
       user.follow another_user_1
       user.follow another_user_2
@@ -44,21 +44,24 @@ describe RelationshipsController do
     end
   end
 
-  describe 'DELETE :unfollow' do
+  describe 'DELETE :destroy' do
     before(:each) do
       user.follow another_user_1
-      delete :destroy
     end
 
     it 'renders the people template' do
+      delete :destroy, id: another_user_1.id
       expect(response).to redirect_to user_path(user)
     end
 
     it 'sets the flash message' do
+      delete :destroy, id: another_user_1.id
       expect(flash[:message]).to be
     end
 
     it 'removes the relationship' do
+      expect(current_user.followed_users).to include(another_user_1)
+      delete :destroy, id: another_user_1.id
       expect(current_user.followed_users).not_to include(another_user_1)
     end
   end
