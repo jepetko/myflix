@@ -8,7 +8,7 @@ feature 'Video queue' do
   given!(:taxi_driver) { Fabricate(:video, title: 'Taxi driver', category: category) }
 
   background 'logged-in user' do
-    sign_in
+    sign_in user
   end
 
   feature 'adding video to the queue' do
