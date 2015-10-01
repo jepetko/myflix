@@ -59,4 +59,20 @@ describe UsersController do
       end
     end
   end
+
+  describe 'GET :show' do
+    let(:user) { Fabricate(:user) }
+
+    before(:each) do
+      login_user user
+      get :show, id: user.id
+    end
+    it 'renders the show template' do
+      expect(response).to render_template :show
+    end
+    it 'sets the @user' do
+      expect(assigns(:user)).to eq(user)
+    end
+  end
+
 end

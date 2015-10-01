@@ -5,10 +5,10 @@
     %ul.col-md-4.clearfix
       %li= link_to 'Videos', videos_path
       %li= link_to 'My Queue', my_queue_path
-      %li= link_to 'People'
+      %li= link_to 'People', people_path
     = form_tag search_videos_path, method: :post, class: 'col-md-5 navbar-form' do
       .form-group
-        = text_field_tag 'term', "#{params[:term] || ''}", placeholder: 'Search for videos here', class: 'form-control'
+        = text_field_tag 'term', params[:term] || '', placeholder: 'Search for videos here', class: 'form-control'
       = button_tag 'Search', class: 'btn btn-default'
     #user_links.pull-right
       %ul

@@ -4,8 +4,13 @@ Myflix::Application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
   get 'home', controller: 'home'
 
-  resource :users, only: [:create]
+  resources :users, only: [:create, :show]
   get 'register', to: 'users#new'
+
+#  post 'follow', to: 'relationships#create'
+  match '/follow' => 'relationships#create', as: :follow, via: [:post]
+  match '/unfollow' => 'relationships#destroy', as: :unfollow, via: [:delete]
+  get 'people', to: 'relationships#index'
 
   get 'sign_in', to: 'sessions#new'
   post 'sign_in', to: 'sessions#create'
