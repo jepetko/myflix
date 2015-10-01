@@ -12,7 +12,7 @@
       - @followed_users.each do |followed_user|
         %tr
           %td
-            %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(followed_user.email.downcase)}?s=40")
+            = image_tag gravatar_url(followed_user)
             = link_to followed_user.full_name, user_path(followed_user)
           %td.extra-padding #{followed_user.queue_items.count}
           %td.extra-padding #{followed_user.followers.count}

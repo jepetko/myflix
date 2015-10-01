@@ -6,9 +6,7 @@ describe RelationshipsController do
   let(:another_user_1) { Fabricate(:user, full_name: 'VIP person 1') }
   let(:another_user_2) { Fabricate(:user, full_name: 'VIP person 2') }
 
-  before(:each) do
-    login_user user
-  end
+  before(:each) { login_user user }
 
   describe 'POST :create' do
     before(:each) do

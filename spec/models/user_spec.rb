@@ -37,12 +37,8 @@ describe User do
 
   describe '#unfollow' do
 
-    before(:each) do
-      user.follow another_user
-    end
-
     it 'removes the relationship' do
-      expect(user.followed_users).to include(another_user)
+      user.follow another_user
       user.unfollow another_user
       expect(user.followed_users).not_to include(another_user)
     end

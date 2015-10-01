@@ -3,7 +3,7 @@
     .col-sm-10.col-sm-offset-1
       %article
         %header
-          %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email.downcase)}?s=40")
+          = image_tag gravatar_url(@user)
           %h2 #{@user.full_name}'s video collection (#{@user.queue_items.size})
           = link_to 'Follow', follow_path(id: @user.id), method: :post, class: 'btn btn-default' unless (@user == current_user || current_user.followed_users.include?(@user))
         %table.table
@@ -30,7 +30,7 @@
             %li.row
               .col-sm-2
                 %p
-                  = link_to "\"#{review.video_title}\"", review.video
+                  = link_to review.video_title, review.video
                 %p Rating: #{review.rating} / 5
               .col-sm-8
                 %p

@@ -27,11 +27,11 @@ feature 'User page' do
 
     col_selector = "//*[@class='row']/*[@class='col-sm-2']"
     review_item_video_link_1 = find(:xpath, "#{col_selector}/p[1]/a[@href='#{video_path(video_2)}']")
-    expect(review_item_video_link_1.text()).to eq("\"#{video_2.title}\"")
+    expect(review_item_video_link_1.text()).to eq(video_2.title)
     review_item_video_link_1_rating = find(:xpath, "#{col_selector}/p[2]")
     expect(review_item_video_link_1_rating.text()).to eq('Rating: 5 / 5')
 
     # because the user is the current logged-in user who cannot follow himself
-    expect(page).not_to have_content('Follow')
+    expect(page).to have_no_content('Follow')
   end
 end

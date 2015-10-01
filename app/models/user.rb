@@ -25,11 +25,11 @@ class User < ActiveRecord::Base
   end
 
   def follow(user)
-    self.followed_users << user
+    followed_users << user
     #Relationship.create(user_id: id, followed_user_id: user.id)
   end
 
   def unfollow(user)
-    self.followed_users.delete user
+    followed_users.delete user
   end
 end
