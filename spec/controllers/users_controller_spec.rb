@@ -12,6 +12,7 @@ describe UsersController do
   describe 'POST :create' do
 
     let(:user_hash) { user_hash = Fabricate.attributes_for(:user) }
+    after(:each) { ActionMailer::Base.deliveries.clear }
 
     context 'user data correct' do
 
@@ -23,6 +24,15 @@ describe UsersController do
       end
       it 'redirects to sign_in path' do
         expect(response).to redirect_to sign_in_path
+      end
+      it 'sends a confirmation mail' do
+        expect(ActionMailer::Base.deliveries).not_to be_empty
+      end
+      it 'sends a confirmation mail containing the right message' do
+        expect(ActionMailer::Base.deliveries.last.body).to include(User.last.full_name)
+      end
+      it 'sends a confirmation mail to the right recipient' do
+        expect(ActionMailer::Base.deliveries.last.to).to include(User.last.email)
       end
     end
 
@@ -36,6 +46,9 @@ describe UsersController do
       end
       it 'sets @user' do
         expect(assigns(:user)).to be_instance_of(User)
+      end
+      it 'does not send a mail to the new user' do
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
 
