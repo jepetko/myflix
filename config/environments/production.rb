@@ -23,8 +23,8 @@ Myflix::Application.configure do
       address:              'smtp.gmail.com',
       port:                 587,
       domain:               'leanetic-myflix.herokuapp.com',
-      user_name:            ENV['MAIL_USERNAME'],
-      password:             ENV['MAIL_PASSWORD'],
+      user_name:            Rails.application.secrets.mail_username,
+      password:             Rails.application.secrets.mail_password,
       authentication:       'plain',
       enable_starttls_auto: true
   }
