@@ -16,6 +16,13 @@ Myflix::Application.routes.draw do
   post 'sign_in', to: 'sessions#create'
   delete 'sign_out', to: 'sessions#destroy'
 
+  # password services
+  resources :passwords, only: [:new, :create, :edit, :update]
+  get '/forgot_password', to: 'passwords#new'
+  post '/forgot_password', to: 'passwords#create'
+  get '/reset_password/:token', to: 'passwords#edit', as: :reset_password
+  put '/reset_password/:token', to: 'passwords#update'
+
   resources :categories, only: [:show]
   resources :videos, only: [:index, :show] do
     collection do

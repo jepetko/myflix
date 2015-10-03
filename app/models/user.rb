@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     queue_items.map(&:video).include?(video)
   end
 
+  def reset_password?
+    !!reset_password_token
+  end
+
   def follow(user)
     followed_users << user
     #Relationship.create(user_id: id, followed_user_id: user.id)

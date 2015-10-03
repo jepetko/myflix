@@ -43,4 +43,16 @@ describe User do
       expect(user.followed_users).not_to include(another_user)
     end
   end
+
+  describe '#reset_password?' do
+    it 'returns true if the reset_password_token is not empty' do
+      user.reset_password_token = SecureRandom.urlsafe_base64
+      expect(user.reset_password?).to be_true
+    end
+    it 'returns false if the reset_token_password is empty' do
+      user.reset_password_token = nil
+      expect(user.reset_password?).to be_false
+    end
+  end
+
 end

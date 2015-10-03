@@ -1,0 +1,11 @@
+%section.forgot_password.container
+  .row
+    .col-sm-10.col-bg-offset-1
+      = form_tag forgot_password_path, class: 'col-md-5 navbar-form' do
+        %header
+          %h1 Forgot Password?
+          %p We will send you an email with a link that you can use to reset your password.
+        .form-group
+          = email_field_tag 'email', placeholder: 'Your email address', class: 'form-control'
+        .form-group.action
+          = submit_tag 'Send Email', class: 'btn btn-default'
