@@ -3,5 +3,5 @@ Fabricator(:user) do
   password '123'
   password_confirmation '123'
   full_name { Faker::Name.name }
-  reset_password_token 'aaa'
+  reset_password_token nil
 end
