@@ -15,8 +15,8 @@ class PasswordsController < ApplicationController
   end
 
   def edit
-    token = params[:token]
-    @user = User.find_by_reset_password_token(token)
+    @token = params[:token]
+    @user = User.find_by_reset_password_token(@token)
     if !@user
       flash[:error] = 'Your reset password link is expired.'
     end

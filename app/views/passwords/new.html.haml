@@ -6,6 +6,6 @@
           %h1 Forgot Password?
           %p We will send you an email with a link that you can use to reset your password.
         .form-group
-          = email_field_tag 'email', placeholder: 'Your email address', class: 'form-control'
+          = email_field_tag 'email', '', placeholder: 'Your email address', class: 'form-control'
         .form-group.action
           = submit_tag 'Send Email', class: 'btn btn-default'
