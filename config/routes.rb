@@ -34,5 +34,10 @@ Myflix::Application.routes.draw do
   get 'my_queue', to: 'queue_items#index'
   post 'update_queue', to: 'queue_items#update_queue'
   resources :queue_items, only: [:create, :destroy]
-end
 
+  # invitations
+  resources :invitations, only: [:new, :create, :show]
+  get '/invite', to: 'invitations#new'
+  post '/invite', to: 'invitations#create'
+  get '/confirm_invitation/:token', to: 'invitations#show', as: :confirm_invitation
+end

@@ -9,6 +9,7 @@ describe User do
   it { should validate_uniqueness_of :email }
   it { should have_many :followers }
   it { should have_many :followed_users }
+  it { should have_many :invitations }
 
   let(:user) { Fabricate(:user) }
   let(:another_user) { Fabricate(:user) }

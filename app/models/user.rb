@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_user_id'
   has_many :followers, through: :passive_relationships, source: :follower
 
+  has_many :invitations
+
   validates_presence_of :email, :full_name
   validates_uniqueness_of :email
 
