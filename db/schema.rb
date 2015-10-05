@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20151005185224) do
 
   create_table "invitations", force: true do |t|
     t.integer  "user_id"
-    t.string   "name"
+    t.string   "full_name"
     t.string   "email"
     t.string   "token"
     t.datetime "created_at"

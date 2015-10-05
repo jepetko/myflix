@@ -4,7 +4,7 @@ describe Invitation do
 
   it { should belong_to :user }
   it { should respond_to :user_id }
-  it { should respond_to :name }
+  it { should respond_to :full_name }
   it { should respond_to :email }
   it { should respond_to :token }
 
