@@ -97,7 +97,7 @@ describe PasswordsController do
       end
 
       it 'sets the error message' do
-        expect(flash).to be
+        expect(flash[:danger]).to be
       end
     end
   end
