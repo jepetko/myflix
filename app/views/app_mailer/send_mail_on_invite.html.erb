@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <header>
+          Dear <%= @invitation.full_name %>,
+        </header>
+        <section>
+          you received an invitation from <%= @invitation.user.full_name %> to use myflix!
+          Click this <%= link_to 'link', @link %> to confirm the invitation.
+        </section>
+        <footer>
+          Your myflix team.
+        </footer>
+    </body>
+</html>

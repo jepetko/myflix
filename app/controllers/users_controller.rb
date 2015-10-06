@@ -8,7 +8,16 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+
     if @user.save
+
+      if params[:token]
+        invitation = Invitation.find_by(token: params[:token])
+        if invitation
+          @user.follow invitation.user
+        end
+      end
+
       AppMailer.send_mail_on_register(@user).deliver
       redirect_to sign_in_path
     else

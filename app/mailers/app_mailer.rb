@@ -13,4 +13,10 @@ class AppMailer < ActionMailer::Base
     mail to: user.email, subject: 'Reset your password now'
   end
 
+  def send_mail_on_invite(invitation)
+    @invitation = invitation
+    @link = confirm_invitation_url(invitation.token, Rails.application.config.action_mailer.default_url_options)
+    mail to: invitation.email, subject: 'You are invited to use myflix!'
+  end
+
 end

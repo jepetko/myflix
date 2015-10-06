@@ -71,6 +71,15 @@ describe UsersController do
         expect(response).to render_template :new
       end
     end
+
+    context 'invitation token provided' do
+      it 'creates a new relationship between the inviting and the invited person' do
+        inviting_user = Fabricate(:user)
+        invitation = Fabricate(:invitation, user: inviting_user, email: user_hash[:email])
+        post :create, user: user_hash, token: invitation.token
+        expect(inviting_user.followers.map(&:email)).to include invitation.email
+      end
+    end
   end
 
   describe 'GET :show' do

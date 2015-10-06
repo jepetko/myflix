@@ -30,6 +30,14 @@ describe InvitationsController do
           post :create, invitation: Fabricate.attributes_for(:invitation, email: 'new-user@domain.com')
         end
 
+        it 'redirects to the new template' do
+          expect(response).to redirect_to new_invitation_path
+        end
+
+        it 'sets the success message' do
+          expect(flash[:success]).to be
+        end
+
         it 'creates a new invitation' do
           expect(Invitation.count).to be(1)
         end
@@ -63,26 +71,49 @@ describe InvitationsController do
           expect(ActionMailer::Base.deliveries.last.to).to include 'invited-user@domain.com'
         end
       end
+
+      context 'for invalid invitations' do
+        before do
+          invalid_invitation_attrs = Fabricate.attributes_for(:invitation, user: user, email: '')
+          post :create, invitation: invalid_invitation_attrs
+        end
+        it 'renders the new template' do
+          expect(response).to render_template 'invitations/new'
+        end
+        it 'sets the error message' do
+          expect(flash[:danger]).to be
+        end
+        it 'does not send an email' do
+          expect(ActionMailer::Base.deliveries.count).to be 0
+        end
+      end
     end
 
     describe 'GET :show' do
       let(:invitation) { Fabricate(:invitation, user: user) }
 
-      it 'creates a new relationship between the inviting and the invited person' do
+      it 'redirects to the register form' do
         get :show, token: invitation.token
-        expect(user.followers.map(&:email)).to include invitation.email
+        expect(response).to redirect_to register_path(token: invitation.token)
       end
     end
   end
 
   context 'for non-authorized users' do
-    it 'redirects to the sign-in page' do
-      expect(response).to redirect_to sign_in_path
+
+    it_behaves_like 'requires sign in' do
+      let(:action) { get :new }
     end
 
-    it 'sets a error message' do
-      expect(flash[:danger]).to be
+    it_behaves_like 'requires sign in' do
+      let(:action) { post :create, invitation: Fabricate.attributes_for(:invitation) }
     end
+
+    it_behaves_like 'requires sign in' do
+      invitation = Fabricate(:invitation)
+      let(:action) { get :show, token: invitation.token }
+    end
+
   end
 
 end
