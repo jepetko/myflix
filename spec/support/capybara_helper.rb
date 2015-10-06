@@ -6,6 +6,10 @@ module CapybaraHelper
     click_button 'Sign in'
   end
 
+  def sign_out
+    click_link 'Sign Out'
+  end
+
   def follow_reviewer_of_the_video(video, reviewer)
     click_link 'Videos'
     find(:xpath, "//a[@href='#{video_path(video)}']").click
