@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
 
-  before_action :require_user
+  before_action :require_user, only: [:new, :create]
 
   def new
     @invitation = Invitation.new
@@ -11,7 +11,7 @@ class InvitationsController < ApplicationController
     params = invitation_params
     @invitation = Invitation.find_by(user_id: current_user.id, email: params[:email])
     if !@invitation
-      @invitation = Invitation.new params.merge(user_id: current_user.id)
+      @invitation = Invitation.new params.merge(user_id: current_user.id, token: SecureRandom.urlsafe_base64)
       if @invitation.valid?
         @invitation.save
       else
@@ -28,7 +28,7 @@ class InvitationsController < ApplicationController
   def show
     invitation = Invitation.find_by(token: params[:token])
     if !invitation
-      flash[:danger] = 'The invitation is expired.'
+      flash[:danger] = 'The invitation is expired. Please register and look for your friends on myflix.'
       redirect_to register_path
     else
       redirect_to register_path(token: params[:token])

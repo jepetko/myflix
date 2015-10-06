@@ -7,6 +7,25 @@ describe UsersController do
       get :new
       expect(assigns(:user)).to be_instance_of(User)
     end
+
+    context 'token parameter provided' do
+
+      let(:invitation) { Fabricate(:invitation) }
+      before do
+        get :new, token: invitation.token
+      end
+
+      it 'sets @token' do
+        expect(assigns(:token)).to eq invitation.token
+      end
+
+      it 'fills @users with default values of the invited person' do
+        user = assigns(:user)
+        expect(user.email).to eq invitation.email
+        expect(user.full_name).to eq invitation.full_name
+      end
+
+    end
   end
 
   describe 'POST :create' do
@@ -37,7 +56,9 @@ describe UsersController do
     end
 
     context 'user data not correct' do
-      before(:each) { post :create, user: user_hash.merge(password: '') }
+      before(:each) {
+        post :create, user: user_hash.merge(password: '')
+      }
       it 'does not create a new user' do
         expect(User.count).to be 0
       end
@@ -73,12 +94,22 @@ describe UsersController do
     end
 
     context 'invitation token provided' do
-      it 'creates a new relationship between the inviting and the invited person' do
-        inviting_user = Fabricate(:user)
-        invitation = Fabricate(:invitation, user: inviting_user, email: user_hash[:email])
+
+      let(:inviting_user) { Fabricate(:user) }
+      let(:invitation) { Fabricate(:invitation, user: inviting_user, email: user_hash[:email]) }
+
+      before do
         post :create, user: user_hash, token: invitation.token
+      end
+
+      it 'creates a new relationship between the inviting and the invited person' do
         expect(inviting_user.followers.map(&:email)).to include invitation.email
       end
+
+      it 'removes the invitation' do
+        expect(Invitation.where(token: invitation.token).count).to be 0
+      end
+
     end
   end
 

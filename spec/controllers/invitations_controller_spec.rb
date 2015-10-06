@@ -109,9 +109,21 @@ describe InvitationsController do
       let(:action) { post :create, invitation: Fabricate.attributes_for(:invitation) }
     end
 
-    it_behaves_like 'requires sign in' do
-      invitation = Fabricate(:invitation)
-      let(:action) { get :show, token: invitation.token }
+    describe 'GET :show' do
+
+      let(:invitation) { Fabricate(:invitation) }
+
+      it 'redirects to the register path if the token is valid' do
+        get :show, token: invitation.token
+        expect(response).to redirect_to register_path(token: invitation.token)
+      end
+
+      it 'shows an error message and redirects to the register path if the token is invalid' do
+        get :show, token: 'abc'
+        expect(flash[:danger]).to be
+        expect(response).to redirect_to register_path
+      end
+
     end
 
   end

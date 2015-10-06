@@ -4,6 +4,12 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    if params[:token]
+      invitation = Invitation.find_by(token: params[:token])
+      @token = invitation.token
+      @user.email = invitation.email
+      @user.full_name = invitation.full_name
+    end
   end
 
   def create
@@ -15,6 +21,7 @@ class UsersController < ApplicationController
         invitation = Invitation.find_by(token: params[:token])
         if invitation
           @user.follow invitation.user
+          invitation.destroy
         end
       end
 

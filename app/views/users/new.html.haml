@@ -8,4 +8,5 @@
         = f.password_field :password
         = f.password_field :password_confirmation
         = f.text_field :full_name
+        = hidden_field_tag :token, @token if @token
         = f.submit 'Sign up'
