@@ -11,10 +11,8 @@ class InvitationsController < ApplicationController
     params = invitation_params
     @invitation = Invitation.find_by(user_id: current_user.id, email: params[:email])
     if !@invitation
-      @invitation = Invitation.new params.merge(user_id: current_user.id, token: SecureRandom.urlsafe_base64)
-      if @invitation.valid?
-        @invitation.save
-      else
+      @invitation = Invitation.new params.merge(user_id: current_user.id)
+      if !@invitation.save
         flash[:danger] = 'Please, put valid values into the fields.'
         render :new
         return
@@ -38,7 +36,7 @@ class InvitationsController < ApplicationController
   private
 
   def invitation_params
-    params.require(:invitation).permit(:full_name, :email, :token)
+    params.require(:invitation).permit(:full_name, :email)
   end
 
 end
