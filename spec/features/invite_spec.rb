@@ -26,7 +26,7 @@ feature 'invitation' do
 
   scenario 'jerry can confirm the invitation' do
     # workaround: replace the host:port
-    href = confirm_invitation_url(Invitation.last.token).gsub('http://www.example.com', 'http://localhost:3000')
+    href = confirm_invitation_url(Invitation.last.token, host: 'localhost:3000')
     expect(current_email.body).to have_xpath "//a[@href='#{href}']"
   end
 
