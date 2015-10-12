@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'bootstrap_form', '~> 2.3.0'
 gem 'bcrypt', '~> 3.1.2'
+gem 'mailgun-ruby', '~>1.0.3', require: 'mailgun'
 
 group :development do
   gem 'thin'

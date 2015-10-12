@@ -17,17 +17,5 @@ Myflix::Application.configure do
   config.i18n.fallbacks = true
 
   config.active_support.deprecation = :notify
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-      address:              'smtp.gmail.com',
-      port:                 587,
-      domain:               'leanetic-myflix.herokuapp.com',
-      user_name:            Rails.application.secrets.mail_username,
-      password:             Rails.application.secrets.mail_password,
-      authentication:       'plain',
-      enable_starttls_auto: true
-  }
-
   config.action_mailer.default_url_options = {:host => 'leanetic-myflix.herokuapp.com'}
 end
