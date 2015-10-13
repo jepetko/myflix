@@ -20,7 +20,7 @@ class InvitationsController < ApplicationController
       return
     end
     @invitation.message = params[:message]
-    AppMailer.send_mail_on_invite(@invitation)
+    AppMailer.send_mail_on_invite(@invitation).deliver
     flash[:success] = 'Your friend has been invited. Invite the next friend.'
     redirect_to new_invitation_path
   end
