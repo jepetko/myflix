@@ -12,11 +12,12 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.find_by(user_id: current_user.id, email: params[:email])
     if !@invitation
       @invitation = Invitation.new params.merge(user_id: current_user.id)
-      if !@invitation.save
-        flash[:danger] = 'Please, put valid values into the fields.'
-        render :new
-        return
-      end
+    end
+    @invitation.full_name = params[:full_name]
+    if !@invitation.save
+      flash[:danger] = 'Please, put valid values into the fields.'
+      render :new
+      return
     end
     @invitation.message = params[:message]
     AppMailer.send_mail_on_invite(@invitation)
