@@ -9,7 +9,7 @@ class PasswordsController < ApplicationController
     if user
       user.reset_password_token = SecureRandom.urlsafe_base64
       user.save
-      AppMailer.send_mail_on_reset_password(user).deliver
+      AppMailer.send_mail_on_reset_password(user)
       render 'passwords/confirm'
     end
   end
