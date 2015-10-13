@@ -5,7 +5,10 @@
           Dear <%= @invitation.full_name %>,
         </header>
         <section>
-          you received an invitation from <%= @invitation.user.full_name %> to use myflix!
+          you received an invitation from <%= @invitation.user.full_name %> to use myflix! Message:
+          <hr>
+          &quot;<%= @invitation.message %>&quot;
+          <hr>
           Click this <%= link_to 'link', @link %> to confirm the invitation.
         </section>
         <footer>

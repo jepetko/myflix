@@ -27,7 +27,7 @@ describe InvitationsController do
       context 'for new persons' do
 
         before do
-          post :create, invitation: Fabricate.attributes_for(:invitation, email: 'new-user@domain.com')
+          post :create, invitation: Fabricate.attributes_for(:invitation, email: 'new-user@domain.com', message: 'Have fun!')
         end
 
         it 'redirects to the new template' do
@@ -50,8 +50,12 @@ describe InvitationsController do
           expect(Invitation.last.email).to eq 'new-user@domain.com'
         end
 
-        it 'sends an email to the invited person' do
+        it 'sends an email of the invited person' do
           expect(ActionMailer::Base.deliveries.last.to).to include 'new-user@domain.com'
+        end
+
+        it 'contains the text sent to the invited person' do
+          expect(ActionMailer::Base.deliveries.last.body).to include 'Have fun!'
         end
       end
 

@@ -7,6 +7,7 @@ describe Invitation do
   it { should respond_to :full_name }
   it { should respond_to :email }
   it { should respond_to :token }
+  it { should respond_to :message }
 
   it { should validate_presence_of :user }
   it { should validate_presence_of :email }
