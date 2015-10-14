@@ -9,7 +9,7 @@
       %li= link_to 'Invite a friend', invite_path
     = form_tag search_videos_path, method: :post, class: 'col-md-5 navbar-form' do
       .form-group
-        = text_field_tag 'term', params[:term] || '', placeholder: 'Search for videos here', class: 'form-control'
+        = text_field_tag 'term', params[:term], placeholder: 'Search for videos here', class: 'form-control'
       = button_tag 'Search', class: 'btn btn-default'
     #user_links.pull-right
       %ul

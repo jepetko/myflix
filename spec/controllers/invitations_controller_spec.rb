@@ -30,7 +30,7 @@ describe InvitationsController do
           post :create, invitation: Fabricate.attributes_for(:invitation, email: 'new-user@domain.com', message: 'Have fun!')
         end
 
-        it 'redirects to the new template' do
+        it 'redirects to the new_invitation_path' do
           expect(response).to redirect_to new_invitation_path
         end
 

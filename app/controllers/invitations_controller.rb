@@ -3,23 +3,20 @@ class InvitationsController < ApplicationController
   before_action :require_user, only: [:new, :create]
 
   def new
-    @invitation = Invitation.new
-    @invitation.user = current_user
+    @invitation = Invitation.new(user: current_user)
   end
 
   def create
-    params = invitation_params
-    @invitation = Invitation.find_by(user_id: current_user.id, email: params[:email])
+    @invitation = Invitation.find_by(user_id: current_user.id, email: invitation_params[:email])
     if !@invitation
-      @invitation = Invitation.new params.merge(user_id: current_user.id)
+      @invitation = Invitation.new invitation_params.merge(user_id: current_user.id)
     end
-    @invitation.full_name = params[:full_name]
+    @invitation.full_name = invitation_params[:full_name]
     if !@invitation.save
       flash[:danger] = 'Please, put valid values into the fields.'
-      render :new
-      return
+      render :new and return
     end
-    @invitation.message = params[:message]
+    @invitation.message = invitation_params[:message]
     AppMailer.send_mail_on_invite(@invitation).deliver
     flash[:success] = 'Your friend has been invited. Invite the next friend.'
     redirect_to new_invitation_path

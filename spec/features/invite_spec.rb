@@ -12,7 +12,6 @@ feature 'invitation' do
     sign_in tom
 
     visit invite_path
-    p page.body
     fill_in :invitation_email, with: jerrys_email
     fill_in :invitation_full_name, with: jerrys_name
     click_button 'Send Invitation'
@@ -25,7 +24,6 @@ feature 'invitation' do
   end
 
   scenario 'jerry can confirm the invitation' do
-    # workaround: replace the host:port
     href = confirm_invitation_url(Invitation.last.token, host: 'localhost:3000')
     expect(current_email.body).to have_xpath "//a[@href='#{href}']"
   end
