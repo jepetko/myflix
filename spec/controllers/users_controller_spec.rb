@@ -31,7 +31,7 @@ describe UsersController do
   describe 'POST :create' do
 
     let(:user_hash) { Fabricate.attributes_for(:user) }
-    after(:each) { ActionMailer::Base.deliveries.clear }
+    before(:each) { ActionMailer::Base.deliveries.clear }
 
     context 'user data correct' do
 

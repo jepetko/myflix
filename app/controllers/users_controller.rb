@@ -25,7 +25,7 @@ class UsersController < ApplicationController
         end
       end
 
-      AppMailer.send_mail_on_register(@user).deliver
+      AppMailer.delay.send_mail_on_register(@user.id)
       redirect_to sign_in_path
     else
       render :new

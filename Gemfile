@@ -12,6 +12,7 @@ gem 'pg'
 gem 'bootstrap_form', '~> 2.3.0'
 gem 'bcrypt', '~> 3.1.2'
 gem 'mailgun_rails'
+gem 'sidekiq'
 
 group :development do
   gem 'thin'
