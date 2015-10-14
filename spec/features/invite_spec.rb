@@ -24,7 +24,8 @@ feature 'invitation' do
   end
 
   scenario 'jerry can confirm the invitation' do
-    href = confirm_invitation_url(Invitation.last.token, host: 'localhost:3000')
+    href = confirm_invitation_url(Invitation.last.token)
+    p current_email.body
     expect(current_email.body).to have_xpath "//a[@href='#{href}']"
   end
 
