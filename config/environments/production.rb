@@ -23,4 +23,6 @@ Myflix::Application.configure do
       domain: Rails.application.secrets.mail_domain
   }
   config.action_mailer.default_url_options = {:host => 'leanetic-myflix.herokuapp.com'}
+
+  config.action_dispatch.show_exceptions = true
 end
