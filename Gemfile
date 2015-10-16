@@ -13,9 +13,9 @@ gem 'bootstrap_form', '~> 2.3.0'
 gem 'bcrypt', '~> 3.1.2'
 gem 'mailgun_rails'
 gem 'sidekiq'
+gem 'unicorn'
 
 group :development do
-  gem 'thin'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
