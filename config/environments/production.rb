@@ -24,5 +24,5 @@ Myflix::Application.configure do
   }
   config.action_mailer.default_url_options = {:host => 'leanetic-myflix.herokuapp.com'}
 
-  config.action_dispatch.show_exceptions = true
+  config.action_dispatch.show_exceptions = false
 end

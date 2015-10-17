@@ -4,7 +4,6 @@ class HomeController < ApplicationController
 
   def home
     @categories = Category.all
-    1/0
   end
 
 end
