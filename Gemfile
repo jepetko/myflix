@@ -14,7 +14,6 @@ gem 'bcrypt', '~> 3.1.2'
 gem 'mailgun_rails'
 gem 'sidekiq'
 gem 'unicorn'
-gem 'sentry-raven'
 
 group :development do
   gem 'better_errors'
@@ -39,5 +38,6 @@ end
 
 group :production do
   gem 'rails_12factor'
+  gem 'sentry-raven'
 end
 
