@@ -26,3 +26,9 @@ Myflix::Application.configure do
 
   config.action_dispatch.show_exceptions = false
 end
+
+Raven.configure do |config|
+  config.dsn = Rails.application.secrets.sentry_api_key
+  config.environments = %w{production}
+  config.sanitize_fields = Rails.application.config.filter_parameters.map(&:to_s)
+end
