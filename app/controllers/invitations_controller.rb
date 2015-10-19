@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
 
-  before_action :require_user, only: [:new, :create]
+  skip_before_filter :require_user, :only => :show
 
   def new
     @invitation = Invitation.new(user: current_user)

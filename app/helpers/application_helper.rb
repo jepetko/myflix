@@ -26,4 +26,10 @@ module ApplicationHelper
       [ pluralize(rating, 'star'), rating]
     end
   end
+
+  def select_collection_category_values
+    Category.all.map do |category|
+      [ category.name, category.id ]
+    end
+  end
 end
