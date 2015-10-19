@@ -6,3 +6,13 @@ shared_examples 'requires sign in' do
     expect(flash[:error]).to be
   end
 end
+
+shared_examples 'requires admin' do
+  it 'redirects to the home path' do
+    logout_user
+    login_user Fabricate(:user)
+    action
+    expect(response).to redirect_to home_path
+    expect(flash[:danger]).to be
+  end
+end

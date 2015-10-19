@@ -4,7 +4,7 @@ class AdminsController < ApplicationController
   private
 
   def ensure_admin
-    if not current_user.admin?
+    if !current_user.admin?
       flash[:danger] = 'You need to be an admin to do that'
       redirect_to home_path
     end

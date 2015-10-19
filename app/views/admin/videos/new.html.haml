@@ -13,19 +13,13 @@
             .form-group
               = f.text_field :title, label: 'Title'
             .form-group
-              = f.select :category, select_collection_category_values, { label: 'Category' }
+              = f.select :category_id, select_collection_category_values, { label: 'Category' }
             .form-group
               = f.text_area :description, label: 'Description', rows: 6
             .form-group
-              %label.control-label.col-sm-3 Large Cover
-              .col-sm-12
-                %col.btn.btn-file
-                  %input.form-control(type="file")
+              = f.file_field :large_cover, label: 'Large Cover'
             .form-group
-              %label.control-label.col-sm-3 Small Cover
-              .col-sm-12
-                %col.btn.btn-file
-                  %input.form-control(type="file")
+              = f.file_field :small_cover, label: 'Small cover'
           %fieldset.actions.form-group
             .col-sm-10.col-md-offset-2
               = f.submit 'Add video', class: 'btn btn-default'

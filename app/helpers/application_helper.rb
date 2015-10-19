@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def get_img_url(video)
-    video.img ? "/tmp/#{video.img}" : 'http://dummyimage.com/665x375/000000/00a2ff'
+    video.large_cover ? "/tmp/#{video.large_cover}" : 'http://dummyimage.com/665x375/000000/00a2ff'
   end
 
   def gravatar_url(user)

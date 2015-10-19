@@ -13,7 +13,9 @@ gem 'bootstrap_form', '~> 2.3.0'
 gem 'bcrypt', '~> 3.1.2'
 gem 'mailgun_rails'
 gem 'sidekiq'
-gem 'unicorn'
+gem 'unicorn-rails'
+gem 'carrierwave-aws'
+gem 'mini_magick'
 
 group :development do
   gem 'better_errors'

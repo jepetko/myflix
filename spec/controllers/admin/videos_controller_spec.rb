@@ -2,10 +2,19 @@ require 'spec_helper'
 
 describe Admin::VideosController do
 
-  context 'for admin users' do
+  describe 'get :new' do
+
     before(:each) do
       admin = Fabricate(:admin)
       login_user admin
+    end
+
+    it_behaves_like 'requires sign in' do
+      let(:action) { get :new }
+    end
+
+    it_behaves_like 'requires admin' do
+      let(:action) { get :new }
     end
 
     it 'sets @video variable' do
@@ -13,22 +22,71 @@ describe Admin::VideosController do
       expect(assigns(:video)).to be_instance_of(Video)
       expect(assigns(:video)).to be_new_record
     end
+
   end
 
-  context 'for non-admin users' do
-    before(:each) do
-      non_admin = Fabricate(:user)
-      login_user non_admin
+  describe 'post :create' do
+
+    it_behaves_like 'requires sign in' do
+      let(:action) { post :create }
     end
 
-    it 'redirects to the home path' do
-      get :new
-      expect(response).to redirect_to(home_path)
+    it_behaves_like 'requires admin' do
+      let(:action) { post :create, video: {} }
     end
 
-    it 'sets error message' do
-      get :new
-      expect(flash[:danger]).to be
+    context 'for valid values' do
+
+      let(:category) { Fabricate(:category) }
+      let(:video_attrs) { Fabricate.attributes_for(:video, category_id: category.id) }
+      before(:each) do
+        admin = Fabricate(:admin)
+        login_user admin
+        post :create, video: video_attrs
+      end
+
+      it 'creates a video' do
+        expect(Video.all.count).to be 1
+      end
+
+      it 'associates the video with the passed category' do
+        expect(Video.last.category).to eq category
+      end
+
+      it 'redirects to the new video path' do
+        expect(response).to redirect_to new_admin_video_path
+      end
+
+      it 'sets the success message' do
+        expect(flash[:success]).to be
+      end
+    end
+
+    context 'for invalid values' do
+
+      let(:video_attrs) { Fabricate.attributes_for(:video, title: '') }
+      before(:each) do
+        admin = Fabricate(:admin)
+        login_user admin
+        post :create, video: video_attrs
+      end
+
+      it 'does not create a video' do
+        expect(Video.count).to be 0
+      end
+
+      it 'sets @video variable' do
+        expect(assigns(:video)).to be_instance_of(Video)
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template :new
+      end
+
+      it 'sets the danger message' do
+        expect(flash[:danger]).to be
+      end
+
     end
   end
 
