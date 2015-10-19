@@ -36,8 +36,11 @@ group :test do
   gem 'capybara-email'
 end
 
-group :production do
+group :staging, :production do
   gem 'rails_12factor'
+end
+
+group :production do
   gem 'sentry-raven'
 end
 
