@@ -6,8 +6,6 @@ class Admin::VideosController < AdminsController
 
   def create
     @video = Video.new video_params
-    puts @video.valid?
-    puts @video.errors
     if @video.save
       flash[:success] = "The video #{@video.title} has been created."
       redirect_to new_admin_video_path

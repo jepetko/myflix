@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Admin::VideosController do
 
+  include CarrierWave::Test::Matchers
+
   describe 'get :new' do
 
     before(:each) do
@@ -38,28 +40,65 @@ describe Admin::VideosController do
     context 'for valid values' do
 
       let(:category) { Fabricate(:category) }
-      let(:video_attrs) { Fabricate.attributes_for(:video, category_id: category.id) }
       before(:each) do
         admin = Fabricate(:admin)
         login_user admin
-        post :create, video: video_attrs
       end
 
-      it 'creates a video' do
-        expect(Video.all.count).to be 1
+      context 'without images' do
+
+        let(:video_attrs) { Fabricate.attributes_for(:video, category_id: category.id) }
+        before do
+          post :create, video: video_attrs
+        end
+
+        it 'creates a video' do
+          expect(Video.all.count).to be 1
+        end
+
+        it 'associates the video with the passed category' do
+          expect(Video.last.category).to eq category
+        end
+
+        it 'redirects to the new video path' do
+          expect(response).to redirect_to new_admin_video_path
+        end
+
+        it 'sets the success message' do
+          expect(flash[:success]).to be
+        end
       end
 
-      it 'associates the video with the passed category' do
-        expect(Video.last.category).to eq category
+      context 'with images' do
+
+        let(:video_attrs) { Fabricate.attributes_for(:video_with_covers_provided, category_id: category.id) }
+        before do
+          LargeCoverUploader.enable_processing = true
+          SmallCoverUploader.enable_processing = true
+          post :create, video: video_attrs
+        end
+        after do
+          LargeCoverUploader.enable_processing = false
+          SmallCoverUploader.enable_processing = false
+        end
+
+        it 'processes large cover image' do
+          expect(Video.last.large_cover.url).to be
+        end
+
+        it 'processes small cover image' do
+          expect(Video.last.small_cover.url).to be
+        end
+
+        it 'resizes the small cover image to' do
+          expect(Video.last.small_cover).to have_dimensions(166, 236)
+        end
+
+        it 'resizes the large cover image to' do
+          expect(Video.last.large_cover).to have_dimensions(665, 375)
+        end
       end
 
-      it 'redirects to the new video path' do
-        expect(response).to redirect_to new_admin_video_path
-      end
-
-      it 'sets the success message' do
-        expect(flash[:success]).to be
-      end
     end
 
     context 'for invalid values' do
