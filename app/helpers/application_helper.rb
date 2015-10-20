@@ -13,8 +13,12 @@ module ApplicationHelper
     chunks
   end
 
-  def get_img_url(video)
-    video.large_cover ? "/tmp/#{video.large_cover}" : 'http://dummyimage.com/665x375/000000/00a2ff'
+  def get_large_cover_url(video)
+    video.large_cover.url || 'http://dummyimage.com/665x375/000000/00a2ff'
+  end
+
+  def get_small_cover_url(video)
+    video.small_cover.url || 'http://dummyimage.com/166x236/000000/00a2ff'
   end
 
   def gravatar_url(user)
