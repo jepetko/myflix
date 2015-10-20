@@ -1,5 +1,5 @@
 CarrierWave.configure do |config|
-  if Rails.env.staging? || Rails.env.production?
+  if Rails.env.staging? || Rails.env.production? || Rails.env.development?
     config.storage    = :aws
     config.aws_bucket = Rails.application.secrets.s3_bucket_name
     config.aws_acl    = 'public-read'

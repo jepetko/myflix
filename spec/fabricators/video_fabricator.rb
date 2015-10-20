@@ -1,6 +1,7 @@
 Fabricator(:video) do
   title { %w{'Family Guy' 'Futurama' 'Monk' 'Hobbit' 'Lord of rings' 'Matrix'}.sample }
   description { Faker::Lorem.sentence }
+  link 'http://techslides.com/demos/sample-videos/small.ogv'
 end
 
 picture_dummy_proc = Proc.new do

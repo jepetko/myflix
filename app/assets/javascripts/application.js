@@ -13,3 +13,22 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+
+$(function() {
+    var btn = $('.watch-now');
+    btn.on('click', function() {
+        $('video').on('ended', function() {
+            btn.html('Watch now');
+        });
+        var video = $('video')[0];
+        if (video) {
+            if (video.paused) {
+                video.play();
+                btn.html('Pause');
+            } else {
+                video.pause();
+                btn.html('Watch now');
+            }
+        }
+    });
+});
