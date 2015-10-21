@@ -8,7 +8,7 @@ describe Video do
   it { should validate_presence_of(:description) }
 
   it 'saves itself' do
-    video = Video.new title: 'my video', description: 'simsa la bim', avatar: 'video.png'
+    video = Video.new title: 'my video', description: 'simsa la bim', small_cover: 'video.png'
     video.save
     expect(Video.first).to eq(video)
   end
@@ -16,7 +16,7 @@ describe Video do
   it 'belongs to a category' do
     category = Category.new name: 'Dramas'
     expect(Video.new).to respond_to(:category)
-    video = Video.new title: 'my video', description: 'simsa la bim', avatar: 'video.png', category: category
+    video = Video.new title: 'my video', description: 'simsa la bim', small_cover: 'video.png', category: category
     video.save
     expect(video.category).to eq(category)
     expect(video.title).to eq 'my video'

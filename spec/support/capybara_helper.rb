@@ -6,7 +6,8 @@ module CapybaraHelper
     click_button 'Sign in'
   end
 
-  def sign_out
+  def sign_out(user)
+    click_link "Welcome, #{user.full_name}"
     click_link 'Sign Out'
   end
 

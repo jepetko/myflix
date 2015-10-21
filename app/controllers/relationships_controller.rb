@@ -1,7 +1,5 @@
 class RelationshipsController < ApplicationController
 
-  before_filter :require_user
-
   def create
     user = User.find(params[:id])
     current_user.follow user
