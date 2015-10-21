@@ -21,6 +21,10 @@ module ApplicationHelper
     video.small_cover.url || 'http://dummyimage.com/166x236/000000/00a2ff'
   end
 
+  def get_video_link_url(video)
+    video.link.url
+  end
+
   def gravatar_url(user)
     "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email.downcase)}?s=40"
   end

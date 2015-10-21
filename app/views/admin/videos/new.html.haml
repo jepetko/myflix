@@ -21,7 +21,7 @@
             .form-group
               = f.file_field :small_cover, label: 'Small cover'
             .form-group
-              = f.text_field :link, label: 'Video URL'
+              = f.text_field :remote_link_url, label: 'Video URL'
           %fieldset.actions.form-group
             .col-sm-10.col-md-offset-2
               = f.submit 'Add video', class: 'btn btn-default'
