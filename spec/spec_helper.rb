@@ -68,6 +68,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
+=begin
   config.before(:each) do
     DatabaseCleaner.start
   end
@@ -75,7 +76,7 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-
+=end
   config.send :include, AuthHelper
   config.send :include, CapybaraHelper
 
