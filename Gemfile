@@ -36,6 +36,8 @@ group :test do
   gem 'shoulda-matchers', '~> 2.8.0'
   gem 'capybara'
   gem 'capybara-email'
+  #gem 'poltergeist'
+  gem 'capybara-webkit'
 end
 
 group :staging, :production do
