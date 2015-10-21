@@ -100,7 +100,7 @@ describe Admin::VideosController do
 
         it 'builds the name as composition of the original file name, attribute, uploader and UUID' do
           file_name = File.basename(Video.last.large_cover.url)
-          expect(file_name).to match(/picture_dummy__large_cover__LargeCoverUploader__[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/)
+          expect(file_name).to match(/picture_dummy__large_cover__LargeCoverUploader__[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}\.png/)
         end
       end
 

@@ -25,6 +25,10 @@ module ApplicationHelper
     video.link.url
   end
 
+  def get_video_link_url_ext(video)
+    File.extname(video.link.url).gsub('.', '') unless video.link.url.nil?
+  end
+
   def gravatar_url(user)
     "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email.downcase)}?s=40"
   end
