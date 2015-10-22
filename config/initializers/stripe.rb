@@ -1,5 +1,3 @@
-require 'stripe'
-
 if Rails.env.staging? || Rails.env.production? || Rails.env.development?
   Rails.configuration.stripe = {
       :publishable_key => Rails.application.secrets.stripe_publishable_key,
