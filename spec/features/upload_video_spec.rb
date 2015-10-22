@@ -29,6 +29,6 @@ feature 'Video upload' do
     expect(page).to have_xpath("//video[@poster='#{video.large_cover.url}']")
     expect(page).to have_xpath("//video/source[@src='#{video.link.url}']")
     click_button 'Watch now'
-    expect(page).to have_xpath("//button[text()='Pause']")
+    expect(page).to have_button('Pause')
   end
 end
