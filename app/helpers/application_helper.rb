@@ -13,22 +13,6 @@ module ApplicationHelper
     chunks
   end
 
-  def get_large_cover_url(video)
-    video.large_cover.url || 'http://dummyimage.com/665x375/000000/00a2ff'
-  end
-
-  def get_small_cover_url(video)
-    video.small_cover.url || 'http://dummyimage.com/166x236/000000/00a2ff'
-  end
-
-  def get_video_link_url(video)
-    video.link.url
-  end
-
-  def get_video_link_url_ext(video)
-    File.extname(video.link.url).gsub('.', '') unless video.link.url.nil?
-  end
-
   def gravatar_url(user)
     "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email.downcase)}?s=40"
   end

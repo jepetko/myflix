@@ -21,8 +21,7 @@ describe Admin::VideosController do
 
     it 'sets @video variable' do
       get :new
-      expect(assigns(:video)).to be_instance_of(Video)
-      expect(assigns(:video)).to be_new_record
+      expect(assigns(:video)).to be_a_new(Video)
     end
 
   end
@@ -47,8 +46,8 @@ describe Admin::VideosController do
 
       context 'without images' do
 
-        let(:video_attrs) { Fabricate.attributes_for(:video, category_id: category.id) }
         before do
+          video_attrs = Fabricate.attributes_for(:video, category_id: category.id)
           post :create, video: video_attrs
         end
 
@@ -71,8 +70,8 @@ describe Admin::VideosController do
 
       context 'with images' do
 
-        let(:video_attrs) { Fabricate.attributes_for(:video_with_covers_provided, category_id: category.id) }
         before do
+          video_attrs = Fabricate.attributes_for(:video_with_covers_provided, category_id: category.id)
           LargeCoverUploader.enable_processing = true
           SmallCoverUploader.enable_processing = true
           post :create, video: video_attrs

@@ -1,4 +1,4 @@
 .col-sm-2
   %h3= video.title
   = link_to video_path(video), class: 'thumbnail' do
-    = image_tag get_small_cover_url(video)
+    = image_tag video.small_cover_url

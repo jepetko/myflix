@@ -2,8 +2,8 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        %video(poster="#{get_large_cover_url(@video)}")
-          %source(src="#{get_video_link_url(@video)}" type="video/#{get_video_link_url_ext(@video)}")
+        %video(poster="#{@video.large_cover}")
+          %source(src="#{@video.link_url}" type="video/#{@video.link_url_ext}")
       .video_info.col-sm-3
         %header
           %h3= @video.title
