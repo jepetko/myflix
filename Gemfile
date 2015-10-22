@@ -42,6 +42,7 @@ end
 
 group :staging, :production do
   gem 'rails_12factor'
+  gem 'stripe'
 end
 
 group :production do

@@ -9,4 +9,4 @@
         = f.password_field :password_confirmation
         = f.text_field :full_name
         = hidden_field_tag :token, @token if @token
-        = f.submit 'Sign up'
+        %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-label="Register (for a fee)" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="Myflix charge" data-description="Enjoy myflix for 9.99$" data-amount="999" data-locale="auto")

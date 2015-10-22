@@ -45,4 +45,7 @@ Myflix::Application.routes.draw do
   namespace :admin do
     resources :videos, only: [:new, :create]
   end
+
+  # stripe
+  resource :charges, only: [:new, :create]
 end
