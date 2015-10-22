@@ -2,14 +2,15 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        %img(src="#{get_img_url(@video)}")
+        %video(poster="#{@video.large_cover}")
+          %source(src="#{@video.link_url}" type="video/#{@video.link_url_ext}")
       .video_info.col-sm-3
         %header
           %h3= @video.title
           %span Rating: #{@video.calculate_rating_average}/5.0
         %p= @video.description
         .actions
-          %a.btn.btn-primary(href="") Watch Now
+          =button_tag 'Watch now', class: 'btn btn-default watch-now'
           .inline
             = link_to '+ My Queue', queue_items_path(video_id: @video.id), method: :post, class: 'btn btn-default' unless current_user.video_in_queue?(@video)
 

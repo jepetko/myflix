@@ -37,7 +37,7 @@ feature 'invitation' do
 
   scenario 'jerry is the follower of tom after the registration' do
     # sign out the current user Tom ...
-    sign_out
+    sign_out tom
 
     current_email.click_link 'link'
     fill_in :user_password, with: 'start123'

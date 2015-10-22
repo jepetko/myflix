@@ -40,4 +40,9 @@ Myflix::Application.routes.draw do
   get '/invite', to: 'invitations#new'
   post '/invite', to: 'invitations#create'
   get '/confirm_invitation/:token', to: 'invitations#show', as: :confirm_invitation
+
+  # admin role
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
 end

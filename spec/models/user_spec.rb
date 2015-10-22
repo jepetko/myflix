@@ -55,5 +55,4 @@ describe User do
       expect(user.reset_password?).to be false
     end
   end
-
 end
