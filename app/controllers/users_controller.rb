@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     if @user.save
 
       begin
-        Stripe::Charge.create(card: params[:stripeToken], amount: 999, description: "Myflix charge for #{@user.email}", currency: 'usd')
+        Stripe::Charge.create(card: params[:stripeToken], amount: 999, description: "Myflix charge for #{@user.email}", currency: 'usd') unless Rails.env.test?
       rescue Stripe::CardError => e
         flash.now[:danger] = e.message
         render :new
