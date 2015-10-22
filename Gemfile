@@ -16,6 +16,7 @@ gem 'sidekiq'
 gem 'unicorn-rails'
 gem 'carrierwave-aws'
 gem 'mini_magick'
+gem 'stripe'
 
 group :development do
   gem 'better_errors'
