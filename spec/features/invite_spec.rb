@@ -40,8 +40,12 @@ feature 'invitation' do
     sign_out tom
 
     current_email.click_link 'link'
-    fill_in :user_password, with: 'start123'
-    fill_in :user_password_confirmation, with: 'start123'
+    fill_in 'Password', with: 'start123'
+    fill_in 'Password confirmation', with: 'start123'
+    fill_in 'Credit Card Number', with: '4242424242424242'
+    fill_in 'Security Code', with: '123'
+    select '12 - December', from: 'date_month'
+    select '2018', from: 'date_year'
     click_button 'Sign up'
 
     # sign in the invited user Jerry

@@ -30,23 +30,17 @@ describe UsersController do
 
   describe 'POST :create' do
 
-    let(:token) {
-      future = 12.month.from_now
-      Stripe::Token.create(
-          card: {
-              number: '4242424242424242',
-              exp_month: future.month,
-              exp_year: future.year,
-              cvc: '123'
-          }
-      ).id
-    }
     let(:user_hash) { Fabricate.attributes_for(:user) }
-    before(:each) { ActionMailer::Base.deliveries.clear }
+    before(:each) do
+      ActionMailer::Base.deliveries.clear
+      charge_response = double(:charge)
+      charge_response.double(:successful?).and_return(true)
+      StripeWrapper::Charge.double(:create).and_return(charge_response)
+    end
 
     context 'user data correct' do
 
-      before(:each) { post :create, user: user_hash, stripeToken: token }
+      before(:each) { post :create, user: user_hash}
       it 'creates a new user', :vcr do
         expect(User.count).to be(1)
         expect(User.last.email).to eq(user_hash[:email])

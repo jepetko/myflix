@@ -25,10 +25,10 @@ $(function() {
         };
 
         Stripe.card.createToken({
-            number: $('.card-number').val(),
-            cvc: $('.card-cvc').val(),
-            exp_month: $('.card-exp-month').val(),
-            exp_year: $('.card-exp-year').val()
+            number: $('#card_number').val(),
+            cvc: $('#card_cvc').val(),
+            exp_month: $('#date_month').val(),
+            exp_year: $('#date_year').val()
         }, stripeResponseHandler);
 
         // Prevent the form from submitting with the default action

@@ -14,23 +14,17 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
+    if @user.valid?
       response = StripeWrapper::Charge.create(card: params[:stripeToken], description: "Myflix charge for #{@user.email}")
       if response.successful?
+        @user.save
         AppMailer.delay.send_mail_on_register(@user.id)
         flash.now[:success] = 'You have been charged successfully. An email has been sent to your email. Enjoy Myflix!'
+        accept_invitation(params[:token]) if params[:token]
         redirect_to sign_in_path
       else
         flash.now[:danger] = response.error_message
         render :new
-      end
-
-      if params[:token]
-        invitation = Invitation.find_by(token: params[:token])
-        if invitation
-          @user.follow invitation.user
-          invitation.destroy
-        end
       end
     else
       render :new
@@ -45,5 +39,13 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit :email, :password, :password_confirmation, :full_name
+  end
+
+  def accept_invitation(token)
+    invitation = Invitation.find_by(token: token)
+    if invitation
+      @user.follow invitation.user
+      invitation.destroy
+    end
   end
 end
