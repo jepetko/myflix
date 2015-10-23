@@ -34,8 +34,8 @@ describe UsersController do
     before(:each) do
       ActionMailer::Base.deliveries.clear
       charge_response = double(:charge)
-      charge_response.double(:successful?).and_return(true)
-      StripeWrapper::Charge.double(:create).and_return(charge_response)
+      charge_response.stub(:successful?).and_return(true)
+      StripeWrapper::Charge.stub(:create).and_return(charge_response)
     end
 
     context 'user data correct' do
