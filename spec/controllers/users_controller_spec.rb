@@ -47,21 +47,21 @@ describe UsersController do
     context 'user data correct' do
 
       before(:each) { post :create, user: user_hash, stripeToken: token }
-      it 'creates a new user' do
+      it 'creates a new user', :vcr do
         expect(User.count).to be(1)
         expect(User.last.email).to eq(user_hash[:email])
         expect(User.last.full_name).to eq(user_hash[:full_name])
       end
-      it 'redirects to sign_in path' do
+      it 'redirects to sign_in path', :vcr do
         expect(response).to redirect_to sign_in_path
       end
-      it 'sends a confirmation mail' do
+      it 'sends a confirmation mail', :vcr do
         expect(ActionMailer::Base.deliveries).not_to be_empty
       end
-      it 'sends a confirmation mail containing the right message' do
+      it 'sends a confirmation mail containing the right message', :vcr do
         expect(ActionMailer::Base.deliveries.last.body).to include(User.last.full_name.html_safe)
       end
-      it 'sends a confirmation mail to the right recipient' do
+      it 'sends a confirmation mail to the right recipient', :vcr do
         expect(ActionMailer::Base.deliveries.last.to).to include(User.last.email)
       end
     end

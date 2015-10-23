@@ -22,6 +22,13 @@ ActiveRecord::Migration.maintain_test_schema!
 
 Sidekiq::Testing.inline!
 
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/cassettes"
+  config.hook_into :webmock
+  config.ignore_localhost = true
+  config.configure_rspec_metadata!
+end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -64,6 +71,8 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
+
+  config.treat_symbols_as_metadata_keys_with_true_values = true
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

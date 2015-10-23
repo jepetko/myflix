@@ -9,7 +9,7 @@ feature 'Video upload' do
     Fabricate(:category, name: 'Trainings')
   end
 
-  scenario 'admin can upload a video which can be watched by a regular user', js: true do
+  scenario 'admin can upload a video which can be watched by a regular user', :vcr, js: true do
     sign_in admin
     visit new_admin_video_path
     fill_in :video_title, with: 'Dog training'

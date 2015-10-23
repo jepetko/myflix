@@ -39,6 +39,8 @@ group :test do
   gem 'capybara-email'
   #gem 'poltergeist'
   gem 'capybara-webkit'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :staging, :production do

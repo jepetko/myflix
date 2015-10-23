@@ -1,0 +1,214 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/tokens
+    body:
+      encoding: US-ASCII
+      string: card[number]=4242424242424242&card[exp_month]=10&card[exp_year]=2016&card[cvc]=123
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.30.2
+      Authorization:
+      - Bearer sk_test_GL2nS6KhsUkCBoHmnWD8y1MT
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.30.2","lang":"ruby","lang_version":"2.1.7 p400 (2015-08-18)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux
+        version 3.5.0-54-generic (buildd@allspice) (gcc version 4.6.3 (Ubuntu/Linaro
+        4.6.3-1ubuntu5) ) #81~precise1-Ubuntu SMP Tue Jul 15 04:02:22 UTC 2014","hostname":"leanetic"}'
+      Content-Length:
+      - '82'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 23 Oct 2015 17:51:00 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '782'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7Das0UZ8RWO4GJ
+      Stripe-Version:
+      - '2015-10-16'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "tok_16z9guFsBqZq4amVBQJZRqFx",
+          "object": "token",
+          "card": {
+            "id": "card_16z9guFsBqZq4amVPfHE7dJF",
+            "object": "card",
+            "address_city": null,
+            "address_country": null,
+            "address_line1": null,
+            "address_line1_check": null,
+            "address_line2": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_zip_check": null,
+            "brand": "Visa",
+            "country": "US",
+            "cvc_check": "unchecked",
+            "dynamic_last4": null,
+            "exp_month": 10,
+            "exp_year": 2016,
+            "fingerprint": "e3sVIRmaBvs743cW",
+            "funding": "credit",
+            "last4": "4242",
+            "metadata": {},
+            "name": null,
+            "tokenization_method": null
+          },
+          "client_ip": "62.178.102.244",
+          "created": 1445622660,
+          "livemode": false,
+          "type": "card",
+          "used": false
+        }
+    http_version: 
+  recorded_at: Fri, 23 Oct 2015 17:51:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/charges
+    body:
+      encoding: US-ASCII
+      string: card=tok_16z9guFsBqZq4amVBQJZRqFx&amount=999&description=Myflix+charge+for+angelo%40wuckerthansen.com&currency=usd
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.30.2
+      Authorization:
+      - Bearer sk_test_GL2nS6KhsUkCBoHmnWD8y1MT
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.30.2","lang":"ruby","lang_version":"2.1.7 p400 (2015-08-18)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux
+        version 3.5.0-54-generic (buildd@allspice) (gcc version 4.6.3 (Ubuntu/Linaro
+        4.6.3-1ubuntu5) ) #81~precise1-Ubuntu SMP Tue Jul 15 04:02:22 UTC 2014","hostname":"leanetic"}'
+      Content-Length:
+      - '114'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 23 Oct 2015 17:51:02 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1464'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7DasjMdE5qYXJd
+      Stripe-Version:
+      - '2015-10-16'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "ch_16z9gvFsBqZq4amVh8OtS9nL",
+          "object": "charge",
+          "amount": 999,
+          "amount_refunded": 0,
+          "application_fee": null,
+          "balance_transaction": "txn_16z9gvFsBqZq4amVVvqvEYMa",
+          "captured": true,
+          "created": 1445622661,
+          "currency": "usd",
+          "customer": null,
+          "description": "Myflix charge for angelo@wuckerthansen.com",
+          "destination": null,
+          "dispute": null,
+          "failure_code": null,
+          "failure_message": null,
+          "fraud_details": {},
+          "invoice": null,
+          "livemode": false,
+          "metadata": {},
+          "paid": true,
+          "receipt_email": null,
+          "receipt_number": null,
+          "refunded": false,
+          "refunds": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/charges/ch_16z9gvFsBqZq4amVh8OtS9nL/refunds"
+          },
+          "shipping": null,
+          "source": {
+            "id": "card_16z9guFsBqZq4amVPfHE7dJF",
+            "object": "card",
+            "address_city": null,
+            "address_country": null,
+            "address_line1": null,
+            "address_line1_check": null,
+            "address_line2": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_zip_check": null,
+            "brand": "Visa",
+            "country": "US",
+            "customer": null,
+            "cvc_check": "pass",
+            "dynamic_last4": null,
+            "exp_month": 10,
+            "exp_year": 2016,
+            "fingerprint": "e3sVIRmaBvs743cW",
+            "funding": "credit",
+            "last4": "4242",
+            "metadata": {},
+            "name": null,
+            "tokenization_method": null
+          },
+          "statement_descriptor": null,
+          "status": "succeeded"
+        }
+    http_version: 
+  recorded_at: Fri, 23 Oct 2015 17:51:02 GMT
+recorded_with: VCR 2.9.3
