@@ -14,13 +14,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
     if @user.save
-
-      begin
-        Stripe::Charge.create(card: params[:stripeToken], amount: 999, description: "Myflix charge for #{@user.email}", currency: 'usd') if Stripe.api_key
-      rescue Stripe::CardError => e
-        flash.now[:danger] = e.message
+      response = StripeWrapper::Charge.create(card: params[:stripeToken], description: "Myflix charge for #{@user.email}")
+      if response.successful?
+        AppMailer.delay.send_mail_on_register(@user.id)
+        flash.now[:success] = 'You have been charged successfully. An email has been sent to your email. Enjoy Myflix!'
+        redirect_to sign_in_path
+      else
+        flash.now[:danger] = response.error_message
         render :new
       end
 
@@ -31,9 +32,6 @@ class UsersController < ApplicationController
           invitation.destroy
         end
       end
-
-      AppMailer.delay.send_mail_on_register(@user.id)
-      redirect_to sign_in_path
     else
       render :new
     end
