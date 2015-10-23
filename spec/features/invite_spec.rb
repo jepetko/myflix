@@ -35,7 +35,7 @@ feature 'invitation' do
     expect(page).to have_xpath "//input[@value='#{jerrys_name}']"
   end
 
-  scenario 'jerry is the follower of tom after the registration' do
+  scenario 'jerry is the follower of tom after the registration', {vcr: true, js: true} do
     # sign out the current user Tom ...
     sign_out tom
 

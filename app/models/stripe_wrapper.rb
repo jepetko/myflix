@@ -29,7 +29,7 @@ module StripeWrapper
         new :technical_error, error_type: err.class.name, error_message: err.message
       rescue => err
         Raven.capture_exception(err) if Rails.env.production?
-        new :general_error, error_type: err.class.name, error_message: err.message
+        raise err
       end
     end
 
