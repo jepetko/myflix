@@ -9,7 +9,8 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.find_by(user_id: current_user.id, email: invitation_params[:email])
     if !@invitation
-      @invitation = Invitation.new invitation_params.merge(user_id: current_user.id)
+      @invitation = Invitation.new invitation_params
+      @invitation.user = current_user
     end
     @invitation.full_name = invitation_params[:full_name]
     if !@invitation.save

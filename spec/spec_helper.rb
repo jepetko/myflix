@@ -92,5 +92,13 @@ RSpec.configure do |config|
 
 end
 
+Capybara.server_port = 52662
 #Capybara.javascript_driver = :poltergeist
 Capybara.javascript_driver = :webkit
+
+Capybara::Webkit.configure do |config|
+  config.allow_url('https://js.stripe.com/v2/')
+  config.allow_url('https://api.stripe.com/v1/tokens')
+  config.allow_url('http://www.gravatar.com')
+  config.allow_url('http://www.gravatar.com/avatar/d1811e6174ea11ffc952486249e158c3?s=40')
+end
