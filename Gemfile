@@ -42,7 +42,7 @@ group :test do
   # headless testing
   gem 'capybara-webkit'
   # non headless testing
-  #gem 'selenium-webdriver'
+  gem 'selenium-webdriver'
 
   gem 'vcr'
   gem 'webmock'
