@@ -18,18 +18,6 @@ module StripeWrapper
         new :success
       rescue Stripe::CardError => err
         new :card_error, error_type: err.class.name, error_message: err.message
-      rescue Stripe::RateLimitError, Stripe::InvalidRequestError, Stripe::AuthenticationError, Stripe::APIConnectionError, Stripe::StripeError => err
-        # RateLimitError: Too many requests made to the API too quickly
-        # InvalidRequestError: Invalid parameters were supplied to Stripe's API
-        # AuthenticationError: Authentication with Stripe's API failed (maybe you changed API keys recently)
-        # APIConnectionError: Network communication with Stripe failed
-        # StripeError: Display a very generic error to the user, and maybe send
-        # yourself an email
-        Raven.capture_exception(err) if Rails.env.production?
-        new :technical_error, error_type: err.class.name, error_message: err.message
-      rescue => err
-        Raven.capture_exception(err) if Rails.env.production?
-        raise err
       end
     end
 
