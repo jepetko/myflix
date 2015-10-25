@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'invitation' do
+feature 'invitation', {vcr: true, js:true} do
 
   given(:tom) { Fabricate(:user, full_name: 'Tom, the cat') }
   given(:jerrys_email) { 'jerry@mice.com' }
@@ -22,19 +22,19 @@ feature 'invitation' do
     sign_out tom
   end
 
-  scenario 'jerry receives an email', {vcr: true, js: true} do
+  scenario 'jerry receives an email' do
     open_email jerrys_email
     expect(current_email.to).to include jerrys_email
     expect(current_email.body).to have_content jerrys_name
   end
 
-  scenario 'jerry can confirm the invitation', {vcr: true, js: true} do
+  scenario 'jerry can confirm the invitation' do
     open_email jerrys_email
     href = confirm_invitation_path(Invitation.last.token)
     expect(current_email.body).to have_xpath "//a[contains(@href,'#{href}')]"
   end
 
-  scenario 'jerry is able to register', {vcr: true, js: true} do
+  scenario 'jerry is able to register' do
     open_email jerrys_email
     current_email.click_link 'link'
     expect(page).to have_content 'Register'
@@ -42,7 +42,7 @@ feature 'invitation' do
     expect(page).to have_xpath "//input[@value='#{jerrys_name}']"
   end
 
-  scenario 'jerry is the follower of tom after the registration', {vcr: true, js: true} do
+  scenario 'jerry is the follower of tom after the registration' do
     open_email jerrys_email
     current_email.click_link 'link'
     fill_in 'Password', with: 'start123'
