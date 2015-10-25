@@ -17,8 +17,7 @@ feature 'invitation' do
     fill_in 'Your message', with: 'Hello.'
 
     click_button 'Send Invitation'
-    # for some reason we have to wait here... why?
-    sleep 3
+    expect(page).to have_content('Your friend has been invited')
     # sign out the current user Tom ...
     sign_out tom
   end
@@ -54,8 +53,7 @@ feature 'invitation' do
     select '2018', from: 'date_year'
     click_button 'Sign up'
 
-    # wait for Sign up to get finished
-    sleep 3
+    expect(page).to have_content('Sign in')
 
     # sign in the invited user Jerry
     jerry = User.last

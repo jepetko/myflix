@@ -38,7 +38,12 @@ group :test do
   gem 'capybara'
   gem 'capybara-email'
   #gem 'poltergeist'
+
+  # headless testing
   gem 'capybara-webkit'
+  # non headless testing
+  #gem 'selenium-webdriver'
+
   gem 'vcr'
   gem 'webmock'
 end
