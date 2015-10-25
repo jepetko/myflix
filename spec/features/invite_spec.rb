@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'invitation', {vcr: true, js:true} do
+feature 'invitation', {:vcr => true, :js => true} do
 
   given(:tom) { Fabricate(:user, full_name: 'Tom, the cat') }
   given(:jerrys_email) { 'jerry@mice.com' }

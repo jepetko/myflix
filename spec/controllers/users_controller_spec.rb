@@ -54,7 +54,7 @@ describe UsersController do
         expect(ActionMailer::Base.deliveries).not_to be_empty
       end
       it 'sends a confirmation mail containing the right message', :vcr do
-        expect(ActionMailer::Base.deliveries.last.body).to include(User.last.full_name.html_safe)
+        expect(ActionMailer::Base.deliveries.last.body).to include( ERB::Util.html_escape_once(User.last.full_name) )
       end
       it 'sends a confirmation mail to the right recipient', :vcr do
         expect(ActionMailer::Base.deliveries.last.to).to include(User.last.email)
