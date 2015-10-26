@@ -22,6 +22,13 @@ ActiveRecord::Migration.maintain_test_schema!
 
 Sidekiq::Testing.inline!
 
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/cassettes"
+  config.hook_into :webmock
+  config.ignore_localhost = true
+  config.configure_rspec_metadata!
+end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -65,12 +72,21 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
 
+  config.treat_symbols_as_metadata_keys_with_true_values = true
+
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
     DatabaseCleaner.start
   end
 
@@ -83,5 +99,18 @@ RSpec.configure do |config|
 
 end
 
-#Capybara.javascript_driver = :poltergeist
+Capybara.server_port = 52662
+
+# non headless testing
+#Capybara.javascript_driver = :selenium
+
+# headless testing
 Capybara.javascript_driver = :webkit
+
+Capybara::Webkit.configure do |config|
+  config.debug = true
+  config.allow_url('https://js.stripe.com/v2/')
+  config.allow_url('https://api.stripe.com/v1/tokens')
+  config.allow_url('http://www.gravatar.com')
+  config.allow_url('http://www.gravatar.com/avatar/d1811e6174ea11ffc952486249e158c3?s=40')
+end

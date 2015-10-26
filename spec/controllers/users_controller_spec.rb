@@ -31,34 +31,68 @@ describe UsersController do
   describe 'POST :create' do
 
     let(:user_hash) { Fabricate.attributes_for(:user) }
-    before(:each) { ActionMailer::Base.deliveries.clear }
+    before do
+      ActionMailer::Base.deliveries.clear
+    end
 
-    context 'user data correct' do
+    context 'user data correct and credit card correct' do
 
-      before(:each) { post :create, user: user_hash }
-      it 'creates a new user' do
+      include_context 'credit card charge submitted'
+      before do
+        post :create, user: user_hash, stripeToken: 'token_123'
+      end
+
+      it 'creates a new user', :vcr do
         expect(User.count).to be(1)
         expect(User.last.email).to eq(user_hash[:email])
         expect(User.last.full_name).to eq(user_hash[:full_name])
       end
-      it 'redirects to sign_in path' do
+      it 'redirects to sign_in path', :vcr do
         expect(response).to redirect_to sign_in_path
       end
-      it 'sends a confirmation mail' do
+      it 'sends a confirmation mail', :vcr do
         expect(ActionMailer::Base.deliveries).not_to be_empty
       end
-      it 'sends a confirmation mail containing the right message' do
-        expect(ActionMailer::Base.deliveries.last.body).to include(User.last.full_name.html_safe)
+      it 'sends a confirmation mail containing the right message', :vcr do
+        expect(ActionMailer::Base.deliveries.last.body).to include( ERB::Util.html_escape_once(User.last.full_name) )
       end
-      it 'sends a confirmation mail to the right recipient' do
+      it 'sends a confirmation mail to the right recipient', :vcr do
         expect(ActionMailer::Base.deliveries.last.to).to include(User.last.email)
       end
     end
 
+    context 'user data correct and credit card declined' do
+
+      include_context 'credit card charge submitted' do
+        let(:success) { false }
+        let(:error_message) { 'Your card was declined.' }
+      end
+
+      before do
+        post :create, user: user_hash, stripeToken: 'token_123'
+      end
+
+      it 'does not create a new user' do
+        expect(User.count).to be 0
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template :new
+      end
+
+      it 'shows error message' do
+        expect(flash[:danger]).to eq('Your card was declined.')
+      end
+    end
+
     context 'user data not correct' do
-      before(:each) {
+
+      include_context 'credit card charge not submitted'
+
+      before(:each) do
         post :create, user: user_hash.merge(password: '')
-      }
+      end
+
       it 'does not create a new user' do
         expect(User.count).to be 0
       end
@@ -71,18 +105,26 @@ describe UsersController do
       it 'does not send a mail to the new user' do
         expect(ActionMailer::Base.deliveries).to be_empty
       end
+
+      it 'does not charge the credit card' do
+        expect(StripeWrapper::Charge).not_to have_received(:create)
+      end
     end
 
     context 'email not already taken and password and password_confirmation don\'t match' do
+
+      include_context 'credit card charge not submitted'
       before(:each) { post :create, user: user_hash.merge(password_confirmation: '456') }
+
       it 'shows a hint regarding the password' do
         expect(assigns(:user).errors.full_messages).to include "Password confirmation doesn't match Password"
       end
     end
 
     context 'email is already taken' do
+      include_context 'credit card charge not submitted'
       before(:each) do
-        post :create, user: user_hash
+        User.create(user_hash)
         post :create, user: user_hash.merge(email: User.last.email)
       end
       it 'shows a hint regarding the taken email' do
@@ -95,6 +137,7 @@ describe UsersController do
 
     context 'invitation token provided' do
 
+      include_context 'credit card charge submitted'
       let(:inviting_user) { Fabricate(:user) }
       let(:invitation) { Fabricate(:invitation, user: inviting_user, email: user_hash[:email]) }
 

@@ -17,18 +17,18 @@
         %fieldset.credit_card
           .payment-errors.alert.alert-danger
           .form-group
-            %label.control-label.col-sm-3 Credit Card Number
+            %label.control-label.col-sm-3(for="card_number") Credit Card Number
             .col-sm-7
-              %input.form-control.card-number(type="text")
+              %input.form-control#card_number(type="text")
           .form-group
-            %label.control-label.col-sm-3 Security Code
+            %label.control-label.col-sm-3(for="card_cvc") Security Code
             .col-sm-2
-              %input.form-control.card-cvc(type="text")
+              %input.form-control#card_cvc(type="text")
           .form-group
-            %label.control-label.col-sm-3 Expiration
+            %label.control-label.col-sm-3(for="date_month") Expiration
             .col-sm-2
-              = select_month(Date.today, {add_month_numbers: true},  class: 'form-control card-exp-month')
+              = select_month(Date.today, {add_month_numbers: true}, class: 'form-control')
             .col-sm-5
-              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'form-control card-exp-year')
+              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'form-control')
         .col-sm-offset-3
           = f.submit 'Sign up', class: 'btn btn-success sign-up-button'
