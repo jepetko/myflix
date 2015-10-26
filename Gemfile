@@ -17,6 +17,7 @@ gem 'unicorn-rails'
 gem 'carrierwave-aws'
 gem 'mini_magick'
 gem 'stripe'
+gem 'draper', '~> 1.3'
 
 group :development do
   gem 'better_errors'
