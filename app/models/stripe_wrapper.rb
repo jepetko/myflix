@@ -14,7 +14,10 @@ module StripeWrapper
 
     def self.create(options={})
       begin
-        Stripe::Charge.create(card: options[:card], amount: 999, description: options[:description], currency: 'usd')
+        Stripe::Charge.create(card: options[:card],
+                              amount: 999,
+                              description: options[:description],
+                              currency: 'usd')
         new :success
       rescue Stripe::CardError => err
         new :card_error, error_type: err.class.name, error_message: err.message

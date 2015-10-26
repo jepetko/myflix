@@ -20,7 +20,7 @@ class UsersController < ApplicationController
         @user.save
         AppMailer.delay.send_mail_on_register(@user.id)
         flash.now[:success] = 'You have been charged successfully. An email has been sent to your email. Enjoy Myflix!'
-        accept_invitation(params[:token]) if params[:token]
+        accept_invitation
         redirect_to sign_in_path
       else
         flash.now[:danger] = response.error_message
@@ -41,8 +41,9 @@ class UsersController < ApplicationController
     params.require(:user).permit :email, :password, :password_confirmation, :full_name
   end
 
-  def accept_invitation(token)
-    invitation = Invitation.find_by(token: token)
+  def accept_invitation
+    return if !params[:token]
+    invitation = Invitation.find_by(token: params[:token])
     if invitation
       @user.follow invitation.user
       invitation.destroy

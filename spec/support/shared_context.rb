@@ -8,9 +8,7 @@ RSpec.shared_context 'credit card charge submitted' do
     yield
   end
   before do
-    charge_response = double(:charge)
-    charge_response.stub(:successful?).and_return(success)
-    charge_response.stub(:error_message).and_return(error_message)
+    charge_response = double(:charge, successful?: success, error_message: error_message)
     StripeWrapper::Charge.should_receive(:create).and_return(charge_response)
   end
 end

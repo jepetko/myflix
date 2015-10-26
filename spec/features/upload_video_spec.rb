@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Video upload', {vcr: true, js: true} do
+feature 'Video upload', :vcr, :js do
 
   given(:user) { Fabricate(:user) }
   given(:admin) { Fabricate(:admin) }
