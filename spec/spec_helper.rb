@@ -108,7 +108,7 @@ Capybara.server_port = 52662
 Capybara.javascript_driver = :webkit
 
 Capybara::Webkit.configure do |config|
-  config.debug = true
+  #config.debug = true
   config.allow_url('https://js.stripe.com/v2/')
   config.allow_url('https://api.stripe.com/v1/tokens')
   config.allow_url('http://www.gravatar.com')
