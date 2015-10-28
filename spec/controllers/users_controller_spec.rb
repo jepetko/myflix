@@ -35,7 +35,7 @@ describe UsersController do
     context 'sign up successful' do
       it 'redirects to the sign_in page' do
         sign_up_result = double(:sign_up_result, successful?: true, message: nil)
-        SignUpService.any_instance.should_receive(:sign_up).and_return(sign_up_result)
+        expect_any_instance_of(SignUpService).to receive(:sign_up).and_return(sign_up_result)
         post :create, user: user_hash, stripeToken: 'token_123'
         expect(response).to redirect_to sign_in_path
       end
@@ -44,7 +44,7 @@ describe UsersController do
     context 'sign up failed' do
       before do
         sign_up_result = double(:sign_up_result, successful?: false, message: 'Your credit card was declined.')
-        SignUpService.any_instance.should_receive(:sign_up).and_return(sign_up_result)
+        expect_any_instance_of(SignUpService).to receive(:sign_up).and_return(sign_up_result)
         post :create, user: user_hash, stripeToken: 'token_123'
       end
 
