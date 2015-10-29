@@ -17,6 +17,7 @@ gem 'unicorn-rails'
 gem 'carrierwave-aws'
 gem 'mini_magick'
 gem 'stripe'
+gem 'draper', '~> 1.3'
 
 group :development do
   gem 'better_errors'
@@ -27,7 +28,7 @@ end
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
-  gem 'rspec-rails', '2.99'
+  gem 'rspec-rails', '~> 3.0'
   gem 'fabrication', '~> 2.13.2'
   gem 'faker'
 end

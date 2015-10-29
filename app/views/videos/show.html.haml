@@ -2,12 +2,12 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        %video(poster="#{@video.large_cover}")
+        %video(poster="#{@video.large_cover_url}")
           %source(src="#{@video.link_url}" type="video/#{@video.link_url_ext}")
       .video_info.col-sm-3
         %header
           %h3= @video.title
-          %span Rating: #{@video.calculate_rating_average}/5.0
+          %span= @video.total_rating
         %p= @video.description
         .actions
           =button_tag 'Watch now', class: 'btn btn-default watch-now'

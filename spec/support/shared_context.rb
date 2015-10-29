@@ -9,12 +9,12 @@ RSpec.shared_context 'credit card charge submitted' do
   end
   before do
     charge_response = double(:charge, successful?: success, error_message: error_message)
-    StripeWrapper::Charge.should_receive(:create).and_return(charge_response)
+    expect(StripeWrapper::Charge).to receive(:create).and_return(charge_response)
   end
 end
 
 RSpec.shared_context 'credit card charge not submitted' do
   before do
-    StripeWrapper::Charge.stub(:create).as_null_object
+    allow(StripeWrapper::Charge).to receive_messages(create: nil)
   end
 end
