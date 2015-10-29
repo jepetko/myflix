@@ -2,12 +2,6 @@ require 'spec_helper'
 
 describe VideoDecorator do
 
-  it 'responds to methods which a Video instance responds to' do
-    decorator = Video.new.decorate
-    expect(decorator).to respond_to(:category)
-    expect(decorator).to respond_to(:reviews)
-  end
-
   it 'responds to method :total_rating' do
     decorator = Video.new.decorate
     expect(decorator).to respond_to(:total_rating)

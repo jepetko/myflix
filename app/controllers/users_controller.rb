@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     sign_up = SignUpService.new(@user).sign_up(stripeToken: params[:stripeToken], token: params[:token])
     if sign_up.successful?
-      flash.now[:success] = sign_up.message
+      flash[:success] = sign_up.message
       redirect_to sign_in_path
     else
       flash.now[:danger] = sign_up.message

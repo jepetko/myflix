@@ -29,10 +29,6 @@ describe SignUpService, :vcr do
       expect(User.last.full_name).to eq(user_attrs[:full_name])
     end
 
-    it 'sends a confirmation mail' do
-      expect(ActionMailer::Base.deliveries).not_to be_empty
-    end
-
     it 'sends a confirmation mail containing the right message' do
       expect(ActionMailer::Base.deliveries.last.body).to include(ERB::Util.html_escape_once(User.last.full_name))
     end
