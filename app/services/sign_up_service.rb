@@ -13,8 +13,9 @@ class SignUpService
 
   def sign_up(options = {})
     if @user.valid?
-      @response = StripeWrapper::Charge.create(card: options[:stripeToken], description: "Myflix charge for #{@user.email}")
+      @response = StripeWrapper::Customer.create(source: options[:stripeToken], user: @user)
       if @response.successful?
+        @user.stripe_id = @response.customer_id
         @user.save
         AppMailer.delay.send_mail_on_register(@user.id)
         @message = 'You have been charged successfully. An email has been sent to your email. Enjoy Myflix!'

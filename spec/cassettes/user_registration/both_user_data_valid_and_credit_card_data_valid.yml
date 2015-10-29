@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: card=tok_16ztBxFsBqZq4amVvFua5kpR&amount=999&description=Myflix+charge+for+user%40mailinator.com&currency=usd
+      string: plan=standard&source=tok_171N4dFsBqZq4amVURcE4ZMo&email=user%40mailinator.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -22,7 +22,7 @@ http_interactions:
         version 3.5.0-54-generic (buildd@allspice) (gcc version 4.6.3 (Ubuntu/Linaro
         4.6.3-1ubuntu5) ) #81~precise1-Ubuntu SMP Tue Jul 15 04:02:22 UTC 2014","hostname":"leanetic"}'
       Content-Length:
-      - '109'
+      - '77'
   response:
     status:
       code: 200
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 25 Oct 2015 18:26:07 GMT
+      - Thu, 29 Oct 2015 20:32:40 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1458'
+      - '2373'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7ELtT0hcSXSfSj
+      - req_7Fsqz9HimeR4r3
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,65 +58,94 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "ch_16ztByFsBqZq4amVwROikX7Y",
-          "object": "charge",
-          "amount": 999,
-          "amount_refunded": 0,
-          "application_fee": null,
-          "balance_transaction": "txn_16ztBzFsBqZq4amVn3MMNdvD",
-          "captured": true,
-          "created": 1445797566,
-          "currency": "usd",
-          "customer": null,
-          "description": "Myflix charge for user@mailinator.com",
-          "destination": null,
-          "dispute": null,
-          "failure_code": null,
-          "failure_message": null,
-          "fraud_details": {},
-          "invoice": null,
+          "id": "cus_7Fsqvt8W3Ixtbz",
+          "object": "customer",
+          "account_balance": 0,
+          "created": 1446150760,
+          "currency": "eur",
+          "default_source": "card_171N4dFsBqZq4amVxRsmPYf9",
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": "user@mailinator.com",
           "livemode": false,
           "metadata": {},
-          "paid": true,
-          "receipt_email": null,
-          "receipt_number": null,
-          "refunded": false,
-          "refunds": {
-            "object": "list",
-            "data": [],
-            "has_more": false,
-            "total_count": 0,
-            "url": "/v1/charges/ch_16ztByFsBqZq4amVwROikX7Y/refunds"
-          },
           "shipping": null,
-          "source": {
-            "id": "card_16ztBxFsBqZq4amVORoUaKHw",
-            "object": "card",
-            "address_city": null,
-            "address_country": null,
-            "address_line1": null,
-            "address_line1_check": null,
-            "address_line2": null,
-            "address_state": null,
-            "address_zip": null,
-            "address_zip_check": null,
-            "brand": "Visa",
-            "country": "US",
-            "customer": null,
-            "cvc_check": "pass",
-            "dynamic_last4": null,
-            "exp_month": 1,
-            "exp_year": 2016,
-            "fingerprint": "e3sVIRmaBvs743cW",
-            "funding": "credit",
-            "last4": "4242",
-            "metadata": {},
-            "name": null,
-            "tokenization_method": null
+          "sources": {
+            "object": "list",
+            "data": [
+              {
+                "id": "card_171N4dFsBqZq4amVxRsmPYf9",
+                "object": "card",
+                "address_city": null,
+                "address_country": null,
+                "address_line1": null,
+                "address_line1_check": null,
+                "address_line2": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_zip_check": null,
+                "brand": "Visa",
+                "country": "US",
+                "customer": "cus_7Fsqvt8W3Ixtbz",
+                "cvc_check": "pass",
+                "dynamic_last4": null,
+                "exp_month": 1,
+                "exp_year": 2016,
+                "fingerprint": "e3sVIRmaBvs743cW",
+                "funding": "credit",
+                "last4": "4242",
+                "metadata": {},
+                "name": null,
+                "tokenization_method": null
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_7Fsqvt8W3Ixtbz/sources"
           },
-          "statement_descriptor": null,
-          "status": "succeeded"
+          "subscriptions": {
+            "object": "list",
+            "data": [
+              {
+                "id": "sub_7FsqzwiXLXySR7",
+                "object": "subscription",
+                "application_fee_percent": null,
+                "cancel_at_period_end": false,
+                "canceled_at": null,
+                "current_period_end": 1448829160,
+                "current_period_start": 1446150760,
+                "customer": "cus_7Fsqvt8W3Ixtbz",
+                "discount": null,
+                "ended_at": null,
+                "metadata": {},
+                "plan": {
+                  "id": "standard",
+                  "object": "plan",
+                  "amount": 999,
+                  "created": 1446146447,
+                  "currency": "eur",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "name": "Standard",
+                  "statement_descriptor": "myflix standard",
+                  "trial_period_days": null
+                },
+                "quantity": 1,
+                "start": 1446150760,
+                "status": "active",
+                "tax_percent": null,
+                "trial_end": null,
+                "trial_start": null
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_7Fsqvt8W3Ixtbz/subscriptions"
+          }
         }
     http_version: 
-  recorded_at: Sun, 25 Oct 2015 18:26:07 GMT
+  recorded_at: Thu, 29 Oct 2015 20:32:41 GMT
 recorded_with: VCR 2.9.3

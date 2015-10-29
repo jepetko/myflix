@@ -38,7 +38,7 @@ module StripeWrapper
         Stripe::Charge.create(card: options[:card],
                               amount: 999,
                               description: options[:description],
-                              currency: 'usd')
+                              currency: 'eur')
         new :success
       rescue Stripe::CardError => err
         handle_exception err
@@ -58,10 +58,10 @@ module StripeWrapper
       @customer_id = options[:customer_id]
     end
 
-    def self.subscribe(options={})
+    def self.create(options={})
       begin
         customer = Stripe::Customer.create( plan: 'standard',
-                                            source: options[:sources],
+                                            source: options[:source],
                                             email: options[:user].email)
         new :success, customer_id: customer.id
       rescue Stripe::CardError => err

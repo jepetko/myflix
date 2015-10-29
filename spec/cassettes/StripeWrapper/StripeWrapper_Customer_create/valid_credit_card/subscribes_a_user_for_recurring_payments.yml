@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Thu, 29 Oct 2015 11:14:12 GMT
+      - Thu, 29 Oct 2015 20:32:09 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7FjpGNVa9UmIWH
+      - req_7FspPuwN2wf7bT
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,10 +58,10 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_171EMCFsBqZq4amVLKes2PGK",
+          "id": "tok_171N49FsBqZq4amVFJnufOl3",
           "object": "token",
           "card": {
-            "id": "card_171EMCFsBqZq4amVEhtyxVQd",
+            "id": "card_171N49FsBqZq4amVUFQtktJy",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -85,19 +85,19 @@ http_interactions:
             "tokenization_method": null
           },
           "client_ip": "62.178.102.244",
-          "created": 1446117252,
+          "created": 1446150729,
           "livemode": false,
           "type": "card",
           "used": false
         }
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:14:12 GMT
+  recorded_at: Thu, 29 Oct 2015 20:32:09 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: plan=standard&email=edgardo.kuhlman%40howellcarter.net
+      string: plan=standard&source=tok_171N49FsBqZq4amVFJnufOl3&email=rebeka_oconnell%40binstremblay.net
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -114,20 +114,20 @@ http_interactions:
         version 3.5.0-54-generic (buildd@allspice) (gcc version 4.6.3 (Ubuntu/Linaro
         4.6.3-1ubuntu5) ) #81~precise1-Ubuntu SMP Tue Jul 15 04:02:22 UTC 2014","hostname":"leanetic"}'
       Content-Length:
-      - '54'
+      - '90'
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 200
+      message: OK
     headers:
       Server:
       - nginx
       Date:
-      - Thu, 29 Oct 2015 11:14:13 GMT
+      - Thu, 29 Oct 2015 20:32:10 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '119'
+      - '2387'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -141,19 +141,103 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7FjpuvNOYzLvfd
+      - req_7FspygDvm3Ks3E
       Stripe-Version:
       - '2015-10-16'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
     body:
       encoding: UTF-8
       string: |
         {
-          "error": {
-            "type": "invalid_request_error",
-            "message": "No such plan: standard",
-            "param": "plan"
+          "id": "cus_7FspfokxlXPGDJ",
+          "object": "customer",
+          "account_balance": 0,
+          "created": 1446150730,
+          "currency": "eur",
+          "default_source": "card_171N49FsBqZq4amVUFQtktJy",
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": "rebeka_oconnell@binstremblay.net",
+          "livemode": false,
+          "metadata": {},
+          "shipping": null,
+          "sources": {
+            "object": "list",
+            "data": [
+              {
+                "id": "card_171N49FsBqZq4amVUFQtktJy",
+                "object": "card",
+                "address_city": null,
+                "address_country": null,
+                "address_line1": null,
+                "address_line1_check": null,
+                "address_line2": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_zip_check": null,
+                "brand": "Visa",
+                "country": "US",
+                "customer": "cus_7FspfokxlXPGDJ",
+                "cvc_check": "pass",
+                "dynamic_last4": null,
+                "exp_month": 10,
+                "exp_year": 2016,
+                "fingerprint": "e3sVIRmaBvs743cW",
+                "funding": "credit",
+                "last4": "4242",
+                "metadata": {},
+                "name": null,
+                "tokenization_method": null
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_7FspfokxlXPGDJ/sources"
+          },
+          "subscriptions": {
+            "object": "list",
+            "data": [
+              {
+                "id": "sub_7FspAoArfHZ9XO",
+                "object": "subscription",
+                "application_fee_percent": null,
+                "cancel_at_period_end": false,
+                "canceled_at": null,
+                "current_period_end": 1448829130,
+                "current_period_start": 1446150730,
+                "customer": "cus_7FspfokxlXPGDJ",
+                "discount": null,
+                "ended_at": null,
+                "metadata": {},
+                "plan": {
+                  "id": "standard",
+                  "object": "plan",
+                  "amount": 999,
+                  "created": 1446146447,
+                  "currency": "eur",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "name": "Standard",
+                  "statement_descriptor": "myflix standard",
+                  "trial_period_days": null
+                },
+                "quantity": 1,
+                "start": 1446150730,
+                "status": "active",
+                "tax_percent": null,
+                "trial_end": null,
+                "trial_start": null
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/customers/cus_7FspfokxlXPGDJ/subscriptions"
           }
         }
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:14:13 GMT
+  recorded_at: Thu, 29 Oct 2015 20:32:11 GMT
 recorded_with: VCR 2.9.3
