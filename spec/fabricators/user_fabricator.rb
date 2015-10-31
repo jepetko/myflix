@@ -4,4 +4,5 @@ Fabricator(:user) do
   password_confirmation '123'
   full_name { Faker::Name.name }
   reset_password_token nil
+  stripe_id nil
 end

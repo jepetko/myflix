@@ -18,6 +18,7 @@ gem 'carrierwave-aws'
 gem 'mini_magick'
 gem 'stripe'
 gem 'draper', '~> 1.3'
+gem 'stripe_event'
 
 group :development do
   gem 'better_errors'

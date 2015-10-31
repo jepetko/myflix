@@ -9,7 +9,9 @@ describe SignUpService, :vcr do
 
   context 'user data correct and credit card correct' do
 
-    include_context 'stripe customer creation submitted'
+    include_context 'stripe customer creation submitted' do
+      let(:customer_id) { 'cus_123abc' }
+    end
     let!(:sign_up_service) do
       user = User.new user_attrs
       SignUpService.new(user).sign_up(stripeToken: 'token_123')
@@ -27,6 +29,10 @@ describe SignUpService, :vcr do
       expect(User.count).to be(1)
       expect(User.last.email).to eq(user_attrs[:email])
       expect(User.last.full_name).to eq(user_attrs[:full_name])
+    end
+
+    it 'associates the stripes customer token with the user' do
+      expect(User.last.stripe_id).to eq 'cus_123abc'
     end
 
     it 'sends a confirmation mail containing the right message' do
