@@ -44,6 +44,7 @@ Myflix::Application.routes.draw do
   # admin role
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:index]
   end
 
   mount StripeEvent::Engine, at: '/stripe_events'
