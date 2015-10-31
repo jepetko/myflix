@@ -7,7 +7,7 @@
             %li.active
               = link_to 'Recent Payments', admin_payments_path
             %li
-              = link_to 'Add a New Video', new_admin_videos_path
+              = link_to 'Add a New Video', new_admin_video_path
           %table.table
             %thead
               %tr
@@ -18,7 +18,7 @@
             %tbody
               - @payments.each do |payment|
                 %tr
-                  %td payment.user.full_name
-                  %td payment.user.email
-                  %td payment.amount
-                  %td payment.reference_id
+                  %td= payment.user.full_name
+                  %td= payment.user.email
+                  %td= payment.amount
+                  %td= payment.reference_id
