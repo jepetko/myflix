@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.stripe.com/v1/events/evt_171NFlFsBqZq4amV27Bkc7YO
+    uri: https://api.stripe.com/v1/events/evt_172KZSFsBqZq4amVbL6Z9EEk
     body:
       encoding: US-ASCII
       string: ''
@@ -29,11 +29,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 31 Oct 2015 11:32:59 GMT
+      - Sun, 01 Nov 2015 12:23:40 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1992'
+      - '1954'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -47,7 +47,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7GUaklCv6E9FSZ
+      - req_7Gsd7QxJwjZBiO
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -56,32 +56,32 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "evt_171NFlFsBqZq4amV27Bkc7YO",
+          "id": "evt_172KZSFsBqZq4amVbL6Z9EEk",
           "object": "event",
           "api_version": "2015-10-16",
-          "created": 1446151449,
+          "created": 1446379466,
           "data": {
             "object": {
-              "id": "ch_171NFkFsBqZq4amV41bQYS9B",
+              "id": "ch_172KZSFsBqZq4amVVH7BwmoF",
               "object": "charge",
               "amount": 999,
               "amount_refunded": 0,
               "application_fee": null,
-              "balance_transaction": "txn_171NFkFsBqZq4amVebFcBAqX",
-              "captured": true,
-              "created": 1446151448,
+              "balance_transaction": null,
+              "captured": false,
+              "created": 1446379466,
               "currency": "eur",
-              "customer": "cus_7Ft1EjfovZ9ipp",
-              "description": null,
+              "customer": "cus_7GsG8JKpcmWy6s",
+              "description": "",
               "destination": null,
               "dispute": null,
-              "failure_code": null,
-              "failure_message": null,
+              "failure_code": "card_declined",
+              "failure_message": "Your card was declined.",
               "fraud_details": {},
-              "invoice": "in_171NFkFsBqZq4amVLnVD6RHg",
+              "invoice": null,
               "livemode": false,
               "metadata": {},
-              "paid": true,
+              "paid": false,
               "receipt_email": null,
               "receipt_number": null,
               "refunded": false,
@@ -90,11 +90,11 @@ http_interactions:
                 "data": [],
                 "has_more": false,
                 "total_count": 0,
-                "url": "/v1/charges/ch_171NFkFsBqZq4amV41bQYS9B/refunds"
+                "url": "/v1/charges/ch_172KZSFsBqZq4amVVH7BwmoF/refunds"
               },
               "shipping": null,
               "source": {
-                "id": "card_171NFjFsBqZq4amVcPla2v1w",
+                "id": "card_172KXxFsBqZq4amVYAHVgD0P",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -106,27 +106,27 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_7Ft1EjfovZ9ipp",
+                "customer": "cus_7GsG8JKpcmWy6s",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
-                "exp_month": 10,
-                "exp_year": 2015,
-                "fingerprint": "e3sVIRmaBvs743cW",
+                "exp_month": 11,
+                "exp_year": 2017,
+                "fingerprint": "2oXXqsiTLEoONryH",
                 "funding": "credit",
-                "last4": "4242",
+                "last4": "0341",
                 "metadata": {},
                 "name": null,
                 "tokenization_method": null
               },
-              "statement_descriptor": "myflix standard",
-              "status": "succeeded"
+              "statement_descriptor": null,
+              "status": "failed"
             }
           },
           "livemode": false,
-          "pending_webhooks": 0,
-          "request": "req_7Ft16k7o3D65I1",
-          "type": "charge.succeeded"
+          "pending_webhooks": 1,
+          "request": "req_7GsKJrwbdT2TGi",
+          "type": "charge.failed"
         }
     http_version: 
-  recorded_at: Sat, 31 Oct 2015 11:32:59 GMT
+  recorded_at: Sun, 01 Nov 2015 12:23:40 GMT
 recorded_with: VCR 2.9.3

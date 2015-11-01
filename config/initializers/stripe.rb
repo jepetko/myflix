@@ -12,4 +12,10 @@ StripeEvent.configure do |events|
     Payment.create(user: user, amount: stripe_obj.amount, reference_id: stripe_obj.id)
   end
 
+  events.subscribe 'charge.failed' do |event|
+    stripe_obj = event.data.object
+    user = User.find_by(stripe_id: stripe_obj.customer)
+    user.update_column(:locked, true)
+    AppMailer.delay.send_mail_on_charge_failed(user.id)
+  end
 end
