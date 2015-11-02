@@ -93,6 +93,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.before(:each, elasticsearch: true) do
+    Video.__elasticsearch__.create_index! force: true
+  end
+
   config.send :include, AuthHelper
   config.send :include, CapybaraHelper
 
