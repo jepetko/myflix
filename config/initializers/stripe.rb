@@ -16,6 +16,7 @@ StripeEvent.configure do |events|
     stripe_obj = event.data.object
     user = User.find_by(stripe_id: stripe_obj.customer)
     user.update_column(:locked, true)
+    Raven.capture_message("User #{user.email} locked. Cause: charge.failed.") if Rails.env.production?
     AppMailer.delay.send_mail_on_charge_failed(user.id)
   end
 end
