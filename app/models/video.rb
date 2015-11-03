@@ -16,8 +16,12 @@ class Video < ActiveRecord::Base
     Video.where('lower(title) LIKE ?', "%#{search_term}%").order('created_at DESC')
   end
 
+  def average_rating
+    reviews.average(:rating).round(2).to_f if reviews.any?
+  end
+
   def as_indexed_json(options={})
-    as_json only: [:title, :description], include: {reviews: { only: [:content] }}
+    as_json methods: [:average_rating], only: [:title, :description], include: {reviews: { only: [:content] }}
   end
 
   def self.search(query, options={})
@@ -36,16 +40,27 @@ class Video < ActiveRecord::Base
     if query.present?
       fields = %w{title^100 description^50}
       fields << 'reviews.content^1' if options[:reviews].present?
-      {
-          query: {
-              multi_match: {
-                  query: query,
-                  fields: fields,
-                  operator: 'and'
-              }
-          }
+      query_obj = {
+        query: {
+            multi_match: {
+                query: query,
+                fields: fields,
+                operator: 'and'
+            }
+        }
       }
+
+      if options[:rating_from] || options[:rating_to]
+        ranking = {}
+        ranking[:gte] = options[:rating_from] if options[:rating_from]
+        ranking[:lte] = options[:rating_to] if options[:rating_to]
+        query_obj[:filter] = {
+          range: {
+              average_rating: ranking
+          }
+        }
+      end
+      query_obj
     end
   end
-
 end
