@@ -50,10 +50,10 @@ class Video < ActiveRecord::Base
         }
       }
 
-      if options[:rating_from] || options[:rating_to]
+      if options[:rating_from].present? || options[:rating_to].present?
         ranking = {}
-        ranking[:gte] = options[:rating_from] if options[:rating_from]
-        ranking[:lte] = options[:rating_to] if options[:rating_to]
+        ranking[:gte] = options[:rating_from] if options[:rating_from].present?
+        ranking[:lte] = options[:rating_to] if options[:rating_to].present?
         query_obj[:filter] = {
           range: {
               average_rating: ranking

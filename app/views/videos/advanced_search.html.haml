@@ -5,8 +5,17 @@
         %fieldset
           .form-group
             .row
-              .col-sm-11
-                =search_field_tag :query, @query, placeholder: 'Search videos by title, description', class: 'form-control'
+              .col-sm-5
+                =search_field_tag :query, params[:query], placeholder: 'Search videos by title, description', class: 'form-control'
+              .col-sm-2
+                =check_box_tag :reviews, 'y', params[:reviews]
+                =label_tag :reviews, 'Include Reviews'
+              .col-sm-2
+                =label_tag :rating_from, 'Rating from:'
+                =select_tag :rating_from, options_for_select(select_rating_values, params[:rating_from]), include_blank: true, class: 'form-control'
+              .col-sm-2
+                =label_tag :rating_to, 'Rating to:'
+                =select_tag :rating_to, options_for_select(select_rating_values, params[:rating_to]), include_blank: true, class: 'form-control'
               .col-sm-1
                 =button_tag type: :submit, class: 'btn btn-primary' do
                   %span.glyphicon.glyphicon-search
