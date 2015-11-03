@@ -37,7 +37,7 @@ class Video < ActiveRecord::Base
   private
 
   def self.build_query(query, options={})
-    if query.present?
+    #if query.present?
       fields = %w{title^100 description^50}
       fields << 'reviews.content^1' if options[:reviews].present?
       query_obj = {
@@ -61,6 +61,6 @@ class Video < ActiveRecord::Base
         }
       end
       query_obj
-    end
+    #end
   end
 end
