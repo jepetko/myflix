@@ -8,7 +8,7 @@
               .col-sm-5
                 =search_field_tag :query, params[:query], placeholder: 'Search videos by title, description', class: 'form-control'
               .col-sm-2
-                =check_box_tag :reviews, 'y', params[:reviews]
+                =check_box_tag :reviews, 'y', params[:reviews] == 'y'
                 =label_tag :reviews, 'Include Reviews'
               .col-sm-2
                 =label_tag :rating_from, 'Rating from:'
