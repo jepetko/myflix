@@ -17,7 +17,24 @@ class Video < ActiveRecord::Base
   end
 
   def as_indexed_json(options={})
-    as_json only: :title
+    as_json only: [:title, :description]
+  end
+
+  def self.search(term)
+    query_obj = {
+        query: {
+            bool: {
+                should: {
+                    multi_match: {
+                        query: term,
+                        fields: %w{title description},
+                        operator: 'and'
+                    }
+                }
+            }
+        }
+    }
+    self.__elasticsearch__.search query_obj
   end
 
 end
