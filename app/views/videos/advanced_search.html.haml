@@ -1,0 +1,17 @@
+.panel.panel-default
+  .panel-body
+    =form_tag advanced_search_path, method: :get, class: 'advanced_search' do
+      .form-group
+        %fieldset
+          .form-group
+            .row
+              .col-sm-11
+                =text_field_tag :query, @query, class: 'form-control'
+              .col-sm-1
+                =submit_tag 'Search', class: 'btn btn-default'
+.panel.panel-default
+  .panel-heading
+    = "#{@videos.count} videos found"
+  .panel-body
+    - @videos.each do |video|
+      = render 'videos/video', video: video

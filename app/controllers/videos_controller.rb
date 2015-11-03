@@ -14,4 +14,10 @@ class VideosController < ApplicationController
   def search
     @videos = Video.search_by_title(params[:term])
   end
+
+  def advanced_search
+    @query = params[:query]
+    @videos = @query ? Video.search(@query).records.to_a.map(&:decorate) : []
+  end
+
 end
