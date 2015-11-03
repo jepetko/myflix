@@ -37,30 +37,28 @@ class Video < ActiveRecord::Base
   private
 
   def self.build_query(query, options={})
-    #if query.present?
-      fields = %w{title^100 description^50}
-      fields << 'reviews.content^1' if options[:reviews].present?
-      query_obj = {
-        query: {
-            multi_match: {
-                query: query,
-                fields: fields,
-                operator: 'and'
-            }
+    fields = %w{title^100 description^50}
+    fields << 'reviews.content^1' if options[:reviews].present?
+    query_obj = {
+      query: {
+          multi_match: {
+              query: query,
+              fields: fields,
+              operator: 'and'
+          }
+      }
+    }
+
+    if options[:rating_from].present? || options[:rating_to].present?
+      ranking = {}
+      ranking[:gte] = options[:rating_from] if options[:rating_from].present?
+      ranking[:lte] = options[:rating_to] if options[:rating_to].present?
+      query_obj[:filter] = {
+        range: {
+            average_rating: ranking
         }
       }
-
-      if options[:rating_from].present? || options[:rating_to].present?
-        ranking = {}
-        ranking[:gte] = options[:rating_from] if options[:rating_from].present?
-        ranking[:lte] = options[:rating_to] if options[:rating_to].present?
-        query_obj[:filter] = {
-          range: {
-              average_rating: ranking
-          }
-        }
-      end
-      query_obj
-    #end
+    end
+    query_obj
   end
 end
