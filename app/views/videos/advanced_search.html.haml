@@ -6,9 +6,11 @@
           .form-group
             .row
               .col-sm-11
-                =text_field_tag :query, @query, class: 'form-control'
+                =search_field_tag :query, @query, placeholder: 'Search videos by title, description', class: 'form-control'
               .col-sm-1
-                =submit_tag 'Search', class: 'btn btn-default'
+                =button_tag type: :submit, class: 'btn btn-primary' do
+                  %span.glyphicon.glyphicon-search
+                  Search
 .panel.panel-default
   .panel-heading
     = "#{@videos.count} videos found"
