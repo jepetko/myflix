@@ -2,8 +2,8 @@ class VideoDecorator < Draper::Decorator
   delegate_all
 
   def total_rating
-    return 'N/A' if reviews.size == 0
-    "#{average_rating} / 5.0"
+    return "#{average_rating} / 5.0" if reviews.any?
+    'N/A'
   end
 
   def large_cover_url
