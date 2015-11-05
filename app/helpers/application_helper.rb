@@ -28,4 +28,8 @@ module ApplicationHelper
       [ category.name, category.id ]
     end
   end
+
+  def select_rating_values
+    (0.0..5.0).step(0.1).map(&Proc.new{ |v| v.round(2).to_f })
+  end
 end
