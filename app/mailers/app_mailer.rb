@@ -20,6 +20,11 @@ class AppMailer < ActionMailer::Base
     mail to: filter_recipients(@invitation.email), subject: 'You are invited to use myflix!'
   end
 
+  def send_mail_on_charge_failed(user_id)
+    @user = User.find(user_id)
+    mail to: filter_recipients(@user.email), subject: 'Your myflix subscription payment failed!'
+  end
+
   private
 
   def filter_recipients(recipients)

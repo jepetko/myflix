@@ -14,6 +14,7 @@ describe VideoDecorator do
         video = Fabricate(:video)
         Fabricate(:review, rating: 2, video: video)
         Fabricate(:review, rating: 3, video: video)
+        video.reload
         expect(video.decorate.total_rating).to eq '2.5 / 5.0'
       end
     end

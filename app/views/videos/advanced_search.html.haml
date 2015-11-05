@@ -1,0 +1,28 @@
+.panel.panel-default
+  .panel-body
+    =form_tag advanced_search_path, method: :get, class: 'advanced_search' do
+      .form-group
+        %fieldset
+          .form-group
+            .row
+              .col-sm-5
+                =search_field_tag :query, params[:query], placeholder: 'Search videos by title, description', class: 'form-control'
+              .col-sm-2
+                =check_box_tag :reviews, 'y', params[:reviews] == 'y'
+                =label_tag :reviews, 'Include Reviews'
+              .col-sm-2
+                =label_tag :rating_from, 'Rating from:'
+                =select_tag :rating_from, options_for_select(select_rating_values, params[:rating_from]), include_blank: true, class: 'form-control'
+              .col-sm-2
+                =label_tag :rating_to, 'Rating to:'
+                =select_tag :rating_to, options_for_select(select_rating_values, params[:rating_to]), include_blank: true, class: 'form-control'
+              .col-sm-1
+                =button_tag type: :submit, class: 'btn btn-primary' do
+                  %span.glyphicon.glyphicon-search
+                  Search
+.panel.panel-default
+  .panel-heading
+    = "#{@videos.count} videos found"
+  .panel-body
+    - @videos.each do |video|
+      = render 'videos/video', video: video

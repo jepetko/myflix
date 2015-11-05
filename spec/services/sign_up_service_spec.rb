@@ -9,7 +9,9 @@ describe SignUpService, :vcr do
 
   context 'user data correct and credit card correct' do
 
-    include_context 'credit card charge submitted'
+    include_context 'stripe customer creation submitted' do
+      let(:customer_id) { 'cus_123abc' }
+    end
     let!(:sign_up_service) do
       user = User.new user_attrs
       SignUpService.new(user).sign_up(stripeToken: 'token_123')
@@ -29,6 +31,10 @@ describe SignUpService, :vcr do
       expect(User.last.full_name).to eq(user_attrs[:full_name])
     end
 
+    it 'associates the stripes customer token with the user' do
+      expect(User.last.stripe_id).to eq 'cus_123abc'
+    end
+
     it 'sends a confirmation mail containing the right message' do
       expect(ActionMailer::Base.deliveries.last.body).to include(ERB::Util.html_escape_once(User.last.full_name))
     end
@@ -40,9 +46,10 @@ describe SignUpService, :vcr do
 
   context 'user data correct and credit card declined' do
 
-    include_context 'credit card charge submitted' do
+    include_context 'stripe customer creation submitted' do
       let(:success) { false }
       let(:error_message) { 'Your card was declined.' }
+      let(:customer_id) { 'cus_abc123' }
     end
 
     let!(:sign_up_service) do
@@ -69,7 +76,7 @@ describe SignUpService, :vcr do
 
   context 'user data not correct' do
 
-    include_context 'credit card charge not submitted'
+    include_context 'stripe customer creation not submitted'
 
     let!(:sign_up_service) do
       user = User.new user_attrs.merge(password: '')
@@ -86,13 +93,13 @@ describe SignUpService, :vcr do
       expect(ActionMailer::Base.deliveries).to be_empty
     end
     it 'does not charge the credit card' do
-      expect(StripeWrapper::Charge).not_to have_received(:create)
+      expect(StripeWrapper::Customer).not_to have_received(:create)
     end
   end
 
   context 'invitation token provided' do
 
-    include_context 'credit card charge submitted'
+    include_context 'stripe customer creation submitted'
     let(:inviting_user) { Fabricate(:user) }
     let(:invitation) { Fabricate(:invitation, user: inviting_user, email: user_attrs[:email]) }
     let!(:sign_up_service) do

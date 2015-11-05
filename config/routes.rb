@@ -41,8 +41,13 @@ Myflix::Application.routes.draw do
   post '/invite', to: 'invitations#create'
   get '/confirm_invitation/:token', to: 'invitations#show', as: :confirm_invitation
 
+  get '/advanced_search', to: 'videos#advanced_search'
+
   # admin role
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:index]
   end
+
+  mount StripeEvent::Engine, at: '/stripe_events'
 end
