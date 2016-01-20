@@ -12,70 +12,70 @@ reality = Category.create(name: 'Reality TV')
 
 Video.create(title: 'South Park',
              description: Faker::Lorem.paragraph,
-             avatar: 'south_park.jpg',
+             small_cover: 'south_park.jpg',
              category: comedies)
 
 monk = Video.create(title: 'Monk',
                     description: Faker::Lorem.paragraph,
-                    avatar: 'monk.jpg',
-                    img: 'monk_large.jpg',
+                    small_cover: 'monk.jpg',
+                    large_cover: 'monk_large.jpg',
                     category: dramas)
 
 family_guy = Video.create(title: 'Family guy',
                           description: Faker::Lorem.paragraph,
-                          avatar: 'family_guy.jpg',
+                          small_cover: 'family_guy.jpg',
                           category: reality)
 
 Video.create(title: 'Futurama',
              description: Faker::Lorem.paragraph,
-             avatar: 'futurama.jpg',
+             small_cover: 'futurama.jpg',
              category: comedies)
 
 Video.create(title: 'South Park 2',
              description: Faker::Lorem.paragraph,
-             avatar: 'south_park.jpg',
+             small_cover: 'south_park.jpg',
              category: comedies)
 
 Video.create(title: 'Monk 2',
              description: Faker::Lorem.paragraph,
-             avatar: 'monk.jpg',
-             img: 'monk_large.jpg',
+             small_cover: 'monk.jpg',
+             large_cover: 'monk_large.jpg',
              category: dramas)
 
 Video.create(title: 'Family guy 2',
              description: Faker::Lorem.paragraph,
-             avatar: 'family_guy.jpg',
+             small_cover: 'family_guy.jpg',
              category: reality)
 
 Video.create(title: 'Futurama 2',
              description: Faker::Lorem.paragraph,
-             avatar: 'futurama.jpg',
+             small_cover: 'futurama.jpg',
              category: comedies)
 
 Video.create(title: 'South Park 3',
              description: Faker::Lorem.paragraph,
-             avatar: 'south_park.jpg',
+             small_cover: 'south_park.jpg',
              category: comedies)
 
 Video.create(title: 'Monk 3',
              description: Faker::Lorem.paragraph,
-             avatar: 'monk.jpg',
-             img: 'monk_large.jpg',
+             small_cover: 'monk.jpg',
+             large_cover: 'monk_large.jpg',
              category: dramas)
 
 Video.create(title: 'Family guy 3',
              description: Faker::Lorem.paragraph,
-             avatar: 'family_guy.jpg',
+             small_cover: 'family_guy.jpg',
              category: reality)
 
 Video.create(title: 'Futurama 3',
              description: Faker::Lorem.paragraph,
-             avatar: 'futurama.jpg',
+             small_cover: 'futurama.jpg',
              category: comedies)
 
 Video.create(title: 'One more comedy',
              description: Faker::Lorem.paragraph,
-             avatar: 'futurama.jpg',
+             small_cover: 'futurama.jpg',
              category: comedies)
 
 
