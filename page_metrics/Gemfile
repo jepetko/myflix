@@ -15,4 +15,5 @@ gemspec
 
 gem 'rspec-rails', '~> 3.0'
 gem 'fabrication', '~> 2.13.2'
+gem 'pg'
 
