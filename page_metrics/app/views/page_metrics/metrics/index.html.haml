@@ -1,0 +1,3 @@
+%table.table
+  - @metrics.each do |metric|
+    = render 'page_metrics/metrics/metric', metric: metric.decorate

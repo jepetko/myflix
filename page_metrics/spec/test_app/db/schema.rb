@@ -16,11 +16,81 @@ ActiveRecord::Schema.define(version: 20151105170502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "categories", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invitations", force: true do |t|
+    t.integer  "user_id"
+    t.string   "full_name"
+    t.string   "email"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "page_metrics_metrics", force: true do |t|
     t.string   "name"
     t.json     "payload"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "payments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "amount"
+    t.string   "reference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "queue_items", force: true do |t|
+    t.integer  "video_id"
+    t.integer  "user_id"
+    t.integer  "order_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "relationships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "followed_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reviews", force: true do |t|
+    t.text     "content"
+    t.integer  "rating"
+    t.integer  "video_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "email"
+    t.string   "full_name"
+    t.string   "password_digest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "reset_password_token"
+    t.boolean  "admin",                default: false
+    t.string   "stripe_id"
+    t.boolean  "locked"
+  end
+
+  create_table "videos", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "category_id"
+    t.string   "large_cover"
+    t.string   "small_cover"
+    t.string   "link"
   end
 
 end

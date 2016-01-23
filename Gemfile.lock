@@ -1,3 +1,9 @@
+PATH
+  remote: page_metrics
+  specs:
+    page_metrics (0.0.1)
+      rails (~> 4.1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -330,6 +336,7 @@ DEPENDENCIES
   letter_opener
   mailgun_rails
   mini_magick
+  page_metrics!
   pg
   pry
   pry-nav

@@ -1,0 +1,21 @@
+%tr.tr
+  %td
+    = metric[:name]
+  %td
+    = metric.payload[0]
+  %td
+    = metric.payload[1]
+  %td
+    = metric.payload[2]
+  %td
+    = metric.duration_in_words
+  %td
+    = metric.payload[3]['controller']
+  %td
+    = metric.payload[3]['action']
+  %td
+    = metric.payload[3]['format']
+  %td
+    = metric.payload[3]['method']
+  %td
+    = metric.payload[3]['exception']

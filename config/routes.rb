@@ -50,4 +50,5 @@ Myflix::Application.routes.draw do
   end
 
   mount StripeEvent::Engine, at: '/stripe_events'
+  mount PageMetrics::Engine, at: '/page_metrics'
 end

@@ -7,16 +7,14 @@ require "page_metrics/version"
 Gem::Specification.new do |s|
   s.name        = "page_metrics"
   s.version     = PageMetrics::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of PageMetrics."
-  s.description = "TODO: Description of PageMetrics."
+  s.authors     = ["Katarina Golbang"]
+  s.email       = ["golbang.k@gmail.com "]
+  s.homepage    = ""
+  s.summary     = "mountable engine for logging the page impressions"
+  s.description = "mountable engine for logging the page impressions"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency "rails", "~> 4.1.1"
-
-  s.add_development_dependency "sqlite3"
 end
