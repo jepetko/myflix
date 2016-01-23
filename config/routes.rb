@@ -47,8 +47,8 @@ Myflix::Application.routes.draw do
   namespace :admin do
     resources :videos, only: [:new, :create]
     resources :payments, only: [:index]
+    mount PageMetrics::Engine, at: '/page_metrics'
   end
 
   mount StripeEvent::Engine, at: '/stripe_events'
-  mount PageMetrics::Engine, at: '/page_metrics'
 end
