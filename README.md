@@ -80,7 +80,7 @@ bundle exec rake db:migrate # metrics table gets created
 ```
 
 create a subscriber in the engine
-```
+```ruby
 # page_metrics/lib/page_metrics.rb
 module PageMetrics
   ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |*args|
@@ -92,7 +92,7 @@ end
 ## write the controller, view and model decorator
 
 controller:
-```
+```ruby
 # in page_metrics/app/controllers/page_metrics/metrics_controller.rb
 module PageMetrics
   class MetricsController < PageMetrics::ApplicationController
@@ -111,7 +111,7 @@ view:
     = render 'page_metrics/metrics/metric', metric: metric.decorate
 ```
 
-```
+```haml
 # in page_metrics/app/views/page_metrics/_metric.html.haml
 %tr.tr
   %td
@@ -120,8 +120,38 @@ view:
     = metric.duration_in_words
 ```
 
-decorator implementation:
+write the test and load the fabricators accordingly:
+
+```ruby
+# page_metrics/spec/support/fabrication.rb
+Fabrication.configure do |config|
+  config.fabricator_path = 'spec/fabricators'
+  config.path_prefix = File.expand_path(Rails.root, 'page_metrics')
+end
 ```
+
+```ruby
+# page_metrics/spec/page_metrics_metric_decorator_spec.rb
+require 'spec_helper'
+
+describe PageMetrics::MetricDecorator do
+
+  describe '#duration' do
+
+    let(:start) { Time.current }
+    let(:metric_less_than_one_minute) { Fabricate(:metric, payload: [start, start + 0.5.second])}
+
+    it 'computes the duration of a fast request' do
+      expect(metric_less_than_one_minute.duration).to eq(500)
+      expect(metric_less_than_one_minute.duration_in_words).to eq('500 milliseconds')
+    end
+  end
+
+end
+```
+
+decorator implementation:
+```ruby
 # in page_metrics/app/decorators/page_metrics/metric_decorator.rb
 module PageMetrics
   class MetricDecorator < ::Draper::Decorator
@@ -141,3 +171,60 @@ module PageMetrics
 end
 ```
 
+## customize the controller in the main app
+
+write the feature test:
+```ruby
+require 'spec_helper'
+
+feature 'admin sees page metrics' do
+
+  scenario 'regular user cannot access the page metrics' do
+    user = Fabricate(:user)
+    sign_in user
+    visit admin_page_metrics_path
+    expect(page).to have_content 'You need to be an admin to do that'
+  end
+  # ...
+end
+```
+
+hook into the engine and adapt the behaviour:
+```ruby
+# in myflix/app/decorators/page_metrics/metrics_controller_decorator.rb
+PageMetrics::MetricsController.class_eval do
+
+  # in order to access >>current_user<< method and so on...
+  include ApplicationController::AuthMethods
+
+  before_action :ensure_admin
+
+  def ensure_admin
+    if !current_user.admin?
+      flash[:danger] = 'You need to be an admin to do that'
+      # !!! access home_path by prefixing >>main_app<<
+      redirect_to main_app.home_path
+    end
+  end
+
+end
+```
+
+routes:
+```ruby
+# in main application
+  namespace :admin do
+    mount PageMetrics::Engine, at: '/page_metrics'
+  end
+```
+
+```ruby
+# in page_metrics/config/routes.rb
+PageMetrics::Engine.routes.draw do
+  get '/' => 'metrics#index'
+end
+```
+
+# access it in the browser
+
+http://localhost:3000/admin/page_metrics
